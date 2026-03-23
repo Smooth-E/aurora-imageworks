@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+X-Nemo-Application-Type=silica-qt5
+Icon=moe.smoothie.imageworks
+Exec=moe.smoothie.imageworks %u
+Name=Imageworks
+
+[X-Sailjail]
+OrganizationName=moe.smoothie
+ApplicationName=imageworks
+Permissions=UserDirs;RemovableMedia;MediaIndexing;Camera

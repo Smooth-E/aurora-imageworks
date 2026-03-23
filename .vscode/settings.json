@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "*.desktop": "shellscript",
+        "*.pro": "shellscript",
+        "*.changes": "shellscript",
+        "*.spec": "shellscript"
+    }
+}
