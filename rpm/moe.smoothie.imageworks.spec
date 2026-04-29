@@ -3,6 +3,9 @@ Name:       moe.smoothie.imageworks
 # >> macros
 %define __provides_exclude_from ^%{_datadir}/%{name}/lib/.*\\.so\\>
 %define __requires_exclude_from ^%{_datadir}/%{name}/lib/.*\\.so\\>
+
+%define __requires_exclude (libpython3*|libpyside2*|libcrypt.*|libffi.*|python3dist|lib.*)
+%define __provides_exclude_from ^%{_datadir}/.*$
 # << macros
 
 Summary:    Imageworks image editor
@@ -53,6 +56,7 @@ desktop-file-install --delete-original       \
 %files
 %defattr(-,root,root,-)
 %{_bindir}/%{name}
+%{_libexecdir}/%{name}
 %defattr(644,root,root,-)
 %{_datadir}/%{name}
 %{_datadir}/applications/%{name}.desktop

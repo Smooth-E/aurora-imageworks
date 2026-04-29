@@ -4,7 +4,7 @@
 int main(int argc, char *argv[])
 {
     // For vendored python to work
-    qputenv("PYTHONHOME", QString("/usr/share/moe.smoothie.audioworks/").toUtf8().constData());
+    qputenv("PYTHONHOME", QString("/usr/share/moe.smoothie.imageworks/").toUtf8().constData());
 
     QScopedPointer<QGuiApplication> app(Aurora::Application::application(argc, argv));
     app->setOrganizationName("moe.smoothie");
