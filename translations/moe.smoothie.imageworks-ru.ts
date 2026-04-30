@@ -290,6 +290,17 @@
     </message>
 </context>
 <context>
+    <name>CoverPage</name>
+    <message>
+        <source>Welcome to Imageworks!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit images and create new ones</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>EffectsBench</name>
     <message>
         <source>Effects bench</source>
