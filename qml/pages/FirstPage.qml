@@ -67,11 +67,26 @@ Page {
     property var correctXmini : 0
     property int placeholderManualCrop : 1
     property var toolsDrawingColorFrame : Theme.errorColor //Theme.secondaryHighlightColor
-    property var zoomWindowVisible : ( (dragArea1.pressed || dragArea2.pressed || dragPerspective1.pressed || dragPerspective2.pressed || dragPerspective3.pressed || dragPerspective4.pressed) && (buttonCrop.down && pickerTransformOrCropIndex !== 0) || ( mouseCanvasArea.pressed || idPaintLineButton.down || idPaintPointButton.down || idPaintShapesButton.down || idPaintTextButton.down || idPaintColorPickerButton.down ) && buttonPaint.down ) ? true : false
+
+    property bool zoomWindowVisible: (dragArea1.pressed || dragArea2.pressed || dragPerspective1.pressed
+                                      || dragPerspective2.pressed || dragPerspective3.pressed 
+                                      || dragPerspective4.pressed) 
+                                     && (buttonCrop.down && pickerTransformOrCropIndex !== 0) 
+                                     || (mouseCanvasArea.pressed || idPaintLineButton.down || idPaintPointButton.down 
+                                         || idPaintShapesButton.down || idPaintTextButton.down 
+                                         || idPaintColorPickerButton.down) 
+                                     && buttonPaint.down
+
     property int itemsPerRow : 6
     property int itemsPerRowLess : 5
-    property bool stretchOversizeActive : ( ( idPaintLineButton.down || idPaintPointButton.down || idPaintTextButton.down || idPaintShapesButton.down || idPaintColorPickerButton.down || buttonCrop.down) && buttonPaint.down || (buttonCrop.down && pickerTransformOrCropIndex !== 0) ) ? true : false
-    property var zoomItemCenterTolerance : 4*Theme.paddingLarge
+
+    property bool stretchOversizeActive: (idPaintLineButton.down || idPaintPointButton.down || idPaintTextButton.down 
+                                          || idPaintShapesButton.down || idPaintColorPickerButton.down 
+                                          || buttonCrop.down) 
+                                         && buttonPaint.down 
+                                         || (buttonCrop.down && pickerTransformOrCropIndex !== 0)
+
+    property var zoomItemCenterTolerance : 4 * Theme.paddingLarge
     property var fontSizePreviewDivisor : 14
     property var lastToolsButtonPressed : "File"
 
@@ -79,7 +94,7 @@ Page {
     property var transformPerspectiveMode : "stretch" // or "fold"
     property var pickerTransformOrCropIndex : 0
     property var actionCutSelection : "keep" //or "remove"
-    property var paddingRatio : page.width / page.height
+    property real paddingRatio : page.width / page.height
     property var paddingFill : "color"
 
     // color variables
@@ -110,14 +125,11 @@ Page {
     property var paintSymbolSizeFaktor : 0.99 / 3
     property var paintToolText : idTextPaintInput.text
     property var paintSecondaryColor : "none"
-    property var myColors: [
-        "black", "darkSlateGray", "slateGray",
-        "gray", "white", "red",
-        "crimson", "#e6007c", "#e700cc",
-        "#9d00e7", "#7b00e6", "#5d00e5",
-        "#0077e7","#01a9e7", "#00cce7",
-        "#00e696","#00e600", "#99e600",
-        "#e3e601","goldenRod", "#e78601"]
+
+    property var myColors: [ "black", "darkSlateGray", "slateGray", "gray", "white", "red", "crimson", "#e6007c", 
+                           "#e700cc", "#9d00e7", "#7b00e6", "#5d00e5", "#0077e7","#01a9e7", "#00cce7", 
+                           "#00e696","#00e600", "#99e600", "#e3e601","goldenRod", "#e78601" ]
+
     property var cycleThroughSymbolsCounter : 1
     property var paintRadiusSpray : 2
     property var symbolPickerCounter : 0
@@ -169,7 +181,6 @@ Page {
     property var lastTMP2delete
     property var new_imagePath
 
-
     // autostart functions
     Component.onCompleted: {
         py.getHomePath(); // also deletes TMPs on path returned to qml, see handler "homePathFolder"
@@ -178,36 +189,45 @@ Page {
 
     }
 
-
     // special auto resetter for markers, when stretchOversizeActive changess
     Item {
         id: idResetOversizeNormalChange
+
         enabled: (stretchOversizeActive === true) ? true : false
+
         onEnabledChanged: {
             setTransformationMarkersFullImage()
             setCropmarkersFullImage()
         }
     }
+
     Timer {
         id: idDelayTimer
+    
         interval: 500
         running: false
         repeat: false
+    
         onTriggered: pageStack.push(fontPickerPage)
     }
+    
     Timer {
         id: openDelayTimer
+    
         interval: 10
         running: false
         repeat: false
+    
         onTriggered: pageStack.push(imagePickerPage)
     }
 
     Component {
        id: filePickerPage
+    
        FilePickerPage {
            title: qsTr("Select image")
            nameFilters: [ '*.jpg', '*.jpeg', '*.png', '*.tif', '*.tiff', '*.bmp', '*.gif' ]
+    
            onSelectedContentPropertiesChanged: {
                origImageFilePath = selectedContentProperties.filePath
                origImageFileName = selectedContentProperties.fileName
@@ -221,8 +241,10 @@ Page {
            }
        }
     }
+    
     Component {
        id: imagePickerPage
+    
        ImagePickerPage {
            onSelectedContentPropertiesChanged: {
                origImageFilePath = selectedContentProperties.filePath
@@ -237,11 +259,14 @@ Page {
            }
        }
     }
+    
     Component {
        id: fontPickerPage
+    
        FilePickerPage {
            title: qsTr("Select font")
            nameFilters: [ '*.ttf', '*.otf' ]
+    
            onSelectedContentPropertiesChanged: {
                customFontFilePath = selectedContentProperties.filePath
                customFontName = selectedContentProperties.fileName
@@ -250,27 +275,25 @@ Page {
            }
        }
     }
+    
     FontLoader {
         id: localFont
+    
         source: ""
     }
+    
     RemorsePopup {
         id: remorse
     }
-
-
-
 
     // Python connections and signals, callable from QML side
     Python {
         id: py
         Component.onCompleted: {
-            //addImportPath(Qt.resolvedUrl('../lib'));
             addImportPath(Qt.resolvedUrl('../py'));
             importModule('graphx', function () {});
 
-
-            // Handlers = Signals to do something in QML whith received Infos from pyotherside
+            // Handlers = Signals to do something in QML with received Infos from pyotherside
             setHandler('homePathFolder', function( homeDir ) {
                 tempImageFolderPath = homeDir + "/.cache/harbour-simplecrop/"
                 saveImageFolderPath = homeDir + "/Pictures" + "/Imageworks/"
@@ -279,6 +302,7 @@ Page {
                 py.deleteAllTMPFunction(tempImageFolderPath)
                 py.deleteCopyPasteImage()
             });
+
             setHandler('exchangeImage', function(new_imagePath) {
                 idImageLoadedFreecrop.source ="" // Patch: make sure not to get old content ever
                 idImageLoadedFreecrop.source = encodeURI(new_imagePath)
@@ -287,6 +311,7 @@ Page {
                 allSlidersReset()
                 finishedLoading = true
             });
+
             setHandler('exifRotation', function(angle) {
                 console.log(angle)
             });
@@ -294,17 +319,20 @@ Page {
                 idImageLoadedFreecrop.source = encodeURI(new_imagePath)
                 finishedLoading = true
             });
+
             setHandler('previewImageMainCreated', function( previewPath ) {
                 idPreviewImage.source = "" // Patch: make sure not to get old content ever
                 idPreviewImage.source = encodeURI( previewPath )
                 finishedLoading = true
             });
+
             setHandler('finishedCopyFromPainting', function(new_imagePath, widthCP, heightCP) {
                 finishedLoading = true
                 copyPastePath = new_imagePath
                 copyPasteImageWidth = widthCP
                 copyPasteImageHeight = heightCP
             });
+
             setHandler('deleteImage', function() {
                 idLabelFilePath.text = ""
                 idImageLoadedFreecrop.source = ""
@@ -312,15 +340,18 @@ Page {
                 toScaleHeight = 0
                 undoNr = 0
             });
+
             setHandler('copyPasteImageDeleted', function(inputPathPy) {
                 //console.log("copyPaste file deleted: " + inputPathPy)
                 copyPastePath = ""
             });
+
             setHandler('clearDrawCanvas', function(inputPathPy) {
                 freeDrawPolyCoordinates = ""
                 freeDrawCanvas.clear_canvas()
                 freeDrawLock = false
             });
+
             setHandler('finishedSavingRenaming', function(new_imagePath) {
                 undoNr = 0
                 idLabelFilePath.text = new_imagePath
@@ -336,6 +367,7 @@ Page {
                 buttonWorkbenches.down = false
                 buttonFile.down = true
             });
+
             setHandler('getPixelValuesRGBA', function(r,g,b,a, hexaColorARGB) {
                 finishedLoading = true
                 paintToolColor = hexaColorARGB
@@ -345,432 +377,352 @@ Page {
                 idSliderColorBlue.value = b
                 idSliderColorAlpha.value = a
             });
+
             setHandler('updateSliderScale', function() {
                 toScaleWidth = Math.round(idImageLoadedFreecrop.sourceSize.width * factorToScale)
                 toScaleHeight = Math.round(idImageLoadedFreecrop.sourceSize.height * factorToScale)
             });
-            setHandler('startRepixelFunctionFromPy', function( oldA, oldR, oldG, oldB, newA, newR, newG, newB, compareA, compareR, compareG, compareB, tolA, tolR, tolG, tolB, changeA, changeR, changeG, changeB, modePixeldraw ) {
+
+            setHandler('startRepixelFunctionFromPy', function(oldA, oldR, oldG, oldB, newA, newR, newG, newB, compareA, 
+                                                              compareR, compareG, compareB, tolA, tolR, tolG, tolB, 
+                                                              changeA, changeR, changeG, changeB, modePixeldraw) {
                 finishedLoading = false
-                py.replacePixelsFunction( oldA, oldR, oldG, oldB, newA, newR, newG, newB, compareA, compareR, compareG, compareB, tolA, tolR, tolG, tolB, changeA, changeR, changeG, changeB, modePixeldraw )
+                py.replacePixelsFunction(oldA, oldR, oldG, oldB, newA, newR, newG, newB, compareA, compareR, compareG, 
+                                         compareB, tolA, tolR, tolG, tolB, changeA, changeR, changeG, changeB, 
+                                         modePixeldraw)
             });
-            setHandler('startRechannelFunctionFromPy', function( channelPathAlpha, channelPathRed, channelPathGreen, channelPathBlue, factorA, factorR, factorG, factorB, saturationA, saturationR, saturationG, saturationB, invertA, invertR, invertG, invertB ) {
+
+            setHandler('startRechannelFunctionFromPy', function(channelPathAlpha, channelPathRed, channelPathGreen, 
+                                                                channelPathBlue, factorA, factorR, factorG, factorB, 
+                                                                saturationA, saturationR, saturationG, saturationB, 
+                                                                invertA, invertR, invertG, invertB) {
                 finishedLoading = false
-                py.rechannelFunctionFromPy( channelPathAlpha, channelPathRed, channelPathGreen, channelPathBlue, factorA, factorR, factorG, factorB, saturationA, saturationR, saturationG, saturationB, invertA, invertR, invertG, invertB )
+                py.rechannelFunctionFromPy(channelPathAlpha, channelPathRed, channelPathGreen, channelPathBlue, factorA,
+                                           factorR, factorG, factorB, saturationA, saturationR, saturationG, 
+                                           saturationB, invertA, invertR, invertG, invertB)
             });
+
             setHandler('startColorCurveFunctionFromPy', function( curveFactors, currentColor, minValue, maxValue ) {
                 finishedLoading = false
                 py.colorCurveFunctionFromPy( curveFactors, currentColor, minValue, maxValue )
             });
-            setHandler('startCollageFunctionFromPy', function( currentCollageType, targetWidth, selectedPaths, shuffle, targetBackColor, targetColumns, targetSpacing, targetBlur, randomAngleList, ratioWanted, targetFrameSetup ) {
+            
+            setHandler('startCollageFunctionFromPy', function(currentCollageType, targetWidth, selectedPaths, shuffle, 
+                                                              targetBackColor, targetColumns, targetSpacing, targetBlur,
+                                                              randomAngleList, ratioWanted, targetFrameSetup) {
                 finishedLoading = false
+
                 if ( currentCollageType === "mosaic") {
-                    py.createCollageMosaic( targetWidth, selectedPaths, shuffle, targetBackColor, targetColumns, targetSpacing, targetBlur, targetFrameSetup )
-                }
-                else if ( currentCollageType === "lines") {
-                    py.createCollageLines( targetWidth, selectedPaths, shuffle, targetBackColor, targetColumns, targetSpacing, targetBlur, targetFrameSetup )
-                }
-                else if ( currentCollageType === "columns") {
-                    py.createCollageColumns( targetWidth, selectedPaths, shuffle, targetBackColor, targetColumns, targetSpacing, targetBlur, targetFrameSetup )
-                }
-                else if ( currentCollageType === "polaroids") {
-                    py.createCollagePolaroids( targetWidth, selectedPaths, shuffle, targetBackColor, targetColumns, targetSpacing, targetBlur, randomAngleList, ratioWanted, targetFrameSetup )
-                }
-                else if ( currentCollageType === "scattered") {
-                    py.createCollageScattered( targetWidth, selectedPaths, shuffle, targetBackColor, targetColumns, targetSpacing, targetBlur, randomAngleList, ratioWanted, targetFrameSetup )
+                    py.createCollageMosaic(targetWidth, selectedPaths, shuffle, targetBackColor, targetColumns, 
+                                           targetSpacing, targetBlur, targetFrameSetup)
+                } else if ( currentCollageType === "lines") {
+                    py.createCollageLines(targetWidth, selectedPaths, shuffle, targetBackColor, targetColumns, 
+                                          targetSpacing, targetBlur, targetFrameSetup)
+                } else if ( currentCollageType === "columns") {
+                    py.createCollageColumns(targetWidth, selectedPaths, shuffle, targetBackColor, targetColumns, 
+                                            targetSpacing, targetBlur, targetFrameSetup)
+                } else if ( currentCollageType === "polaroids") {
+                    py.createCollagePolaroids(targetWidth, selectedPaths, shuffle, targetBackColor, targetColumns, 
+                                              targetSpacing, targetBlur, randomAngleList, ratioWanted, targetFrameSetup)
+                } else if ( currentCollageType === "scattered") {
+                    py.createCollageScattered(targetWidth, selectedPaths, shuffle, targetBackColor, targetColumns, 
+                                              targetSpacing, targetBlur, randomAngleList, ratioWanted, targetFrameSetup)
                 }
             });
 
-            setHandler('startFiltersEffectsFunctionFromPy', function( effectName, coalValue, blurValue, centerFocusValue, miniatureBlurValue, miniatureColorValue, addFrameValue, brushSize, quantizeColors, targetColor2Alpha, alphaTolerance, opacityValue, colorExtractARGB, channelExtractARGB, unsharpRadiusMask, unsharpPercentMask, unsharpThresholdMask, brightspotSize ) {
+            setHandler('startFiltersEffectsFunctionFromPy', function(effectName, coalValue, blurValue, centerFocusValue,
+                                                                     miniatureBlurValue, miniatureColorValue, 
+                                                                     addFrameValue, brushSize, quantizeColors, 
+                                                                     targetColor2Alpha, alphaTolerance, opacityValue, 
+                                                                     colorExtractARGB, channelExtractARGB, 
+                                                                     unsharpRadiusMask, unsharpPercentMask, 
+                                                                     unsharpThresholdMask, brightspotSize) {
                 finishedLoading = false
-
-                /*switch(effectName){
-                case "gotham":
-                    py.gothamFilterFunction() ;
-                    break;
-                case "crema":
-                    py.cremaFilterFunction() ;
-                    break;
-                case "juno" :
-                    py.junoFilterFunction()
-                    break;
-                case "kelvin":
-                    py.kelvinFilterFunction()
-                    break;
-
-                }*/
 
                 if (effectName === "gotham") {
                     py.gothamFilterFunction()
-                }
-                else if (effectName === "crema") {
+                } else if (effectName === "crema") {
                     py.cremaFilterFunction()
-                }
-                else if (effectName === "juno") {
+                } else if (effectName === "juno") {
                     py.junoFilterFunction()
-                }
-                else if (effectName === "kelvin") {
+                } else if (effectName === "kelvin") {
                     py.kelvinFilterFunction()
-                }
-                else if (effectName === "xpro-ii") {
+                } else if (effectName === "xpro-ii") {
                     py.xproiiFilterFunction()
-                }
-                else if (effectName === "warmer") {
+                } else if (effectName === "warmer") {
                     tintColor = "warmer"
                     py.tintWithColorFunction()
-                }
-                else if (effectName === "colder") {
+                } else if (effectName === "colder") {
                     tintColor = "colder"
                     py.tintWithColorFunction()
-                }
-                else if (effectName === "amaro") {
+                } else if (effectName === "amaro") {
                     py.amaroFilterFunction()
-                }
-                else if (effectName === "mayfair") {
+                } else if (effectName === "mayfair") {
                     py.mayfairFilterFunction()
-                }
-                else if (effectName === "nineteen77") {
+                } else if (effectName === "nineteen77") {
                     py.nineteen77FilterFunction()
-                }
-                else if (effectName === "lofi") {
+                } else if (effectName === "lofi") {
                     py.lofiFilterFunction()
-                }
-                else if (effectName === "hudson") {
+                } else if (effectName === "hudson") {
                     py.hudsonFilterFunction()
-                }
-                else if (effectName === "redteal") {
+                } else if (effectName === "redteal") {
                     py.redtealFilterFunction()
-                }
-                else if (effectName === "sepia") {
+                } else if (effectName === "sepia") {
                     py.sepiaFunction()
-                }
-                else if (effectName === "nashville") {
+                } else if (effectName === "nashville") {
                     py.nashvilleFilterFunction()
-                }
-                else if (effectName === "hefe") {
+                } else if (effectName === "hefe") {
                     py.hefeFilterFunction()
-                }
-                else if (effectName === "sierra") {
+                } else if (effectName === "sierra") {
                     py.sierraFilterFunction()
-                }
-                else if (effectName === "clarendon") {
+                } else if (effectName === "clarendon") {
                     var cubeFilePath = "/" + filterSourceFolder + "Clarendon.png"
                     var lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
-                }
-                else if (effectName === "reyes") {
+                } else if (effectName === "reyes") {
                     cubeFilePath = "/" + filterSourceFolder + "Reyes.png"
                     lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
-                }
-                else if (effectName === "moon") {
+                } else if (effectName === "moon") {
                     cubeFilePath = "/" + filterSourceFolder + "Moon.png"
                     lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
-                }
-                else if (effectName === "lark") {
+                } else if (effectName === "lark") {
                     cubeFilePath = "/" + filterSourceFolder + "Lark.png"
                     lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
-                }
-                else if (effectName === "spring") {
+                } else if (effectName === "spring") {
                     cubeFilePath = "/" + filterSourceFolder + "spring.png"
                     lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
-                }
-                else if (effectName === "summer") {
+                } else if (effectName === "summer") {
                     cubeFilePath = "/" + filterSourceFolder + "summer.png"
                     lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
-                }
-                else if (effectName === "fall") {
+                } else if (effectName === "fall") {
                     cubeFilePath = "/" + filterSourceFolder + "fall.png"
                     lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
-                }
-                else if (effectName === "winter") {
+                } else if (effectName === "winter") {
                     cubeFilePath = "/" + filterSourceFolder + "winter.png"
                     lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
-                }
-                else if (effectName === "backlight") {
+                } else if (effectName === "backlight") {
                     cubeFilePath = "/" + filterSourceFolder + "backlight.png"
                     lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
-                }
-                else if (effectName === "goldvibrant") {
+                } else if (effectName === "goldvibrant") {
                     cubeFilePath = "/" + filterSourceFolder + "goldvibrant.png"
                     lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
-                }
-                else if (effectName === "polaroid") {
+                } else if (effectName === "polaroid") {
                     cubeFilePath = "/" + filterSourceFolder + "polaroid.png"
                     lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
-                }
-                else if (effectName === "fadeprint") {
+                } else if (effectName === "fadeprint") {
                     cubeFilePath = "/" + filterSourceFolder + "fadeprint.png"
                     lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
-                }
-                else if (effectName === "bleakfuture") {
+                } else if (effectName === "bleakfuture") {
                     cubeFilePath = "/" + filterSourceFolder + "bleakfuture.png"
                     lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
-                }
-                else if (effectName === "desaturated") {
+                } else if (effectName === "desaturated") {
                     cubeFilePath = "/" + filterSourceFolder + "desaturated.png"
                     lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
-                }
-                else if (effectName === "monotint") {
+                } else if (effectName === "monotint") {
                     cubeFilePath = "/" + filterSourceFolder + "monotint.png"
                     lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
-                }
-                else if (effectName === "fujigray") {
+                } else if (effectName === "fujigray") {
                     cubeFilePath = "/" + filterSourceFolder + "fujigray.png"
                     lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
-                }
-                else if (effectName === "moon") {
+                } else if (effectName === "moon") {
                     cubeFilePath = "/" + filterSourceFolder + "Moon.png"
                     lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
-                }
-                else if (effectName === "moonlight") {
+                } else if (effectName === "moonlight") {
                     cubeFilePath = "/" + filterSourceFolder + "moonlight.png"
                     lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
-                }
-                else if (effectName === "gingham") {
+                } else if (effectName === "gingham") {
                     cubeFilePath = "/" + filterSourceFolder + "Gingham.png"
                     lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
-                }
-                else if (effectName === "tensiongreen") {
+                } else if (effectName === "tensiongreen") {
                     cubeFilePath = "/" + filterSourceFolder + "tensiongreen.png"
                     lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
-                }
-                else if (effectName === "anime") {
+                } else if (effectName === "anime") {
                     cubeFilePath = "/" + filterSourceFolder + "anime.png"
                     lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
-                }
-                else if (effectName === "tealmagentagold") {
+                } else if (effectName === "tealmagentagold") {
                     cubeFilePath = "/" + filterSourceFolder + "tealmagentagold.png"
                     lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
-                }
-                else if (effectName === "juno2") {
+                } else if (effectName === "juno2") {
                     cubeFilePath = "/" + filterSourceFolder + "Juno2.png"
                     lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
-                }
-                else if (effectName === "hudson2") {
+                } else if (effectName === "hudson2") {
                     cubeFilePath = "/" + filterSourceFolder + "Hudson2.png"
                     lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
-                }
-                else if (effectName === "darkblue") {
+                } else if (effectName === "darkblue") {
                     cubeFilePath = "/" + filterSourceFolder + "darkblue.png"
                     lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
-                }
-                else if (effectName === "howlite") {
+                } else if (effectName === "howlite") {
                     cubeFilePath = "/" + filterSourceFolder + "howlite.png"
                     lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
-                }
-
-
-                else if (effectName === "cinevibrant") {
+                } else if (effectName === "cinevibrant") {
                     cubeFilePath = "/" + filterSourceFolder + "cinevibrant.png"
                     lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
-                }
-                else if (effectName === "sweetGelatto") {
+                } else if (effectName === "sweetGelatto") {
                     cubeFilePath = "/" + filterSourceFolder + "sweetGelatto.png"
                     lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
-                }
-                else if (effectName === "newspaper") {
+                } else if (effectName === "newspaper") {
                     cubeFilePath = "/" + filterSourceFolder + "newspaper.png"
                     lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
-                }
-                else if (effectName === "analogOldstyle") {
+                } else if (effectName === "analogOldstyle") {
                     cubeFilePath = "/" + filterSourceFolder + "analogOldstyle.png"
                     lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
-                }
-                else if (effectName === "hilutite") {
+                } else if (effectName === "hilutite") {
                     cubeFilePath = "/" + filterSourceFolder + "hilutite.png"
                     lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
-                }
-                else if (effectName === "hackmanite") {
+                } else if (effectName === "hackmanite") {
                     cubeFilePath = "/" + filterSourceFolder + "hackmanite.png"
                     lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
-                }
-                else if (effectName === "herderite") {
+                } else if (effectName === "herderite") {
                     cubeFilePath = "/" + filterSourceFolder + "herderite.png"
                     lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
-                }
-                else if (effectName === "heulandite") {
+                } else if (effectName === "heulandite") {
                     cubeFilePath = "/" + filterSourceFolder + "heulandite.png"
                     lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
-                }
-                else if (effectName === "hiddenite") {
+                } else if (effectName === "hiddenite") {
                     cubeFilePath = "/" + filterSourceFolder + "hiddenite.png"
                     lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
-                }
-                else if (effectName === "bleach") {
+                } else if (effectName === "bleach") {
                     cubeFilePath = "/" + filterSourceFolder + "bleach.png"
                     lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
-                }
-                else if (effectName === "dropblues") {
+                } else if (effectName === "dropblues") {
                     cubeFilePath = "/" + filterSourceFolder + "dropblues.png"
                     lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
-                }
-                else if (effectName === "latesunset") {
+                } else if (effectName === "latesunset") {
                     cubeFilePath = "/" + filterSourceFolder + "latesunset.png"
                     lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
-                }
-
-
-
-
-
-
-                else if (effectName === "fxAutoContrast") {
+                } else if (effectName === "fxAutoContrast") {
                     py.autocontrastFunction()
-                }
-                else if (effectName === "fxStretchContrast") {
+                } else if (effectName === "fxStretchContrast") {
                     py.stretchContrastFunction()()
-                }
-                else if (effectName === "fxDither") {
+                } else if (effectName === "fxDither") {
                     py.blackWhiteFunction()
-                }
-                else if (effectName === "fxCoal") {
+                } else if (effectName === "fxCoal") {
                     py.coalFilterFunction( coalValue )
-                }
-                else if (effectName === "fxGray") {
+                } else if (effectName === "fxGray") {
                     py.grayscaleFunction()
-                }
-                else if (effectName === "fxEqualize") {
+                } else if (effectName === "fxEqualize") {
                     py.equalizeFunction()
-                }
-                else if (effectName === "fxInvert") {
+                } else if (effectName === "fxInvert") {
                     py.invertFunction()
-                }
-                else if (effectName === "fxSolarize") {
+                } else if (effectName === "fxSolarize") {
                     py.solarizeFunction()
-                }
-                else if (effectName === "fxDrawing") {
+                } else if (effectName === "fxDrawing") {
                     py.modedrawingFunction( brushSize )
-                }
-                else if (effectName === "fxPosterize") {
+                } else if (effectName === "fxPosterize") {
                     py.posterizeFunction()
-                }
-                else if (effectName === "fxBlur") {
+                } else if (effectName === "fxBlur") {
                     py.blurFunction( blurValue )
-                }
-                else if (effectName === "fxSmoothSurface") {
+                } else if (effectName === "fxSmoothSurface") {
                     py.smoothSurfaceFunction()
-                }
-                else if (effectName === "fxCentralFocus") {
+                } else if (effectName === "fxCentralFocus") {
                     py.centerFocusFunction( centerFocusValue )
-                }
-                else if (effectName === "fxMiniature") {
+                } else if (effectName === "fxMiniature") {
                     py.miniatureFocusFunction( miniatureBlurValue, miniatureColorValue )
-                }
-                else if (effectName === "fxEnhanceEdges") {
+                } else if (effectName === "fxEnhanceEdges") {
                     py.edgeenhanceFunction()
-                }
-                else if (effectName === "fxUnsharpMask") {
+                } else if (effectName === "fxUnsharpMask") {
                     py.unsharpmaskFunction( unsharpRadiusMask, unsharpPercentMask, unsharpThresholdMask )
-                }
-                else if (effectName === "fxFindEdges") {
+                } else if (effectName === "fxFindEdges") {
                     py.findedgesFunction()
-                }
-                else if (effectName === "fxFindContour") {
+                } else if (effectName === "fxFindContour") {
                     py.contourFunction()
-                }
-                else if (effectName === "fxEmboss") {
+                } else if (effectName === "fxEmboss") {
                     py.embossFunction()
-                }
-                else if (effectName === "fxAddFrame") {
+                } else if (effectName === "fxAddFrame") {
                     py.addFrameFunction( addFrameValue )
-                }
-                else if (effectName === "fxTintColor") {
+                } else if (effectName === "fxTintColor") {
                     tintColor = paintToolColor 
                     py.tintWithColorFunction()
-                }
-                else if (effectName === "fxReduceColors") {
+                } else if (effectName === "fxReduceColors") {
                     py.quantizeFunction( quantizeColors )
-                }
-                else if (effectName === "fxOpacity") {
+                } else if (effectName === "fxOpacity") {
                     py.addAlphaFunction( opacityValue )
-                }
-                else if (effectName === "fxAlphaFrom") {
+                } else if (effectName === "fxAlphaFrom") {
                     py.colorToAlphaFunction( targetColor2Alpha, alphaTolerance )
-                }
-                else if (effectName === "fxExtractColor") {
+                } else if (effectName === "fxExtractColor") {
                     py.extractColorFunction( colorExtractARGB )
-                }
-                else if (effectName === "fxGetChannel") {
+                } else if (effectName === "fxGetChannel") {
                     py.extractChannelFunction( channelExtractARGB )
-                }
-
-                else if (effectName === "fxMinFilter") {
+                } else if (effectName === "fxMinFilter") {
                     py.brightspotFilterFunction( "min", brightspotSize )
-                }
-                else if (effectName === "fxMaxFilter") {
+                } else if (effectName === "fxMaxFilter") {
                     py.brightspotFilterFunction( "max", brightspotSize )
-                }
-                else if (effectName === "fxMedFilter") {
+                } else if (effectName === "fxMedFilter") {
                     py.brightspotFilterFunction( "med", brightspotSize )
-                }
-                else if (effectName === "fxFishEye") {
+                } else if (effectName === "fxFishEye") {
                     py.fishEyeFunction()
                 }
-
             });
+            
             setHandler('startApply3dLUTcubeFileFromPy', function( cubeFilePath, lut3dType ) {
                 finishedLoading = false
                 py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
             });
+            
             setHandler('tempFilesDeleted', function(i) {
-                //console.log("temp files deleted: " + i)
+                console.log("temp files deleted: " + i)
             });
+            
             setHandler('deleteLastTMP', function(i) {
-                //console.log("last tmp deleted: " + i)
+                console.log("last tmp deleted: " + i)
             });
+            
             setHandler('folderExistence', function() {
-                //console.log("tmp and save folders created")
+                console.log("tmp and save folders created")
             });
+            
             setHandler('warningPILNotAvailable', function() {
                 idLabelFilePath.text = qsTr("python3-pillow is not installed")
                 warningNoPillow = true
             });
+            
             setHandler('warningPIL2old', function( ) {
                 idLabelFilePath.text = qsTr("some functions require python3-pillow 7+")
                 idIconButtonCollage.enabled = false
                 //warningNoPillow = true
             });
+            
             setHandler('debugPythonLogs', function(i) {
                 console.log(i)
             });
         }
-
 
         // cropping and perspective functions
         function getHomePath() {
@@ -779,129 +731,158 @@ Page {
         function croppingFunctionHandles() {
             generatePathAndUndoNr()
             generateCroppingPixelsFromHandles()
-            call("graphx.cropNowFunction", [ inputPathPy, outputPathPy, rectX, rectY, rectWidth, rectHeight, scaleDisplayFactorCrop, undoNr ])
+            call("graphx.cropNowFunction", [ inputPathPy, outputPathPy, rectX, rectY, rectWidth, rectHeight, 
+                                             scaleDisplayFactorCrop, undoNr ])
         }
+
         function croppingFunctionCoordinates() {
             generatePathAndUndoNr()
             generateCroppingPixelsFromCoordinates()
+
             if (rectWidth === 0) {
                 if (rectX > 0) {
                     rectX = rectX - 1
                     idInputManualX1.text = rectX
+                } else {
+                    idInputManualX2.text = rectX + 1
                 }
-                else {
-                    idInputManualX2.text = rectX+1
-                }
+
                 rectWidth = 1
             }
+
             if (rectHeight === 0) {
                 if (rectY > 0) {
                     rectY = rectY - 1
                     idInputManualY1.text = rectY
-                }
-                else {
+                } else {
                     idInputManualY2.text = rectY+1
                 }
+
                 rectHeight = 1
             }
-            call("graphx.cropCoordinatesFunction", [ inputPathPy, outputPathPy, rectX, rectY, rectWidth, rectHeight, undoNr ])
+
+            const args = [ inputPathPy, outputPathPy, rectX, rectY, rectWidth, rectHeight, undoNr ]
+            call("graphx.cropCoordinatesFunction", args)
         }
+        
         function perspectiveCorrection() {
             generatePathAndUndoNr()
             generateCroppingPixelsFromHandles()
-            var x1_old = (rectPerspective1.x + handleWidth/2) * scaleDisplayFactorCrop
-            var y1_old = (rectPerspective1.y + handleWidth/2) * scaleDisplayFactorCrop
-            var x2_old = (rectPerspective2.x + handleWidth/2) * scaleDisplayFactorCrop
-            var y2_old = (rectPerspective2.y + handleWidth/2) * scaleDisplayFactorCrop
-            var x3_old = (rectPerspective3.x + handleWidth/2) * scaleDisplayFactorCrop
-            var y3_old = (rectPerspective3.y + handleWidth/2) * scaleDisplayFactorCrop
-            var x4_old = (rectPerspective4.x + handleWidth/2) * scaleDisplayFactorCrop
-            var y4_old = (rectPerspective4.y + handleWidth/2) * scaleDisplayFactorCrop
-            var srcPts = [0, 0, idImageLoadedFreecrop.sourceSize.width, 0, idImageLoadedFreecrop.sourceSize.width, idImageLoadedFreecrop.sourceSize.height, 0, idImageLoadedFreecrop.sourceSize.height]
-            var dstPts = [x1_old, y1_old, x2_old, y2_old, x3_old, y3_old, x4_old, y4_old]
-            if (transformPerspectiveMode === "stretch") { var perspT = getNormalizationCoefficients(srcPts, dstPts, false) }
-            else { perspT = getNormalizationCoefficients(srcPts, dstPts, true) }
-            call("graphx.perspectiveCorrectionFunction", [ inputPathPy, outputPathPy, perspT, scaleDisplayFactorCrop, undoNr, paintToolColor ])
+
+            var x1_old = (rectPerspective1.x + handleWidth / 2) * scaleDisplayFactorCrop
+            var y1_old = (rectPerspective1.y + handleWidth / 2) * scaleDisplayFactorCrop
+            var x2_old = (rectPerspective2.x + handleWidth / 2) * scaleDisplayFactorCrop
+            var y2_old = (rectPerspective2.y + handleWidth / 2) * scaleDisplayFactorCrop
+            var x3_old = (rectPerspective3.x + handleWidth / 2) * scaleDisplayFactorCrop
+            var y3_old = (rectPerspective3.y + handleWidth / 2) * scaleDisplayFactorCrop
+            var x4_old = (rectPerspective4.x + handleWidth / 2) * scaleDisplayFactorCrop
+            var y4_old = (rectPerspective4.y + handleWidth / 2) * scaleDisplayFactorCrop
+
+            var srcPts = [ 0, 0, idImageLoadedFreecrop.sourceSize.width, 0, idImageLoadedFreecrop.sourceSize.width, 
+                           idImageLoadedFreecrop.sourceSize.height, 0, idImageLoadedFreecrop.sourceSize.height ]
+
+            var dstPts = [ x1_old, y1_old, x2_old, y2_old, x3_old, y3_old, x4_old, y4_old ]
+
+            const perspT = getNormalizationCoefficients(srcPts, dstPts, transformPerspectiveMode !== "stretch")
+            const args = [ inputPathPy, outputPathPy, perspT, scaleDisplayFactorCrop, undoNr, paintToolColor ]
+            call("graphx.perspectiveCorrectionFunction", args)
         }
 
-
         // shape functions
+
         function rotateLeftFunction() {
             generatePathAndUndoNr()
             call("graphx.rotateLeftFunction", [ inputPathPy, outputPathPy ])
         }
+
         function mirrorHorizontalFunction() {
             generatePathAndUndoNr()
             call("graphx.mirrorHorizontalFunction", [ inputPathPy, outputPathPy ])
         }
+        
         function tiltAngleFunction() {
             generatePathAndUndoNr()
             var tiltAngle = idRotateAngleManualInput.text
+        
             if (tiltAngle === "") {
                 tiltAngle = 0
                 idRotateAngleManualInput.text = "0"
             }
+        
             call("graphx.tiltAngleFunction", [ inputPathPy, outputPathPy , tiltAngle, paintToolColor ])
         }
+        
         function mirrorVerticalFunction() {
             generatePathAndUndoNr()
             call("graphx.mirrorVerticalFunction", [ inputPathPy, outputPathPy ])
         }
+        
         function rotateRightFunction() {
             generatePathAndUndoNr()
             call("graphx.rotateRightFunction", [ inputPathPy, outputPathPy ])
         }
+        
         function paddingImage() {
             generatePathAndUndoNr()
             var blurFactor = idImageLoadedFreecrop.sourceSize.width / 32 // 30
-            call("graphx.paddingImageFunction", [ inputPathPy, outputPathPy, paddingRatio, paddingFill, paintToolColor, blurFactor ])
+            const args = [ inputPathPy, outputPathPy, paddingRatio, paddingFill, paintToolColor, blurFactor ]
+            call("graphx.paddingImageFunction", args)
         }
 
-
         // scale functions
+
         function scaleFunction() {
             generatePathAndUndoNr()
             call("graphx.scaleFunction", [ inputPathPy, outputPathPy, factorToScale ])
         }
+
         function freescaleFunction() {
             generatePathAndUndoNr()
             call("graphx.freescaleFunction", [ inputPathPy, outputPathPy, freeScaleWidth, freeScaleHeight ])
         }
 
-
         // color enhance functions
         function enhanceContrastFunction(targetImage) {
-            if (idImageLoadedFreecrop.sourceSize.width >= idImageLoadedFreecrop.width) {
-                var previewBaseImageWidth = idImageLoadedFreecrop.width
-            }
-            else {
-                previewBaseImageWidth = idImageLoadedFreecrop.sourceSize.width
-            }
+            var previewBaseImageWidth = idImageLoadedFreecrop.sourceSize.width >= idImageLoadedFreecrop.width
+                                        ? idImageLoadedFreecrop.width
+                                        : idImageLoadedFreecrop.sourceSize.width
+
             if (targetImage === "current") {
                 generatePathAndUndoNr()
-                call("graphx.enhanceContrastFunction", [ targetImage, inputPathPy, outputPathPy, idSliderEnhancement.value, previewBaseImageWidth ])
-            }
-            else {
-                var inputPath = decodeURIComponent( "/" + idImageLoadedFreecrop.source.toString().replace(/^(file:\/{3})|(qrc:\/{2})|(http:\/{2})/,"") )
-                call("graphx.enhanceContrastFunction", [ targetImage, inputPath, previewBaseImagePath, idSliderEnhancement.value, previewBaseImageWidth ])
+                call("graphx.enhanceContrastFunction", [ targetImage, inputPathPy, outputPathPy, 
+                                                         idSliderEnhancement.value, previewBaseImageWidth ])
+            } else {
+                const source = idImageLoadedFreecrop.source.toString()
+                               .replace(/^(file:\/{3})|(qrc:\/{2})|(http:\/{2})/,"")
+
+                const inputPath = decodeURIComponent("/" + source)
+
+                call("graphx.enhanceContrastFunction", [ targetImage, inputPath, previewBaseImagePath, 
+                                                         idSliderEnhancement.value, previewBaseImageWidth ])
             }
         }
+
         function enhanceBrightnessFunction(targetImage) {
-            if (idImageLoadedFreecrop.sourceSize.width >= idImageLoadedFreecrop.width) {
-                var previewBaseImageWidth = idImageLoadedFreecrop.width
-            }
-            else {
-                previewBaseImageWidth = idImageLoadedFreecrop.sourceSize.width
-            }
+            const previewBaseImageWidth = idImageLoadedFreecrop.sourceSize.width >= idImageLoadedFreecrop.width
+                                          ? idImageLoadedFreecrop.width
+                                          : idImageLoadedFreecrop.sourceSize.width
+            
             if (targetImage === "current") {
                 generatePathAndUndoNr()
-                call("graphx.enhanceBrightnessFunction", [ targetImage, inputPathPy, outputPathPy, idSliderEnhancement.value, previewBaseImageWidth ])
+                call("graphx.enhanceBrightnessFunction", [ targetImage, inputPathPy, outputPathPy, 
+                                                           idSliderEnhancement.value, previewBaseImageWidth ])
             }
             else {
-                var inputPath = decodeURIComponent( "/" + idImageLoadedFreecrop.source.toString().replace(/^(file:\/{3})|(qrc:\/{2})|(http:\/{2})/,"") )
-                call("graphx.enhanceBrightnessFunction", [ targetImage, inputPath, previewBaseImagePath, idSliderEnhancement.value, previewBaseImageWidth ])
+                const source = idImageLoadedFreecrop.source.toString()
+                               .replace(/^(file:\/{3})|(qrc:\/{2})|(http:\/{2})/,"")
+
+                const inputPath = decodeURIComponent("/" + source)
+
+                call("graphx.enhanceBrightnessFunction", [ targetImage, inputPath, previewBaseImagePath, 
+                                                           idSliderEnhancement.value, previewBaseImageWidth ])
             }
         }
+
         function enhanceColorFunction(targetImage) {
             if (idImageLoadedFreecrop.sourceSize.width >= idImageLoadedFreecrop.width) {
                 var previewBaseImageWidth = idImageLoadedFreecrop.width
@@ -953,192 +934,233 @@ Page {
 
 
         // effect functions
+
         function apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType ) {
             var targetImage = "current"
             generatePathAndUndoNr()
             call("graphx.apply3dLUTcubeFile", [ targetImage, inputPathPy, cubeFilePath, lut3dType, outputPathPy ])
         }
 
-
         function autocontrastFunction() {
             var targetImage = "current"
             generatePathAndUndoNr()
             call("graphx.autocontrastFunction", [ targetImage, inputPathPy, outputPathPy ])
         }
+
         function stretchContrastFunction() {
             var targetImage = "current"
             generatePathAndUndoNr()
             call("graphx.stretchContrastFunction", [ targetImage, inputPathPy, outputPathPy ])
         }
+
         function blackWhiteFunction() {
             var targetImage = "current"
             generatePathAndUndoNr()
             call("graphx.blackWhiteFunction", [ targetImage, inputPathPy, outputPathPy ])
         }
+
         function coalFilterFunction( coalValue ) {
             var targetImage = "current"
             generatePathAndUndoNr()
             call("graphx.coalFilterFunction", [ targetImage, inputPathPy, outputPathPy, coalValue ])
         }
+
         function grayscaleFunction() {
             var targetImage = "current"
             generatePathAndUndoNr()
             call("graphx.grayscaleFunction", [ targetImage, inputPathPy, outputPathPy ])
         }
+
         function equalizeFunction() {
             var targetImage = "current"
             generatePathAndUndoNr()
             call("graphx.equalizeFunction", [ targetImage, inputPathPy, outputPathPy ])
         }
+
         function solarizeFunction() {
             var targetImage = "current"
             generatePathAndUndoNr()
             call("graphx.solarizeFunction", [ targetImage, inputPathPy, outputPathPy ])
         }
+
         function invertFunction() {
             var targetImage = "current"
             generatePathAndUndoNr()
             call("graphx.invertFunction", [ targetImage, inputPathPy, outputPathPy ])
         }
+
         function modedrawingFunction( brushSize ) {
             var targetImage = "current"
             generatePathAndUndoNr()
             call("graphx.modedrawingFunction", [ targetImage, inputPathPy, outputPathPy, brushSize ])
         }
+
         function posterizeFunction() {
             var targetImage = "current"
             generatePathAndUndoNr()
             call("graphx.posterizeFunction", [ targetImage, inputPathPy, outputPathPy ])
         }
+
         function blurFunction( blurValue ) {
             var targetImage = "current"
             generatePathAndUndoNr()
             call("graphx.blurFunction", [ targetImage, inputPathPy, outputPathPy, blurValue ])
         }
+
         function smoothSurfaceFunction() {
             var targetImage = "current"
             generatePathAndUndoNr()
             var smoothingStrength = "strong"
             call("graphx.smoothSurfaceFunction", [ targetImage, inputPathPy, outputPathPy, smoothingStrength ])
         }
+
         function centerFocusFunction( centerFocusValue ) {
             var targetImage = "current"
             generatePathAndUndoNr()
+
             var alphaMaskPath = "/" + symbolSourceFolder + "alphaMaskCircleSmall.png"
             var radiusEdgeBlur = centerFocusValue // 6 // 4
             var enhanceColorFaktor = 1
             var enhanceContrastFaktor = 1
             var addExtraBlurAroundPath = "none"
-            call("graphx.miniatureFocusFunction", [ targetImage, inputPathPy, outputPathPy, alphaMaskPath, radiusEdgeBlur, enhanceColorFaktor, enhanceContrastFaktor, addExtraBlurAroundPath ])
+
+            call("graphx.miniatureFocusFunction", [ targetImage, inputPathPy, outputPathPy, alphaMaskPath, 
+                                                    radiusEdgeBlur, enhanceColorFaktor, enhanceContrastFaktor, 
+                                                    addExtraBlurAroundPath ])
         }
+
         function miniatureFocusFunction( miniatureBlurValue, miniatureColorValue ) {
             var targetImage = "current"
             generatePathAndUndoNr()
+
             var alphaMaskPath = "/" + symbolSourceFolder + "alphaMaskStandard.png"
             var radiusEdgeBlur = miniatureBlurValue // 5 // 4
             var enhanceColorFaktor = miniatureColorValue // 1.75 // 1.9
             var enhanceContrastFaktor = 1.3 // 1.4
             var addExtraBlurAroundPath = "/" + symbolSourceFolder + "alphaMaskCircleSmall.png"
-            call("graphx.miniatureFocusFunction", [ targetImage, inputPathPy, outputPathPy, alphaMaskPath, radiusEdgeBlur, enhanceColorFaktor, enhanceContrastFaktor, addExtraBlurAroundPath ])
+
+            call("graphx.miniatureFocusFunction", [ targetImage, inputPathPy, outputPathPy, alphaMaskPath,
+                                                    radiusEdgeBlur, enhanceColorFaktor, enhanceContrastFaktor, 
+                                                    addExtraBlurAroundPath ])
         }
+
         function edgeenhanceFunction() {
             var targetImage = "current"
             generatePathAndUndoNr()
             call("graphx.edgeenhanceFunction", [ targetImage, inputPathPy, outputPathPy ])
         }
+
         function unsharpmaskFunction( unsharpRadiusMask, unsharpPercentMask, unsharpThresholdMask ) {
             var targetImage = "current"
             generatePathAndUndoNr()
-            call("graphx.unsharpmaskFunction", [ targetImage, inputPathPy, outputPathPy, unsharpRadiusMask, unsharpPercentMask, unsharpThresholdMask ])
+
+            call("graphx.unsharpmaskFunction", [ targetImage, inputPathPy, outputPathPy, unsharpRadiusMask, 
+                                                 unsharpPercentMask, unsharpThresholdMask ])
         }
+
         function findedgesFunction() {
             var targetImage = "current"
             generatePathAndUndoNr()
             var fileTargetType = inputPathPy.slice(inputPathPy.length - 4)
             call("graphx.findedgesFunction", [ targetImage, inputPathPy, outputPathPy, fileTargetType ])
         }
+
         function contourFunction() {
             var targetImage = "current"
             generatePathAndUndoNr()
             call("graphx.contourFunction", [ targetImage, inputPathPy, outputPathPy ])
         }
+
         function embossFunction() {
             var targetImage = "current"
             generatePathAndUndoNr()
             call("graphx.embossFunction", [ targetImage, inputPathPy, outputPathPy ])
         }
 
-
-
         function addFrameFunction( addFrameValue ) {
             var targetImage = "current"
             generatePathAndUndoNr()
-            var radiusEdgeBlur = addFrameValue // handleWidth * idImageLoadedFreecrop.sourceSize.width / idImageLoadedFreecrop.width / 2.5
+            var radiusEdgeBlur = addFrameValue
             call("graphx.addFrameFunction", [ targetImage, inputPathPy, outputPathPy, radiusEdgeBlur, paintToolColor ])
         }
+
         function tintWithColorFunction() {
             var targetImage = "current"
             generatePathAndUndoNr()
-            //tintColor = paintToolColor
             var factorBrightnessTint = 1.2
-            call("graphx.tintWithColorFunction", [ targetImage, inputPathPy, outputPathPy, tintColor, factorBrightnessTint ])
+            const args = [ targetImage, inputPathPy, outputPathPy, tintColor, factorBrightnessTint ]
+            call("graphx.tintWithColorFunction", args)
         }
+
         function quantizeFunction( quantizeColors ) {
             var targetImage = "current"
             generatePathAndUndoNr()
             call("graphx.quantizeFunction", [ targetImage, inputPathPy, outputPathPy, quantizeColors ])
         }
+
         function addAlphaFunction( opacityValue ) {
             var targetImage = "current"
             generatePathAndUndoNr()
             call("graphx.addAlphaFunction", [ targetImage, inputPathPy, outputPathPy, opacityValue ])
         }
+
         function colorToAlphaFunction( targetColor2Alpha, alphaTolerance ) {
             var targetImage = "current"
             generatePathAndUndoNr()
-            call("graphx.colorToAlphaFunction", [ targetImage, inputPathPy, outputPathPy, targetColor2Alpha, alphaTolerance ])
+            const args = [ targetImage, inputPathPy, outputPathPy, targetColor2Alpha, alphaTolerance ]
+            call("graphx.colorToAlphaFunction", args)
         }
+
         function extractColorFunction( colorExtractARGB ) {
             var targetImage = "current"
             generatePathAndUndoNr()
             call("graphx.extractColorFunction", [ targetImage, inputPathPy, outputPathPy, colorExtractARGB ])
         }
+
         function extractChannelFunction( channelExtractARGB ) {
             var targetImage = "current"
             generatePathAndUndoNr()
             call("graphx.extractChannelFunction", [ targetImage, inputPathPy, outputPathPy, channelExtractARGB ])
         }
 
-
-
-
-        function replacePixelsFunction( oldA, oldR, oldG, oldB, newA, newR, newG, newB, compareA, compareR, compareG, compareB, tolA, tolR, tolG, tolB, changeA, changeR, changeG, changeB, modePixeldraw ) {
+        function replacePixelsFunction(oldA, oldR, oldG, oldB, newA, newR, newG, newB, compareA, compareR, compareG, 
+                                       compareB, tolA, tolR, tolG, tolB, changeA, changeR, changeG, changeB, 
+                                       modePixeldraw) {
             generatePathAndUndoNr()
-            call("graphx.replacePixelsFunction", [ inputPathPy, outputPathPy, oldA, oldR, oldG, oldB, newA, newR, newG, newB, compareA, compareR, compareG, compareB, tolA, tolR, tolG, tolB, changeA, changeR, changeG, changeB, modePixeldraw ])
+            call("graphx.replacePixelsFunction", [ inputPathPy, outputPathPy, oldA, oldR, oldG, oldB, newA, newR, newG, 
+                                                   newB, compareA, compareR, compareG, compareB, tolA, tolR, tolG, tolB,
+                                                   changeA, changeR, changeG, changeB, modePixeldraw ])
         }
-        function rechannelFunctionFromPy( channelPathAlpha, channelPathRed, channelPathGreen, channelPathBlue, factorA, factorR, factorG, factorB, saturationA, saturationR, saturationG, saturationB, invertA, invertR, invertG, invertB ) {
+
+        function rechannelFunctionFromPy(channelPathAlpha, channelPathRed, channelPathGreen, channelPathBlue, factorA, 
+                                         factorR, factorG, factorB, saturationA, saturationR, saturationG, saturationB, 
+                                         invertA, invertR, invertG, invertB) {
             generatePathAndUndoNr()
-            call("graphx.rechannelFunction", [ inputPathPy, outputPathPy, channelPathAlpha, channelPathRed, channelPathGreen, channelPathBlue, factorA, factorR, factorG, factorB, saturationA, saturationR, saturationG, saturationB, invertA, invertR, invertG, invertB ])
+            call("graphx.rechannelFunction", [ inputPathPy, outputPathPy, channelPathAlpha, channelPathRed, 
+                                               channelPathGreen, channelPathBlue, factorA, factorR, factorG, factorB, 
+                                               saturationA, saturationR, saturationG, saturationB, invertA, invertR, 
+                                               invertG, invertB ])
         }
+
         function colorCurveFunctionFromPy ( curveFactors, currentColor, minValue, maxValue ) {
             generatePathAndUndoNr()
-            call("graphx.colorCurveFunction", [ inputPathPy, outputPathPy, curveFactors, currentColor, minValue, maxValue ])
+            const args = [ inputPathPy, outputPathPy, curveFactors, currentColor, minValue, maxValue ]
+            call("graphx.colorCurveFunction", args)
         }
-
-
-
 
         function sepiaFunction() {
             var targetImage = "current"
             generatePathAndUndoNr()
             call("graphx.sepiaFunction", [ targetImage, inputPathPy, outputPathPy ])
         }
+
         function gothamFilterFunction() {
             var targetImage = "current"
             generatePathAndUndoNr()
             var sharpenValue = 1.3
             call("graphx.gothamFilterFunction", [ targetImage, inputPathPy, outputPathPy, sharpenValue ])
         }
+
         function cremaFilterFunction() {
             var targetImage = "current"
             generatePathAndUndoNr()
@@ -1146,160 +1168,203 @@ Page {
             var contrastFactor = 0.9
             call("graphx.cremaFilterFunction", [ targetImage, inputPathPy, outputPathPy, colorFactor, contrastFactor ])
         }
+
         function junoFilterFunction() {
             var targetImage = "current"
             generatePathAndUndoNr()
             var brightnessValue = 1.15
             var saturationValue = 1.7
-            call("graphx.junoFilterFunction", [ targetImage, inputPathPy, outputPathPy, brightnessValue, saturationValue ])
+            const args = [ targetImage, inputPathPy, outputPathPy, brightnessValue, saturationValue ]
+            call("graphx.junoFilterFunction", args)
         }
+
         function kelvinFilterFunction() {
             var targetImage = "current"
             generatePathAndUndoNr()
             call("graphx.kelvinFilterFunction", [ targetImage, inputPathPy, outputPathPy ])
         }
+
         function xproiiFilterFunction() {
             var targetImage = "current"
             generatePathAndUndoNr()
             call("graphx.xproiiFilterFunction", [ targetImage, inputPathPy, outputPathPy ])
         }
+
         function amaroFilterFunction() {
             var targetImage = "current"
             generatePathAndUndoNr()
             call("graphx.amaroFilterFunction", [ targetImage, inputPathPy, outputPathPy ])
         }
+
         function mayfairFilterFunction() {
             var targetImage = "current"
             generatePathAndUndoNr()
             call("graphx.mayfairFilterFunction", [ targetImage, inputPathPy, outputPathPy ])
         }
+
         function nineteen77FilterFunction() {
             var targetImage = "current"
             generatePathAndUndoNr()
             call("graphx.nineteen77FilterFunction", [ targetImage, inputPathPy, outputPathPy ])
         }
+
         function lofiFilterFunction() {
             var targetImage = "current"
             generatePathAndUndoNr()
             call("graphx.lofiFilterFunction", [ targetImage, inputPathPy, outputPathPy ])
         }
+
         function hudsonFilterFunction() {
             var targetImage = "current"
             generatePathAndUndoNr()
             call("graphx.hudsonFilterFunction", [ targetImage, inputPathPy, outputPathPy ])
         }
+
         function redtealFilterFunction() {
             var targetImage = "current"
             generatePathAndUndoNr()
             var colorFactor = 1.35
             call("graphx.redtealFilterFunction", [ targetImage, inputPathPy, outputPathPy, colorFactor ])
         }
+
         function nashvilleFilterFunction() {
             var targetImage = "current"
             generatePathAndUndoNr()
             call("graphx.nashvilleFilterFunction", [ targetImage, inputPathPy, outputPathPy ])
         }
+
         function hefeFilterFunction() {
             var targetImage = "current"
             generatePathAndUndoNr()
             call("graphx.hefeFilterFunction", [ targetImage, inputPathPy, outputPathPy ])
         }
+
         function sierraFilterFunction() {
             var targetImage = "current"
             generatePathAndUndoNr()
             call("graphx.sierraFilterFunction", [ targetImage, inputPathPy, outputPathPy ])
         }
+
         function brightspotFilterFunction( spotType, brightspotSize) {
             var targetImage = "current"
             generatePathAndUndoNr()
-            call("graphx.brightspotFilterFunction", [ targetImage, inputPathPy, outputPathPy, spotType, brightspotSize ])
+            const args = [ targetImage, inputPathPy, outputPathPy, spotType, brightspotSize ]
+            call("graphx.brightspotFilterFunction", args)
         }
+
         function fishEyeFunction() {
             var targetImage = "current"
             generatePathAndUndoNr()
             call("graphx.fishEyeFunction", [ targetImage, inputPathPy, outputPathPy, paintToolColor ])
         }
 
-
-
         // paint functions
+
         function paintBlurRegion() {
             generatePathAndUndoNr()
             paintGetBlurRadius()
             generateCroppingPixelsFromHandles()
-            call("graphx.paintBlurRegionFunction", [ inputPathPy, outputPathPy, rectX, rectY, rectWidth, rectHeight, scaleDisplayFactorCrop, paintBlurRadius ])
+            call("graphx.paintBlurRegionFunction", [ inputPathPy, outputPathPy, rectX, rectY, rectWidth, rectHeight, 
+                                                     scaleDisplayFactorCrop, paintBlurRadius ])
         }
+
         function paintRectangleRegion() {
             generatePathAndUndoNr()
             generateCroppingPixelsFromHandles()
-            call("graphx.paintRectangleRegionFunction", [ inputPathPy, outputPathPy, rectX, rectY, rectWidth, rectHeight, scaleDisplayFactorCrop, paintToolColor, solidTypeTool ])
+            call("graphx.paintRectangleRegionFunction", [ inputPathPy, outputPathPy, rectX, rectY, rectWidth, 
+                                                          rectHeight, scaleDisplayFactorCrop, paintToolColor, 
+                                                          solidTypeTool ])
         }
+
         function paintFrameRegion() {
             generatePathAndUndoNr()
             paintCalculateFrameThickness()
             generateCroppingPixelsFromHandles()
-            call("graphx.paintFrameRegionFunction", [ inputPathPy, outputPathPy, rectX, rectY, rectWidth, rectHeight, scaleDisplayFactorCrop, paintToolColor, paintFrameThickness, frameTypeTool ])
+            call("graphx.paintFrameRegionFunction", [ inputPathPy, outputPathPy, rectX, rectY, rectWidth, rectHeight, 
+                                                      scaleDisplayFactorCrop, paintToolColor, paintFrameThickness, 
+                                                      frameTypeTool ])
         }
+
         function paintLineRegion() {
             generatePathAndUndoNr()
             paintCalculateLinePixels()
-            call("graphx.paintLineRegionFunction", [ inputPathPy, outputPathPy, rectX, rectY, rectWidth, rectHeight, scaleDisplayFactorCrop, paintToolColor, paintLineThickness ])
+            call("graphx.paintLineRegionFunction", [ inputPathPy, outputPathPy, rectX, rectY, rectWidth, rectHeight, 
+                                                     scaleDisplayFactorCrop, paintToolColor, paintLineThickness ])
         }
+
         function paintTextRegion() {
             generatePathAndUndoNr()
             paintCalculateTextSize()
             generateCroppingPixelsFromHandles()
+        
             var rectXcenter = rectX + handleWidth/2
             var rectYcenter = rectY + handleHeight/2
             var paintTextAngle = idInputAngleManual.text
+        
             if (paintTextAngle === "") {
                 paintTextAngle = 0
                 idInputAngleManual.text = "0"
             }
+        
             if (idComboBoxFontBackColor.currentIndex === 0) {
                 var paintBackColor = "#00000000" //transparent
-            }
-            else if (idComboBoxFontBackColor.currentIndex === 1) {
+            } else if (idComboBoxFontBackColor.currentIndex === 1) {
                 paintBackColor = paintSecondaryColor //clipboard
-            }
-            else if (idComboBoxFontBackColor.currentIndex === 2) {
+            } else if (idComboBoxFontBackColor.currentIndex === 2) {
                 paintBackColor = "#ff000000" //black
-            }
-            else if (idComboBoxFontBackColor.currentIndex === 3) {
+            } else if (idComboBoxFontBackColor.currentIndex === 3) {
                 paintBackColor = "#ffffffff" //white
             }
-            call("graphx.paintTextRegionFunction", [ inputPathPy, outputPathPy, rectXcenter, rectYcenter, scaleDisplayFactorCrop, paintToolColor, paintBackColor, " " + paintToolText + " ", paintTextSize, paintTextNameNr, fontPath, paintTextStyleNr, paintTextAngle, customFontFilePath ]  )
+            
+            call("graphx.paintTextRegionFunction", [ inputPathPy, outputPathPy, rectXcenter, rectYcenter, 
+                                                     scaleDisplayFactorCrop, paintToolColor, paintBackColor, 
+                                                     " " + paintToolText + " ", paintTextSize, paintTextNameNr, 
+                                                     fontPath, paintTextStyleNr, paintTextAngle, customFontFilePath ])
         }
+
         function paintPointRegion() {
             generatePathAndUndoNr()
             paintCalculatePointPixels()
-            call("graphx.paintPointRegionFunction", [ inputPathPy, outputPathPy, rectX, rectY, rectWidth, rectHeight, scaleDisplayFactorCrop, paintToolColor ])
+            call("graphx.paintPointRegionFunction", [ inputPathPy, outputPathPy, rectX, rectY, rectWidth, rectHeight, 
+                                                      scaleDisplayFactorCrop, paintToolColor ])
         }
+
         function paintCopyFunction() {
-            inputPathPy = decodeURIComponent( "/" + idImageLoadedFreecrop.source.toString().replace(/^(file:\/{3})|(qrc:\/{2})|(http:\/{2})/,"") )
+            inputPathPy = decodeURIComponent( "/" + idImageLoadedFreecrop.source.toString()
+                          .replace(/^(file:\/{3})|(qrc:\/{2})|(http:\/{2})/,"") )
+
             outputPathPy = tempImageFolderPath + tempCopyPasteFileName + ".png"
             generateCroppingPixelsFromHandles()
-            call("graphx.paintCopyFunction", [ inputPathPy, outputPathPy, rectX, rectY, rectWidth, rectHeight, scaleDisplayFactorCrop ])
+            const args = [ inputPathPy, outputPathPy, rectX, rectY, rectWidth, rectHeight, scaleDisplayFactorCrop ]
+            call("graphx.paintCopyFunction", args)
         }
+
         function paintPasteFunction() {
             generatePathAndUndoNr()
             generateCroppingPixelsFromHandles()
-            call("graphx.paintPasteRegionFunction", [ inputPathPy, copyPastePath, outputPathPy, rectX, rectY, rectWidth, rectHeight, scaleDisplayFactorCrop ])
+            call("graphx.paintPasteRegionFunction", [ inputPathPy, copyPastePath, outputPathPy, rectX, rectY, rectWidth,
+                                                      rectHeight, scaleDisplayFactorCrop ])
         }
+
         function paintSprayFunction() {
             generatePathAndUndoNr()
             generateCroppingPixelsFromHandles()
             paintCalculateSprayDiameter()
             var gaussSigmaWidth = 6 // where most of the content stays, more = middle, less = wider
             var paintAmountSpray = idSliderSprayAmount.value.toString()
-            call("graphx.paintSprayFunction", [ inputPathPy, outputPathPy, rectX, rectY, rectWidth, rectHeight, scaleDisplayFactorCrop, paintToolColor, paintRadiusSpray, paintAmountSpray, gaussSigmaWidth ])
+            call("graphx.paintSprayFunction", [ inputPathPy, outputPathPy, rectX, rectY, rectWidth, rectHeight, 
+                                                scaleDisplayFactorCrop, paintToolColor, paintRadiusSpray, 
+                                                paintAmountSpray, gaussSigmaWidth ])
         }
+
         function paintSymbolRegion() {
             generatePathAndUndoNr()
             paintCalculateShapeSize()
             paintCalculateSymbolPixels()
-            call("graphx.paintSymbolFunction", [ inputPathPy, symbolSourcePath, outputPathPy, rectX, rectY, scaleDisplayFactorCrop, paintToolColor, paintSymbolSizeFaktor ])
+            call("graphx.paintSymbolFunction", [ inputPathPy, symbolSourcePath, outputPathPy, rectX, rectY, 
+                                                 scaleDisplayFactorCrop, paintToolColor, paintSymbolSizeFaktor ])
         }
+
         function paintPickColorFunction() {
             generateCoordinatesColorPicker()
             call("graphx.paintGetColorPointFunction", [ inputPathPy, rectX, rectY, scaleDisplayFactorCrop ])
@@ -1316,85 +1381,114 @@ Page {
             var rgbA = idSliderColorAlpha.value
             call("graphx.paintConvertRGBAFunction", [ rgbR, rgbG, rgbB, rgbA ])
         }
+
         function paintCanvasFunction() {
                 generatePathAndUndoNr()
                 paintCalculateCanvasPixels()
-                call("graphx.paintCanvasFunction", [ inputPathPy, outputPathPy, freeDrawPolyCoordinates, scaleDisplayFactorCrop, paintToolColor, paintCanvasThickness, drawType ])
+                call("graphx.paintCanvasFunction", [ inputPathPy, outputPathPy, freeDrawPolyCoordinates, 
+                                                     scaleDisplayFactorCrop, paintToolColor, paintCanvasThickness, 
+                                                     drawType ])
         }
+
         function cropCanvasPolygonFunction() {
                 generatePathAndUndoNr()
                 paintCalculateCanvasPixels()
-                call("graphx.cropCanvasPolygonFunction", [ inputPathPy, outputPathPy, freeDrawPolyCoordinates, scaleDisplayFactorCrop, cutFillColor, actionCutSelection ])
+                call("graphx.cropCanvasPolygonFunction", [ inputPathPy, outputPathPy, freeDrawPolyCoordinates, 
+                                                           scaleDisplayFactorCrop, cutFillColor, actionCutSelection ])
         }
+
         function cropCanvasShapeFunction() {
                 generatePathAndUndoNr()
                 generateCroppingPixelsFromHandles()
                 var croppingColor = "#00000000"
-                call("graphx.cropCanvasShapeFunction", [ inputPathPy, outputPathPy, rectX, rectY, rectWidth, rectHeight, scaleDisplayFactorCrop, croppingColor, actionCutSelection, solidTypeTool ])
-        }
-        function createCollageMosaic( targetWidth, selectedPaths, shuffle, targetBackColor, targetColumns, targetSpacing, targetBlur, targetFrameSetup) {
-                var targetImage = "current"
-                generatePathAndUndoNr()
-                call("graphx.createCollageMosaic", [ outputPathPy, inputPathPy, targetWidth , selectedPaths, shuffle, targetBackColor, targetColumns, targetSpacing, targetBlur, targetImage, targetFrameSetup ])
-        }
-        function createCollageLines( targetWidth, selectedPaths, shuffle, targetBackColor, targetColumns, targetSpacing, targetBlur, targetFrameSetup) {
-                var targetImage = "current"
-                generatePathAndUndoNr()
-                call("graphx.createCollageLines", [ outputPathPy, inputPathPy, targetWidth , selectedPaths, shuffle, targetBackColor, targetColumns, targetSpacing, targetBlur, targetImage, targetFrameSetup ])
-        }
-        function createCollageColumns( targetWidth, selectedPaths, shuffle, targetBackColor, targetColumns, targetSpacing, targetBlur, targetFrameSetup) {
-                var targetImage = "current"
-                generatePathAndUndoNr()
-                call("graphx.createCollageColumns", [ outputPathPy, inputPathPy, targetWidth , selectedPaths, shuffle, targetBackColor, targetColumns, targetSpacing, targetBlur, targetImage, targetFrameSetup ])
-        }
-        function createCollagePolaroids( targetWidth, selectedPaths, shuffle, targetBackColor, targetColumns, targetSpacing, targetBlur, randomAngleList, ratioWanted, targetFrameSetup ) {
-                var targetImage = "current"
-                generatePathAndUndoNr()
-                call("graphx.createCollagePolaroids", [ outputPathPy, inputPathPy, targetWidth , selectedPaths, shuffle, targetBackColor, targetColumns, targetSpacing, targetBlur, targetImage, targetFrameSetup, randomAngleList, ratioWanted ])
-        }
-        function createCollageScattered( targetWidth, selectedPaths, shuffle, targetBackColor, targetColumns, targetSpacing, targetBlur, randomAngleList, ratioWanted, targetFrameSetup ) {
-                var targetImage = "current"
-                generatePathAndUndoNr()
-                call("graphx.createCollageScattered", [ outputPathPy, inputPathPy, targetWidth , selectedPaths, shuffle, targetBackColor, targetColumns, targetSpacing, targetBlur, targetImage, targetFrameSetup, randomAngleList, ratioWanted ])
+                call("graphx.cropCanvasShapeFunction", [ inputPathPy, outputPathPy, rectX, rectY, rectWidth, rectHeight,
+                                                         scaleDisplayFactorCrop, croppingColor, actionCutSelection, 
+                                                         solidTypeTool ])
         }
 
+        function createCollageMosaic(targetWidth, selectedPaths, shuffle, targetBackColor, targetColumns, 
+                                     targetSpacing, targetBlur, targetFrameSetup) {
+                var targetImage = "current"
+                generatePathAndUndoNr()
+                call("graphx.createCollageMosaic", [ outputPathPy, inputPathPy, targetWidth , selectedPaths, shuffle, 
+                                                     targetBackColor, targetColumns, targetSpacing, targetBlur, 
+                                                     targetImage, targetFrameSetup ])
+        }
 
+        function createCollageLines(targetWidth, selectedPaths, shuffle, targetBackColor, targetColumns, targetSpacing, 
+                                    targetBlur, targetFrameSetup) {
+                var targetImage = "current"
+                generatePathAndUndoNr()
+                call("graphx.createCollageLines", [ outputPathPy, inputPathPy, targetWidth , selectedPaths, shuffle, 
+                                                    targetBackColor, targetColumns, targetSpacing, targetBlur, 
+                                                    targetImage, targetFrameSetup ])
+        }
+
+        function createCollageColumns(targetWidth, selectedPaths, shuffle, targetBackColor, targetColumns, 
+                                      targetSpacing, targetBlur, targetFrameSetup) {
+                var targetImage = "current"
+                generatePathAndUndoNr()
+                call("graphx.createCollageColumns", [ outputPathPy, inputPathPy, targetWidth , selectedPaths, shuffle, 
+                                                      targetBackColor, targetColumns, targetSpacing, targetBlur, 
+                                                      targetImage, targetFrameSetup ])
+        }
+
+        function createCollagePolaroids(targetWidth, selectedPaths, shuffle, targetBackColor, targetColumns, 
+                                        targetSpacing, targetBlur, randomAngleList, ratioWanted, targetFrameSetup) {
+                var targetImage = "current"
+                generatePathAndUndoNr()
+                call("graphx.createCollagePolaroids", [ outputPathPy, inputPathPy, targetWidth , selectedPaths, shuffle,
+                                                        targetBackColor, targetColumns, targetSpacing, targetBlur,
+                                                        targetImage, targetFrameSetup, randomAngleList, ratioWanted ])
+        }
+
+        function createCollageScattered(targetWidth, selectedPaths, shuffle, targetBackColor, targetColumns, 
+                                        targetSpacing, targetBlur, randomAngleList, ratioWanted, targetFrameSetup) {
+                var targetImage = "current"
+                generatePathAndUndoNr()
+                call("graphx.createCollageScattered", [ outputPathPy, inputPathPy, targetWidth , selectedPaths, shuffle,
+                                                        targetBackColor, targetColumns, targetSpacing, targetBlur,
+                                                        targetImage, targetFrameSetup, randomAngleList, ratioWanted ])
+        }
 
         // file operations
+
         function deleteOriginalFunction() {
             py.deleteAllTMPFunction()
             undoNr = 0
             var inputPathPy = "/" + origImageFilePath.replace(/^(file:\/{3})|(qrc:\/{2})|(http:\/{2})/,"")
             call("graphx.deleteNowFunction", [ inputPathPy ])
         }
+
         function deleteLastTMPFunction() {
             call("graphx.deleteLastTMPFunction", [ lastTMP2delete ])
         }
+
         function deleteAllTMPFunction() {
             undoNr = 0
             idImageLoadedFreecrop.source = encodeURI(origImageFilePath)
             call("graphx.deleteAllTMPFunction", [ tempImageFolderPath ])
         }
+
         function createTmpAndSaveFolder() {
             call("graphx.createTmpAndSaveFolder", [ tempImageFolderPath, saveImageFolderPath ])
         }
+
         function deleteCopyPasteImage() {
             var copyPastePath = tempImageFolderPath + tempCopyPasteFileName + ".png"
             call("graphx.deleteCopyPasteFunction", [ copyPastePath, tempImageFolderPath ])
         }
 
-
         onError: {
             // when an exception is raised, this error handler will be called
-            //console.log('python error: ' + traceback);
+            console.log('python error: ' + traceback);
         }
+
         onReceived: {
             // asychronous messages from Python arrive here; done there via pyotherside.send()
-            //console.log('got message from python: ' + data);
+            console.log('got message from python: ' + data);
         }
     } // end Python
-
-
 
     SilicaFlickable {
         anchors.fill: parent
@@ -1402,41 +1496,52 @@ Page {
 
         PullDownMenu {
             MenuItem {
-                enabled: ( warningNoPillow === false ) ? true : false
+                enabled: warningNoPillow === false
                 text: qsTr("Files")
+
                 onClicked: pageStack.push(filePickerPage)
             }
+
             MenuItem {
-                enabled: ( warningNoPillow === false ) ? true : false
+                enabled: warningNoPillow === false
                 text: qsTr("Gallery")
+
                 onClicked: pageStack.push(imagePickerPage)
             }
+
             MenuItem {
                 text: qsTr("Save")
-                enabled: ( idImageLoadedFreecrop.status !== Image.Null ) ? true : false
-                onClicked: { pageStack.push(Qt.resolvedUrl("SavePage.qml"), {
-                    homeDirectory : homeDirectory,
-                    origImageFileName : origImageFileName,
-                    origImageFolderPath : origImageFolderPath,
-                    tempImageFolderPath : tempImageFolderPath,
-                    imageWidthSave : idImageLoadedFreecrop.sourceSize.width,
-                    imageHeightSave : idImageLoadedFreecrop.sourceSize.height,
-                    inputPathPy : idImageLoadedFreecrop.source.toString()
-                } ) }
+                enabled: idImageLoadedFreecrop.status !== Image.Null
+                
+                onClicked: {
+                    const args = {
+                        homeDirectory: homeDirectory,
+                        origImageFileName: origImageFileName,
+                        origImageFolderPath: origImageFolderPath,
+                        tempImageFolderPath: tempImageFolderPath,
+                        imageWidthSave: idImageLoadedFreecrop.sourceSize.width,
+                        imageHeightSave: idImageLoadedFreecrop.sourceSize.height,
+                        inputPathPy: idImageLoadedFreecrop.source.toString()
+                    }
+
+                    pageStack.push(Qt.resolvedUrl("SavePage.qml"), args) 
+                }
             }
+
             MenuItem {
                 text: qsTr("View")
-                enabled: ( idImageLoadedFreecrop.status !== Image.Null && finishedLoading === true) ? true : false
+                enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading === true
+                
                 onClicked: {
-                    pageStack.push(Qt.resolvedUrl("ViewPage.qml"), {
-                        inputPathPy : idImageLoadedFreecrop.source.toString()
-                    })
+                    const args = { inputPathPy : idImageLoadedFreecrop.source.toString() }
+                    pageStack.push(Qt.resolvedUrl("ViewPage.qml"), args)
                 }
             }
         }
 
         Column {
             id: column
+
             width: page.width
             spacing: Theme.paddingLarge
             // POETASTER
@@ -1444,16 +1549,24 @@ Page {
 
             SectionHeader {
                 id: idSectionHeader
+
                 height: idSectionHeaderColumn.height
+
                 Column {
                     id: idSectionHeaderColumn
+
+                    anchors {
+                        top: parent.top
+                        topMargin: Theme.paddingMedium
+                        right: parent.right
+                    }
+                    
                     width: parent.width / 5 * 4
                     height: idLabelProgramName.height + idLabelFilePath.height
-                    anchors.top: parent.top
-                    anchors.topMargin: Theme.paddingMedium
-                    anchors.right: parent.right
+
                     Label {
                         id: idLabelProgramName
+                    
                         width: parent.width
                         anchors.right: parent.right
                         horizontalAlignment: Text.AlignRight
@@ -1461,8 +1574,10 @@ Page {
                         color: Theme.primaryColor
                         text: "Imageworks"
                     }
+
                     Label {
                         id: idLabelFilePath
+                    
                         width: parent.width
                         anchors.right: parent.right
                         horizontalAlignment: Text.AlignRight
@@ -1472,84 +1587,103 @@ Page {
                         text: idImageLoadedFreecrop.source.toString()
                     }
                 }
+
                 IconButton {
                     id: idIconUndoButton
-                    enabled: ( undoNr >= 1 && finishedLoading === true && idImageLoadedFreecrop.status !== Image.Null) ? true : false
-                    visible: ( undoNr >= 1 && finishedLoading === true ) ? true : false
-                    width: (parent.width) / 5 * 1
+                
+                    anchors {
+                        top: parent.top
+                        topMargin: Theme.paddingMedium + Theme.paddingSmall/2
+                        left: parent.left
+                        leftMargin: -Theme.paddingMedium * 2.5
+                    }
+                    enabled: undoNr >= 1 && finishedLoading === true && idImageLoadedFreecrop.status !== Image.Null
+                    visible: undoNr >= 1 && finishedLoading === true
+                    width: parent.width / 5 * 1
                     height: idLabelProgramName.height + idLabelFilePath.height
-                    anchors.top: parent.top
-                    anchors.topMargin: Theme.paddingMedium + Theme.paddingSmall/2
-                    anchors.left: parent.left
-                    anchors.leftMargin: -Theme.paddingMedium * 2.5
-                    icon.source: "../symbols/icon-l-undo.svg"
-                    icon.width: Theme.iconSizeMedium
-                    icon.height: Theme.iconSizeMedium
                     scale: 1.5
+                    
+                    icon {
+                        source: "../symbols/icon-l-undo.svg"
+                        width: Theme.iconSizeMedium
+                        height: Theme.iconSizeMedium
+                    }
+                    
                     Label {
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        anchors.verticalCenter: parent.verticalCenter
+                        anchors {
+                            horizontalCenter: parent.horizontalCenter
+                            verticalCenter: parent.verticalCenter
+                        }
+                        
                         font.pixelSize: Theme.fontSizeTiny
                         text: undoNr
                         scale: 1/1.5
                     }
-                    onClicked: {
-                        undoBackwards()
-                    }
-                    onPressAndHold: {
-                        remorse.execute( qsTr("Restore original?"),  py.deleteAllTMPFunction )
-                    }
+
+                    onClicked: undoBackwards()
+                    onPressAndHold: remorse.execute(qsTr("Restore original?"), py.deleteAllTMPFunction)
                 }
+
                 BusyIndicator {
-                    anchors.horizontalCenter: idIconUndoButton.horizontalCenter
-                    anchors.horizontalCenterOffset: -Theme.paddingSmall/3.5
-                    anchors.verticalCenter: idIconUndoButton.verticalCenter
-                    anchors.verticalCenterOffset: Theme.paddingSmall/3.5
-                    running: (finishedLoading === false)
+                    anchors {
+                        horizontalCenter: idIconUndoButton.horizontalCenter
+                        horizontalCenterOffset: -Theme.paddingSmall / 3.5
+                        verticalCenter: idIconUndoButton.verticalCenter
+                        verticalCenterOffset: Theme.paddingSmall / 3.5
+                    }
+
+                    running: finishedLoading === false
                     size: BusyIndicatorSize.Medium
                 }
             }
-            Rectangle {
+
+            Item {
                 // spacer item
                 width: parent.width
                 height: 1
-                color: "transparent"
             }
-
 
             Image {
                 id: idImageLoadedFreecrop
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.leftMargin: Theme.paddingLarge
-                anchors.rightMargin: Theme.paddingLarge
+
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                    leftMargin: Theme.paddingLarge
+                    rightMargin: Theme.paddingLarge
+                }
+
                 fillMode: Image.PreserveAspectFit
                 autoTransform: true
-                //source: origImageFilePath
                 cache: false
+
                 onSourceSizeChanged: {
-                    //freeDrawPolyCoordinates = ""
                     freeDrawCanvas.clear_canvas()
+
                     if (sourceSize.width < width) {
                         idItemCropzoneHandles.anchors.leftMargin = (width-sourceSize.width) / 2
                         idItemCropzoneHandles.anchors.rightMargin = (width-sourceSize.width) / 2
-                    }
-                    else {
+                    } else {
                         idItemCropzoneHandles.anchors.leftMargin = 0
                         idItemCropzoneHandles.anchors.rightMargin = 0
                     }
+
                     setCropmarkersFullImage()
                     setTransformationMarkersFullImage()
                 }
 
                 Item {
                     id: idItemCropzoneHandles
+                    
                     anchors.fill: parent
-                    visible: ( idImageLoadedFreecrop.status !== Image.Null && ( (buttonCrop.down === true && pickerTransformOrCropIndex === 0) || buttonPaint.down === true)) ? true : false
+                    visible: idImageLoadedFreecrop.status !== Image.Null 
+                             && ((buttonCrop.down === true && pickerTransformOrCropIndex === 0) 
+                                 || buttonPaint.down === true)
 
                     // The handles to define a rectangle that will remain after cropping
                     Rectangle {
                         id: rectDrag1
+
                         visible: ( (buttonCrop.down && idComboBoxCrop.currentIndex === 12 && pickerTransformOrCropIndex === 0) || (idPaintCanvasButton.down && buttonPaint.down ) ) ? false : true
                         x: parent.x
                         y: parent.y

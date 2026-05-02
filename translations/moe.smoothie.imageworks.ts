@@ -769,6 +769,10 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>some functions require python3-pillow 7+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Files</source>
         <translation type="unfinished"></translation>
     </message>
@@ -785,6 +789,10 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Restore original?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>stretch to edges</source>
         <translation type="unfinished"></translation>
     </message>
@@ -793,7 +801,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>free</source>
+        <source>free crop</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -858,6 +866,14 @@
     </message>
     <message>
         <source>point 2y</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>width, preserve ratio</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>height, preserve ratio</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -933,19 +949,23 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>pixel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>channel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>filter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>effect</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>collage</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Restore original?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>meta</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>rename</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -957,11 +977,23 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>rename</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>meta</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>new</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>about</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>free</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1053,31 +1085,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Stay Girly</source>
+        <source>Antonio</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Miso</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Raleway</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Yanone</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Nebula bold</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>League Gothic</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Oswald heavy</source>
+        <source>Bananasplit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1085,7 +1097,51 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Fraktur</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>League Gothic</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Lobster</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Miso</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Monterey</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Nebula bold</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Oswald heavy</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Raleway</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Roland</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Stay Girly</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Yanone</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sans regular</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1097,11 +1153,19 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Serif regular</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Serif bold</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Serif italic</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Mono regular</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1142,70 +1206,6 @@
     </message>
     <message>
         <source>average</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>pixel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>channel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>filter</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>effect</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>some functions require python3-pillow 7+</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Bananasplit</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Roland</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Fraktur</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Monterey</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Antonio</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>width, preserve ratio</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>height, preserve ratio</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>free crop</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Sans regular</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Serif regular</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Mono regular</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
