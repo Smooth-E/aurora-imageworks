@@ -1,6 +1,7 @@
 import QtQuick 2.6
 import Sailfish.Silica 1.0
-import Sailfish.Pickers 1.0 // File-Loader
+import Sailfish.Pickers 1.0
+import Aurora.Controls 1.0
 import io.thp.pyotherside 1.5
 import "perspectivetransformhelper.js" as PerspT
 
@@ -8,18 +9,6 @@ Page {
     id: page
 
     allowedOrientations: Orientation.Portrait
-
-    /*
-    onOrientationChanged: {
-        var tempRotateImagePath = idImageLoadedFreecrop.source
-        idImageLoadedFreecrop.source = ""
-        idImageLoadedFreecrop.source = tempRotateImagePath
-        presetCroppingFree()
-        if( idImageLoadedFreecrop.sourceSize.width < idImageLoadedFreecrop.width) {
-            idPaintPasteButton.down = false
-        }
-    }
-    */
 
     // file variables
     property string homeDirectory
@@ -36,7 +25,7 @@ Page {
     property string inputPathPy
     property string outputPathPy
     property string copyPastePath
-    property var templock : (((idLabelFilePath.text).toString()).indexOf("empty.tmp"))
+    property var templock : (((appBar.subHeaderText).toString()).indexOf("empty.tmp"))
     property bool warningNoPillow : false
     property string customFontFilePath : ""
     property string customFontName : ""
@@ -236,7 +225,7 @@ Page {
                origImageFilePath = selectedContentProperties.filePath
                origImageFileName = selectedContentProperties.fileName
                origImageFolderPath = origImageFilePath.replace(selectedContentProperties.fileName, "")
-               idLabelFilePath.text = origImageFilePath
+               appBar.subHeaderText = origImageFilePath
                idImageLoadedFreecrop.source = encodeURI(origImageFilePath)
                py.deleteAllTMPFunction()
                undoNr = 0
@@ -254,7 +243,7 @@ Page {
                origImageFilePath = selectedContentProperties.filePath
                origImageFileName = selectedContentProperties.fileName
                origImageFolderPath = origImageFilePath.replace(selectedContentProperties.fileName, "")
-               idLabelFilePath.text = origImageFilePath
+               appBar.subHeaderText = origImageFilePath
                idImageLoadedFreecrop.source = encodeURI(origImageFilePath)
                py.deleteAllTMPFunction()
                undoNr = 0
@@ -338,7 +327,7 @@ Page {
             });
 
             setHandler('deleteImage', function() {
-                idLabelFilePath.text = ""
+                appBar.subHeaderText = ""
                 idImageLoadedFreecrop.source = ""
                 toScaleWidth = 0
                 toScaleHeight = 0
@@ -358,7 +347,7 @@ Page {
 
             setHandler('finishedSavingRenaming', function(new_imagePath) {
                 undoNr = 0
-                idLabelFilePath.text = new_imagePath
+                appBar.subHeaderText = new_imagePath
                 var newPathArray = new_imagePath.split("/")
                 origImageFilePath = new_imagePath
                 origImageFolderPath = (newPathArray.slice(0, newPathArray.length-1)).join("/") + "/"
@@ -713,12 +702,12 @@ Page {
             });
             
             setHandler('warningPILNotAvailable', function() {
-                idLabelFilePath.text = qsTr("python3-pillow is not installed")
+                appBar.subHeaderText = qsTr("python3-pillow is not installed")
                 warningNoPillow = true
             });
             
             setHandler('warningPIL2old', function( ) {
-                idLabelFilePath.text = qsTr("some functions require python3-pillow 7+")
+                appBar.subHeaderText = qsTr("some functions require python3-pillow 7+")
                 idIconButtonCollage.enabled = false
                 //warningNoPillow = true
             });
@@ -1494,54 +1483,104 @@ Page {
         }
     } // end Python
 
-    SilicaFlickable {
-        anchors.fill: parent
-        contentHeight: column.height  // Tell SilicaFlickable the height of its content
+    AppBar {
+        id: appBar
 
-        PullDownMenu {
-            MenuItem {
-                enabled: warningNoPillow === false
-                text: qsTr("Files")
+        headerText: qsTr("Imageworks")
 
-                onClicked: pageStack.push(filePickerPage)
+        // TODO: Write something if there is no file open,
+        // also remove dependency on this property for other ui elements
+        subHeaderText: idImageLoadedFreecrop.source.toString()
+
+        AppBarSpacer { }
+
+        BusyIndicator {
+            size: BusyIndicatorSize.Medium
+            running: !finishedLoading
+        }
+
+        AppBarButton {
+            icon.source: "../symbols/phosphor-light-arrow-arc-left.svg"
+            text: undoNr
+            enabled: undoNr >= 1 && finishedLoading === true && idImageLoadedFreecrop.status !== Image.Null
+            visible: undoNr >= 1 && finishedLoading === true
+
+            onClicked: undoBackwards()
+            onPressAndHold: remorse.execute(qsTr("Restore original?"), py.deleteAllTMPFunction)
+        }
+
+        AppBarButton {
+            enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading === true
+            icon.source: "../symbols/phosphor-light-eye.svg"
+            
+            onClicked: {
+                const args = { "inputPathPy": idImageLoadedFreecrop.source.toString() }
+                pageStack.push(Qt.resolvedUrl("ViewPage.qml"), args)
             }
+        }
 
-            MenuItem {
-                enabled: warningNoPillow === false
-                text: qsTr("Gallery")
-
-                onClicked: pageStack.push(imagePickerPage)
-            }
-
-            MenuItem {
-                text: qsTr("Save")
-                enabled: idImageLoadedFreecrop.status !== Image.Null
-                
-                onClicked: {
-                    const args = {
-                        homeDirectory: homeDirectory,
-                        origImageFileName: origImageFileName,
-                        origImageFolderPath: origImageFolderPath,
-                        tempImageFolderPath: tempImageFolderPath,
-                        imageWidthSave: idImageLoadedFreecrop.sourceSize.width,
-                        imageHeightSave: idImageLoadedFreecrop.sourceSize.height,
-                        inputPathPy: idImageLoadedFreecrop.source.toString()
-                    }
-
-                    pageStack.push(Qt.resolvedUrl("SavePage.qml"), args) 
+        AppBarButton {
+            enabled: idImageLoadedFreecrop.status !== Image.Null
+            icon.source: "image://theme/icon-splus-save"
+            
+            onClicked: {
+                const args = {
+                    "homeDirectory": homeDirectory,
+                    "origImageFileName": origImageFileName,
+                    "origImageFolderPath": origImageFolderPath,
+                    "tempImageFolderPath": tempImageFolderPath,
+                    "imageWidthSave": idImageLoadedFreecrop.sourceSize.width,
+                    "imageHeightSave": idImageLoadedFreecrop.sourceSize.height,
+                    "inputPathPy": idImageLoadedFreecrop.source.toString()
                 }
-            }
 
-            MenuItem {
-                text: qsTr("View")
-                enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading === true
+                pageStack.push(Qt.resolvedUrl("SavePage.qml"), args) 
+            }
+        }
+
+        AppBarButton {
+            icon.source: "image://theme/icon-splus-more"
+
+            onClicked: appBarPopup.open()
+
+            PopupMenu {
+                id: appBarPopup
                 
-                onClicked: {
-                    const args = { inputPathPy : idImageLoadedFreecrop.source.toString() }
-                    pageStack.push(Qt.resolvedUrl("ViewPage.qml"), args)
+                PopupMenuItem {
+                    enabled: warningNoPillow === false
+                    text: qsTr("Open from files")
+                    icon.source: "image://theme/icon-splus-file-folder"
+
+                    onClicked: pageStack.push(filePickerPage)
+                }
+
+                PopupMenuItem {
+                    enabled: warningNoPillow === false
+                    text: qsTr("Open from gallery")
+                    icon.source: "image://theme/icon-splus-image"
+
+                    onClicked: pageStack.push(imagePickerPage)
+                }
+
+                PopupMenuItem {
+                    text: qsTr("About Imageworks")
+                    icon.source: "image://theme/icon-splus-about"
+
+                    onClicked: pageStack.push("AboutPage.qml")
                 }
             }
         }
+    }
+
+    SilicaFlickable {
+        anchors {
+            top: appBar.bottom
+            bottom: parent.bottom
+            left: parent.left
+            right: parent.right
+        }
+
+        contentHeight: column.height
 
         Column {
             id: column
@@ -1550,103 +1589,7 @@ Page {
             spacing: Theme.paddingLarge
             // POETASTER
             Component.onCompleted: openDelayTimer.start();
-
-            SectionHeader {
-                id: idSectionHeader
-
-                height: idSectionHeaderColumn.height
-
-                Column {
-                    id: idSectionHeaderColumn
-
-                    anchors {
-                        top: parent.top
-                        topMargin: Theme.paddingMedium
-                        right: parent.right
-                    }
-                    
-                    width: parent.width / 5 * 4
-                    height: idLabelProgramName.height + idLabelFilePath.height
-
-                    Label {
-                        id: idLabelProgramName
-                    
-                        width: parent.width
-                        anchors.right: parent.right
-                        horizontalAlignment: Text.AlignRight
-                        font.pixelSize: Theme.fontSizeLarge
-                        color: Theme.primaryColor
-                        text: "Imageworks"
-                    }
-
-                    Label {
-                        id: idLabelFilePath
-                    
-                        width: parent.width
-                        anchors.right: parent.right
-                        horizontalAlignment: Text.AlignRight
-                        font.pixelSize: Theme.fontSizeTiny
-                        color: Theme.primaryColor
-                        truncationMode: TruncationMode.Elide
-                        text: idImageLoadedFreecrop.source.toString()
-                    }
-                }
-
-                IconButton {
-                    id: idIconUndoButton
-                
-                    anchors {
-                        top: parent.top
-                        topMargin: Theme.paddingMedium + Theme.paddingSmall/2
-                        left: parent.left
-                        leftMargin: -Theme.paddingMedium * 2.5
-                    }
-                    enabled: undoNr >= 1 && finishedLoading === true && idImageLoadedFreecrop.status !== Image.Null
-                    visible: undoNr >= 1 && finishedLoading === true
-                    width: parent.width / 5 * 1
-                    height: idLabelProgramName.height + idLabelFilePath.height
-                    scale: 1.5
-                    
-                    icon {
-                        source: "../symbols/icon-l-undo.svg"
-                        width: Theme.iconSizeMedium
-                        height: Theme.iconSizeMedium
-                    }
-                    
-                    Label {
-                        anchors {
-                            horizontalCenter: parent.horizontalCenter
-                            verticalCenter: parent.verticalCenter
-                        }
-                        
-                        font.pixelSize: Theme.fontSizeTiny
-                        text: undoNr
-                        scale: 1/1.5
-                    }
-
-                    onClicked: undoBackwards()
-                    onPressAndHold: remorse.execute(qsTr("Restore original?"), py.deleteAllTMPFunction)
-                }
-
-                BusyIndicator {
-                    anchors {
-                        horizontalCenter: idIconUndoButton.horizontalCenter
-                        horizontalCenterOffset: -Theme.paddingSmall / 3.5
-                        verticalCenter: idIconUndoButton.verticalCenter
-                        verticalCenterOffset: Theme.paddingSmall / 3.5
-                    }
-
-                    running: finishedLoading === false
-                    size: BusyIndicatorSize.Medium
-                }
-            }
-
-            Item {
-                // spacer item
-                width: parent.width
-                height: 1
-            }
-
+            
             Image {
                 id: idImageLoadedFreecrop
 
@@ -3150,7 +3093,6 @@ Page {
                     }
                 }
                 IconButton {
-                    //enabled: ( (idScaleInputWidth2.text !== "" && idScaleInputHeight2.text !== "" ) && idImageLoadedFreecrop.status !== Image.Null && finishedLoading === true && (    ((idLabelFilePath.text).toString()).indexOf("empty") === -1)    ) ? true : false
                     enabled: ( (idScaleInputWidth2.text !== "" && idScaleInputHeight2.text !== "" ) && idImageLoadedFreecrop.status !== Image.Null && finishedLoading === true ) ? true : false
                     width: parent.width / itemsPerRow
                     height: Theme.itemSizeSmall * 1.1
@@ -3350,7 +3292,6 @@ Page {
 
                 }
                 IconButton {
-                    //enabled: ( idImageLoadedFreecrop.status !== Image.Null && finishedLoading === true && (((idLabelFilePath.text).toString()).indexOf("empty") === -1) &&  idPaddingInputHeight.text !== "" && idPaddingInputWidth.text !==""  ) ? true : false
                     enabled: ( idImageLoadedFreecrop.status !== Image.Null && finishedLoading === true && idPaddingInputHeight.text !== "" && idPaddingInputWidth.text !==""  ) ? true : false
                     width: parent.width / itemsPerRow
                     height: Theme.itemSizeSmall * 1.1
@@ -3983,12 +3924,11 @@ Page {
                     enabled: ( idImageLoadedFreecrop.status !== Image.Null && finishedLoading === true && templock === -1 ) ? true : false
                     width: parent.width / itemsPerRow
                     height: Theme.itemSizeSmall
-                    //icon.source: "image://theme/icon-m-font-size?"
                     icon.source : "../symbols/icon-m-rename.svg"
                     icon.width: Theme.iconSizeMedium
                     icon.height: Theme.iconSizeMedium
                     onClicked: { pageStack.push(Qt.resolvedUrl("RenamePage.qml"), {
-                        origImageFilePath : idLabelFilePath.text,
+                        origImageFilePath : appBar.subHeaderText,
                         origImageFileName : origImageFileName,
                         origImageFolderPath : origImageFolderPath,
                         tempImageFolderPath : tempImageFolderPath,
@@ -4017,9 +3957,6 @@ Page {
                                            origImageFileName : origImageFileName,
                                            origImageFolderPath : origImageFolderPath,
                                            inputPathPy : idImageLoadedFreecrop.source.toString()
-                                           //tempImageFolderPath : tempImageFolderPath,
-                                           //imageWidthSave : idImageLoadedFreecrop.sourceSize.width,
-                                           //imageHeightSave : idImageLoadedFreecrop.sourceSize.height,
                                        } ) }
                     Label {
                         horizontalAlignment: Text.AlignHCenter
@@ -4036,7 +3973,6 @@ Page {
                     enabled: ( finishedLoading === true && warningNoPillow === false ) ? true : false
                     width: parent.width / itemsPerRow
                     height: Theme.itemSizeSmall
-                    //icon.source: "image://theme/icon-m-add?"
                     icon.source : "../symbols/icon-m-newpage.svg"
                     icon.width: Theme.iconSizeMedium
                     icon.height: Theme.iconSizeMedium
@@ -4059,30 +3995,7 @@ Page {
                         }
                     }
                 }
-                IconButton {
-                    enabled: ( finishedLoading === true) ? true : false
-                    width: parent.width / itemsPerRow
-                    height: Theme.itemSizeSmall
-                    //icon.source: "image://theme/icon-m-about?"
-                    icon.source : "../symbols/icon-m-about.svg"
-                    icon.width: Theme.iconSizeMedium
-                    icon.height: Theme.iconSizeMedium
-                    onClicked: {
-                        pageStack.push(Qt.resolvedUrl("AboutPage.qml"))
-                    }
-                    Label {
-                        horizontalAlignment: Text.AlignHCenter
-                        text: qsTr("about")
-                        font.pixelSize: Theme.fontSizeExtraSmall
-                        anchors {
-                            top: parent.bottom
-                            topMargin: -Theme.paddingSmall
-                            horizontalCenter: parent.horizontalCenter
-                        }
-                    }
-                }
             } // end tools file
-
 
             Grid {
                 id: idGridPaint
@@ -5802,7 +5715,7 @@ Page {
             var origImagePathArray = origImageFilePath.split("/")
             origImageFileName = origImagePathArray[origImagePathArray.length - 1]
             origImageFolderPath = origImageFilePath.replace(origImageFileName, "")
-            idLabelFilePath.text = origImageFilePath
+            appBar.subHeaderText = origImageFilePath
             idImageLoadedFreecrop.source = encodeURI(origImageFilePath)
             py.deleteAllTMPFunction()
             undoNr = 0

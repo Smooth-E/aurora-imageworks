@@ -773,22 +773,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Files</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Gallery</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>View</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Restore original?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1206,6 +1190,22 @@
     </message>
     <message>
         <source>average</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Imageworks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open from files</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open from gallery</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>About Imageworks</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
