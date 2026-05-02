@@ -5,1478 +5,1478 @@
     <name>AboutPage</name>
     <message>
         <source>About Imageworks</source>
-        <translation type="unfinished"></translation>
+        <translation>О приложении</translation>
     </message>
     <message>
         <source>An Image Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Редактор изображений</translation>
     </message>
     <message>
         <source>Copyright © 2020 Tobias Planitzer</source>
-        <translation type="unfinished"></translation>
+        <translation>Copyright © 2020 Tobias Planitzer</translation>
     </message>
     <message>
         <source> © 2021-22 Mark Washeim</source>
-        <translation type="unfinished"></translation>
+        <translation> © 2021-22 Mark Washeim</translation>
     </message>
     <message>
         <source>Imageworks is open source software licensed under the terms of </source>
-        <translation type="unfinished"></translation>
+        <translation>Imageworks - свободное программное обеспечение, распространяемое под лицензией </translation>
     </message>
     <message>
         <source>the GNU General Public License v3.</source>
-        <translation type="unfinished"></translation>
+        <translation>GNU General Public License v3.</translation>
     </message>
 </context>
 <context>
     <name>ChannelBench</name>
     <message>
         <source>Select alpha</source>
-        <translation type="unfinished"></translation>
+        <translation>Изображение для альфа-канала</translation>
     </message>
     <message>
         <source>Select red</source>
-        <translation type="unfinished"></translation>
+        <translation>Изображение для красного канала</translation>
     </message>
     <message>
         <source>Select green</source>
-        <translation type="unfinished"></translation>
+        <translation>Изображение для зеленого канала</translation>
     </message>
     <message>
         <source>Select blue</source>
-        <translation type="unfinished"></translation>
+        <translation>Изображение для синего канала</translation>
     </message>
     <message>
         <source>Channel bench</source>
-        <translation type="unfinished"></translation>
+        <translation>Цветовые каналы</translation>
     </message>
     <message>
         <source>replace, invert and saturate</source>
-        <translation type="unfinished"></translation>
+        <translation>Замените, инвертируйте или измените насыщенность</translation>
     </message>
     <message>
         <source>Alpha</source>
-        <translation type="unfinished"></translation>
+        <translation>Альфа</translation>
     </message>
     <message>
         <source>Red</source>
-        <translation type="unfinished"></translation>
+        <translation>Красный</translation>
     </message>
     <message>
         <source>Green</source>
-        <translation type="unfinished"></translation>
+        <translation>Зеленый</translation>
     </message>
     <message>
         <source>Blue</source>
-        <translation type="unfinished"></translation>
+        <translation>Синий</translation>
     </message>
     <message>
         <source>keep</source>
-        <translation type="unfinished"></translation>
+        <translation>оставить</translation>
     </message>
     <message>
         <source>original</source>
-        <translation type="unfinished"></translation>
+        <translation>оригинальный</translation>
     </message>
     <message>
         <source>replace</source>
-        <translation type="unfinished"></translation>
+        <translation>заменить</translation>
     </message>
     <message>
         <source>with</source>
-        <translation type="unfinished"></translation>
+        <translation>на</translation>
     </message>
     <message>
         <source>load</source>
-        <translation type="unfinished"></translation>
+        <translation>загрузить</translation>
     </message>
     <message>
         <source>Gray</source>
-        <translation type="unfinished"></translation>
+        <translation>Серый</translation>
     </message>
     <message>
         <source>use</source>
-        <translation type="unfinished"></translation>
+        <translation>использовать</translation>
     </message>
     <message>
         <source>normal</source>
-        <translation type="unfinished"></translation>
+        <translation>нормальный</translation>
     </message>
     <message>
         <source>invert</source>
-        <translation type="unfinished"></translation>
+        <translation>инвертировать</translation>
     </message>
     <message>
         <source>alpha</source>
-        <translation type="unfinished"></translation>
+        <translation>альфа</translation>
     </message>
     <message>
         <source>red</source>
-        <translation type="unfinished"></translation>
+        <translation>красный</translation>
     </message>
     <message>
         <source>green</source>
-        <translation type="unfinished"></translation>
+        <translation>зеленый</translation>
     </message>
     <message>
         <source>blue</source>
-        <translation type="unfinished"></translation>
+        <translation>синий</translation>
     </message>
 </context>
 <context>
     <name>CollageBench</name>
     <message>
         <source>Collage bench</source>
-        <translation type="unfinished"></translation>
+        <translation>Коллаж</translation>
     </message>
     <message>
         <source>combine</source>
-        <translation type="unfinished"></translation>
+        <translation>Совместить</translation>
     </message>
     <message>
         <source>images</source>
-        <translation type="unfinished"></translation>
+        <translation>изображений</translation>
     </message>
     <message>
         <source>output limited to </source>
-        <translation type="unfinished"></translation>
+        <translation>Итоговое изображение ограничено </translation>
     </message>
     <message>
         <source>px</source>
-        <translation type="unfinished"></translation>
+        <translation>пикс.</translation>
     </message>
     <message>
         <source>layout generator:</source>
-        <translation type="unfinished"></translation>
+        <translation>расположение:</translation>
     </message>
     <message>
         <source>auto-rows</source>
-        <translation type="unfinished"></translation>
+        <translation>авто-ряды</translation>
     </message>
     <message>
         <source>auto-columns</source>
-        <translation type="unfinished"></translation>
+        <translation>авто-столбцы</translation>
     </message>
     <message>
         <source>mosaic</source>
-        <translation type="unfinished"></translation>
+        <translation>мозаика</translation>
     </message>
     <message>
         <source>photowall</source>
-        <translation type="unfinished"></translation>
+        <translation>стена с постерами</translation>
     </message>
     <message>
         <source>scattered</source>
-        <translation type="unfinished"></translation>
+        <translation>разбросанные</translation>
     </message>
     <message>
         <source>background:</source>
-        <translation type="unfinished"></translation>
+        <translation>фон:</translation>
     </message>
     <message>
         <source>blurry image</source>
-        <translation type="unfinished"></translation>
+        <translation>размытое изображение</translation>
     </message>
     <message>
         <source>current color</source>
-        <translation type="unfinished"></translation>
+        <translation>текущий цвет</translation>
     </message>
     <message>
         <source>black</source>
-        <translation type="unfinished"></translation>
+        <translation>черный</translation>
     </message>
     <message>
         <source>white</source>
-        <translation type="unfinished"></translation>
+        <translation>белый</translation>
     </message>
     <message>
         <source>transparent</source>
-        <translation type="unfinished"></translation>
+        <translation>прозрачный</translation>
     </message>
     <message>
         <source>frames:</source>
-        <translation type="unfinished"></translation>
+        <translation>рамки:</translation>
     </message>
     <message>
         <source>none</source>
-        <translation type="unfinished"></translation>
+        <translation>нет</translation>
     </message>
     <message>
         <source>ratio:</source>
-        <translation type="unfinished"></translation>
+        <translation>соотношение сторон:</translation>
     </message>
     <message>
         <source>3 : 2</source>
-        <translation type="unfinished"></translation>
+        <translation>3 : 2</translation>
     </message>
     <message>
         <source>1 : 1</source>
-        <translation type="unfinished"></translation>
+        <translation>1 : 1</translation>
     </message>
     <message>
         <source>2 : 3</source>
-        <translation type="unfinished"></translation>
+        <translation>2 : 3</translation>
     </message>
     <message>
         <source>height</source>
-        <translation type="unfinished"></translation>
+        <translation>высота</translation>
     </message>
     <message>
         <source>width</source>
-        <translation type="unfinished"></translation>
+        <translation>ширина</translation>
     </message>
     <message>
         <source>columns</source>
-        <translation type="unfinished"></translation>
+        <translation>столбцы</translation>
     </message>
     <message>
         <source>spacing</source>
-        <translation type="unfinished"></translation>
+        <translation>промежутки</translation>
     </message>
     <message>
         <source>frame width</source>
-        <translation type="unfinished"></translation>
+        <translation>ширина рамки</translation>
     </message>
 </context>
 <context>
     <name>ColorcurveBench</name>
     <message>
         <source>Color bench</source>
-        <translation type="unfinished"></translation>
+        <translation>Настройка цвета</translation>
     </message>
     <message>
         <source>histogram, adjust curves</source>
-        <translation type="unfinished"></translation>
+        <translation>Гистограмма и настройка кривых</translation>
     </message>
     <message>
         <source>Alpha</source>
-        <translation type="unfinished"></translation>
+        <translation>Альфа</translation>
     </message>
     <message>
         <source>RGB</source>
-        <translation type="unfinished"></translation>
+        <translation>RGB</translation>
     </message>
     <message>
         <source>Red</source>
-        <translation type="unfinished"></translation>
+        <translation>Красный</translation>
     </message>
     <message>
         <source>Green</source>
-        <translation type="unfinished"></translation>
+        <translation>Зеленый</translation>
     </message>
     <message>
         <source>Blue</source>
-        <translation type="unfinished"></translation>
+        <translation>Синий</translation>
     </message>
     <message>
         <source>output  curve</source>
-        <translation type="unfinished"></translation>
+        <translation>выходная кривая</translation>
     </message>
     <message>
         <source>input  values</source>
-        <translation type="unfinished"></translation>
+        <translation>входные значения</translation>
     </message>
     <message>
         <source>occurances</source>
-        <translation type="unfinished"></translation>
+        <translation>присутствие</translation>
     </message>
     <message>
         <source>min</source>
-        <translation type="unfinished"></translation>
+        <translation>минимум</translation>
     </message>
     <message>
         <source>max</source>
-        <translation type="unfinished"></translation>
+        <translation>максимум</translation>
     </message>
 </context>
 <context>
     <name>CoverPage</name>
     <message>
         <source>Welcome to Imageworks!</source>
-        <translation type="unfinished"></translation>
+        <translation>Добро пожаловать в Imageworks!</translation>
     </message>
     <message>
         <source>Edit images and create new ones</source>
-        <translation type="unfinished"></translation>
+        <translation>Редактируйте изображения или создавайте новые</translation>
     </message>
 </context>
 <context>
     <name>EffectsBench</name>
     <message>
         <source>Effects bench</source>
-        <translation type="unfinished"></translation>
+        <translation>Эффекты</translation>
     </message>
     <message>
         <source>original</source>
-        <translation type="unfinished"></translation>
+        <translation>оригинал</translation>
     </message>
     <message>
         <source>auto contrast</source>
-        <translation type="unfinished"></translation>
+        <translation>авто-контраст</translation>
     </message>
     <message>
         <source>stretch contrast</source>
-        <translation type="unfinished"></translation>
+        <translation>растянуть контраст</translation>
     </message>
     <message>
         <source>dithering</source>
-        <translation type="unfinished"></translation>
+        <translation>дизеринг</translation>
     </message>
     <message>
         <source>coal drawing</source>
-        <translation type="unfinished"></translation>
+        <translation>рисунок углем</translation>
     </message>
     <message>
         <source>grayscale</source>
-        <translation type="unfinished"></translation>
+        <translation>оттенки серого</translation>
     </message>
     <message>
         <source>invert colors</source>
-        <translation type="unfinished"></translation>
+        <translation>инвертировать цвета</translation>
     </message>
     <message>
         <source>equalize colors</source>
-        <translation type="unfinished"></translation>
+        <translation>уравнять цвета</translation>
     </message>
     <message>
         <source>solarize</source>
-        <translation type="unfinished"></translation>
+        <translation>высвеченный</translation>
     </message>
     <message>
         <source>brush art</source>
-        <translation type="unfinished"></translation>
+        <translation>рисунок кистью</translation>
     </message>
     <message>
         <source>posterize</source>
-        <translation type="unfinished"></translation>
+        <translation>постер</translation>
     </message>
     <message>
         <source>blur image</source>
-        <translation type="unfinished"></translation>
+        <translation>размытие</translation>
     </message>
     <message>
         <source>smooth surface</source>
-        <translation type="unfinished"></translation>
+        <translation>гладкая поверхность</translation>
     </message>
     <message>
         <source>central focus</source>
-        <translation type="unfinished"></translation>
+        <translation>центральный фокус</translation>
     </message>
     <message>
         <source>miniature world</source>
-        <translation type="unfinished"></translation>
+        <translation>маленькая мир</translation>
     </message>
     <message>
         <source>enhance edges</source>
-        <translation type="unfinished"></translation>
+        <translation>улучшить очертания</translation>
     </message>
     <message>
         <source>digital unsharp masking</source>
-        <translation type="unfinished"></translation>
+        <translation>цифровая сглаживающая маска</translation>
     </message>
     <message>
         <source>find edges</source>
-        <translation type="unfinished"></translation>
+        <translation>найти очертания</translation>
     </message>
     <message>
         <source>find contour</source>
-        <translation type="unfinished"></translation>
+        <translation>найти контур</translation>
     </message>
     <message>
         <source>emboss</source>
-        <translation type="unfinished"></translation>
+        <translation>тиснение</translation>
     </message>
     <message>
         <source>add current colored frame</source>
-        <translation type="unfinished"></translation>
+        <translation>добавить рамку текущего цвета</translation>
     </message>
     <message>
         <source>tint with current color</source>
-        <translation type="unfinished"></translation>
+        <translation>затемнить текущим цветом</translation>
     </message>
     <message>
         <source>reduce colors</source>
-        <translation type="unfinished"></translation>
+        <translation>уменьшить цвета</translation>
     </message>
     <message>
         <source>change opacity</source>
-        <translation type="unfinished"></translation>
+        <translation>изменить прозрачность</translation>
     </message>
     <message>
         <source>create alpha from</source>
-        <translation type="unfinished"></translation>
+        <translation>создать прозрачность из</translation>
     </message>
     <message>
         <source>extract color</source>
-        <translation type="unfinished"></translation>
+        <translation>извлечь цвета</translation>
     </message>
     <message>
         <source>extract channel</source>
-        <translation type="unfinished"></translation>
+        <translation>извлечь канал</translation>
     </message>
     <message>
         <source>minFilter (bright spots darker)</source>
-        <translation type="unfinished"></translation>
+        <translation>мин-фильтр (яркие участки темнее)</translation>
     </message>
     <message>
         <source>maxFilter (dark spots brighter)</source>
-        <translation type="unfinished"></translation>
+        <translation>макс-фильтр (темные участки светлее)</translation>
     </message>
     <message>
         <source>mediumFilter</source>
-        <translation type="unfinished"></translation>
+        <translation>усредненный фильтр</translation>
     </message>
     <message>
         <source>fishEye</source>
-        <translation type="unfinished"></translation>
+        <translation>рыбий глаз</translation>
     </message>
     <message>
         <source>coal</source>
-        <translation type="unfinished"></translation>
+        <translation>уголь</translation>
     </message>
     <message>
         <source>brush size</source>
-        <translation type="unfinished"></translation>
+        <translation>размер кисти</translation>
     </message>
     <message>
         <source>blur</source>
-        <translation type="unfinished"></translation>
+        <translation>размытие</translation>
     </message>
     <message>
         <source>color</source>
-        <translation type="unfinished"></translation>
+        <translation>цвет</translation>
     </message>
     <message>
         <source>frame</source>
-        <translation type="unfinished"></translation>
+        <translation>рамка</translation>
     </message>
     <message>
         <source>amount colors</source>
-        <translation type="unfinished"></translation>
+        <translation>сумма цветов</translation>
     </message>
     <message>
         <source>opacity</source>
-        <translation type="unfinished"></translation>
+        <translation>прозрачность</translation>
     </message>
     <message>
         <source>white</source>
-        <translation type="unfinished"></translation>
+        <translation>белый</translation>
     </message>
     <message>
         <source>black</source>
-        <translation type="unfinished"></translation>
+        <translation>черный</translation>
     </message>
     <message>
         <source>tolerance</source>
-        <translation type="unfinished"></translation>
+        <translation>допуск</translation>
     </message>
     <message>
         <source>red</source>
-        <translation type="unfinished"></translation>
+        <translation>красный</translation>
     </message>
     <message>
         <source>green</source>
-        <translation type="unfinished"></translation>
+        <translation>зеленый</translation>
     </message>
     <message>
         <source>blue</source>
-        <translation type="unfinished"></translation>
+        <translation>синий</translation>
     </message>
     <message>
         <source>alpha</source>
-        <translation type="unfinished"></translation>
+        <translation>альфа</translation>
     </message>
     <message>
         <source>radius</source>
-        <translation type="unfinished"></translation>
+        <translation>радиус</translation>
     </message>
     <message>
         <source>percent</source>
-        <translation type="unfinished"></translation>
+        <translation>процент</translation>
     </message>
     <message>
         <source>threshold</source>
-        <translation type="unfinished"></translation>
+        <translation>граница</translation>
     </message>
     <message>
         <source>size</source>
-        <translation type="unfinished"></translation>
+        <translation>размер</translation>
     </message>
 </context>
 <context>
     <name>FilterBench</name>
     <message>
         <source>Select LUT (*.cube, *.png)</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите LUT (*.cube, *.png)</translation>
     </message>
     <message>
         <source>Filter bench</source>
-        <translation type="unfinished"></translation>
+        <translation>Фильтры</translation>
     </message>
     <message>
         <source>use preset</source>
-        <translation type="unfinished"></translation>
+        <translation>использовать пресет</translation>
     </message>
     <message>
         <source>use 3D-LUT file (cube, hald-png)</source>
-        <translation type="unfinished"></translation>
+        <translation>использовать 3D-LUT (cube, hald-png)</translation>
     </message>
     <message>
         <source>original</source>
-        <translation type="unfinished"></translation>
+        <translation>оригинал</translation>
     </message>
     <message>
         <source>warmer</source>
-        <translation type="unfinished"></translation>
+        <translation>теплее</translation>
     </message>
     <message>
         <source>colder</source>
-        <translation type="unfinished"></translation>
+        <translation>холоднее</translation>
     </message>
     <message>
         <source>sepia</source>
-        <translation type="unfinished"></translation>
+        <translation>сепия</translation>
     </message>
     <message>
         <source>gotham</source>
-        <translation type="unfinished"></translation>
+        <translation>gotham</translation>
     </message>
     <message>
         <source>crema</source>
-        <translation type="unfinished"></translation>
+        <translation>crema</translation>
     </message>
     <message>
         <source>juno</source>
-        <translation type="unfinished"></translation>
+        <translation>juno</translation>
     </message>
     <message>
         <source>kelvin</source>
-        <translation type="unfinished"></translation>
+        <translation>kelvin</translation>
     </message>
     <message>
         <source>xpro-ii</source>
-        <translation type="unfinished"></translation>
+        <translation>xpro-ii</translation>
     </message>
     <message>
         <source>amaro</source>
-        <translation type="unfinished"></translation>
+        <translation>amaro</translation>
     </message>
     <message>
         <source>mayfair</source>
-        <translation type="unfinished"></translation>
+        <translation>mayfair</translation>
     </message>
     <message>
         <source>nineteen77</source>
-        <translation type="unfinished"></translation>
+        <translation>nineteen77</translation>
     </message>
     <message>
         <source>lofi</source>
-        <translation type="unfinished"></translation>
+        <translation>lofi</translation>
     </message>
     <message>
         <source>hudson</source>
-        <translation type="unfinished"></translation>
+        <translation>hudson</translation>
     </message>
     <message>
         <source>redteal</source>
-        <translation type="unfinished"></translation>
+        <translation>redteal</translation>
     </message>
     <message>
         <source>nashville</source>
-        <translation type="unfinished"></translation>
+        <translation>nashville</translation>
     </message>
     <message>
         <source>hefe</source>
-        <translation type="unfinished"></translation>
+        <translation>hefe</translation>
     </message>
     <message>
         <source>sierra</source>
-        <translation type="unfinished"></translation>
+        <translation>sierra</translation>
     </message>
     <message>
         <source>clarendon</source>
-        <translation type="unfinished"></translation>
+        <translation>clarendon</translation>
     </message>
     <message>
         <source>reyes</source>
-        <translation type="unfinished"></translation>
+        <translation>reyes</translation>
     </message>
     <message>
         <source>lark</source>
-        <translation type="unfinished"></translation>
+        <translation>lark</translation>
     </message>
     <message>
         <source>spring</source>
-        <translation type="unfinished"></translation>
+        <translation>весна</translation>
     </message>
     <message>
         <source>summer</source>
-        <translation type="unfinished"></translation>
+        <translation>лето</translation>
     </message>
     <message>
         <source>fall</source>
-        <translation type="unfinished"></translation>
+        <translation>осень</translation>
     </message>
     <message>
         <source>winter</source>
-        <translation type="unfinished"></translation>
+        <translation>зима</translation>
     </message>
     <message>
         <source>backlight</source>
-        <translation type="unfinished"></translation>
+        <translation>подсветка</translation>
     </message>
     <message>
         <source>goldvibrant</source>
-        <translation type="unfinished"></translation>
+        <translation>goldvibrant</translation>
     </message>
     <message>
         <source>polaroid</source>
-        <translation type="unfinished"></translation>
+        <translation>polaroid</translation>
     </message>
     <message>
         <source>fadeprint</source>
-        <translation type="unfinished"></translation>
+        <translation>fadeprint</translation>
     </message>
     <message>
         <source>bleakfuture</source>
-        <translation type="unfinished"></translation>
+        <translation>bleakfuture</translation>
     </message>
     <message>
         <source>desaturated</source>
-        <translation type="unfinished"></translation>
+        <translation>осветленный</translation>
     </message>
     <message>
         <source>monotint</source>
-        <translation type="unfinished"></translation>
+        <translation>моно</translation>
     </message>
     <message>
         <source>fujigray</source>
-        <translation type="unfinished"></translation>
+        <translation>fujigray</translation>
     </message>
     <message>
         <source>moon</source>
-        <translation type="unfinished"></translation>
+        <translation>луна</translation>
     </message>
     <message>
         <source>moonlight</source>
-        <translation type="unfinished"></translation>
+        <translation>лунный свет</translation>
     </message>
     <message>
         <source>gingham</source>
-        <translation type="unfinished"></translation>
+        <translation>gingham</translation>
     </message>
     <message>
         <source>tensiongreen</source>
-        <translation type="unfinished"></translation>
+        <translation>напряженный зеленый</translation>
     </message>
     <message>
         <source>anime</source>
-        <translation type="unfinished"></translation>
+        <translation>аниме</translation>
     </message>
     <message>
         <source>tealmagentagold</source>
-        <translation type="unfinished"></translation>
+        <translation>бирюзово-пурпурно-золотой</translation>
     </message>
     <message>
         <source>juno2</source>
-        <translation type="unfinished"></translation>
+        <translation>juno2</translation>
     </message>
     <message>
         <source>hudson2</source>
-        <translation type="unfinished"></translation>
+        <translation>hudson2</translation>
     </message>
     <message>
         <source>darkblue</source>
-        <translation type="unfinished"></translation>
+        <translation>темно-синий</translation>
     </message>
     <message>
         <source>howlite</source>
-        <translation type="unfinished"></translation>
+        <translation>howlite</translation>
     </message>
     <message>
         <source>cinevibrant</source>
-        <translation type="unfinished"></translation>
+        <translation>яркое кино</translation>
     </message>
     <message>
         <source>sweetgelatto</source>
-        <translation type="unfinished"></translation>
+        <translation>сладкое мороженое</translation>
     </message>
     <message>
         <source>newspaper</source>
-        <translation type="unfinished"></translation>
+        <translation>газета</translation>
     </message>
     <message>
         <source>analog oldstyle</source>
-        <translation type="unfinished"></translation>
+        <translation>аналоговый</translation>
     </message>
     <message>
         <source>hilutite</source>
-        <translation type="unfinished"></translation>
+        <translation>hilutite</translation>
     </message>
     <message>
         <source>hackmanite</source>
-        <translation type="unfinished"></translation>
+        <translation>hackmanite</translation>
     </message>
     <message>
         <source>herderite</source>
-        <translation type="unfinished"></translation>
+        <translation>herderite</translation>
     </message>
     <message>
         <source>heulandite</source>
-        <translation type="unfinished"></translation>
+        <translation>heulandite</translation>
     </message>
     <message>
         <source>hiddenite</source>
-        <translation type="unfinished"></translation>
+        <translation>hiddenite</translation>
     </message>
     <message>
         <source>bleach</source>
-        <translation type="unfinished"></translation>
+        <translation>побелка</translation>
     </message>
     <message>
         <source>dropblues</source>
-        <translation type="unfinished"></translation>
+        <translation>капли блюза</translation>
     </message>
     <message>
         <source>latesunset</source>
-        <translation type="unfinished"></translation>
+        <translation>поздний закат</translation>
     </message>
     <message>
         <source>file:</source>
-        <translation type="unfinished"></translation>
+        <translation>файл:</translation>
     </message>
     <message>
         <source>load</source>
-        <translation type="unfinished"></translation>
+        <translation>загрузить</translation>
     </message>
 </context>
 <context>
     <name>FirstPage</name>
     <message>
         <source>Select image</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите изображение</translation>
     </message>
     <message>
         <source>Select font</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите шрифт</translation>
     </message>
     <message>
         <source>python3-pillow is not installed</source>
-        <translation type="unfinished"></translation>
+        <translation>python3-pillow не установлен</translation>
     </message>
     <message>
         <source>some functions require python3-pillow 7+</source>
-        <translation type="unfinished"></translation>
+        <translation>для некоторых функций нужен python3-pillow 7+</translation>
     </message>
     <message>
         <source>Files</source>
-        <translation type="unfinished"></translation>
+        <translation>Файлы</translation>
     </message>
     <message>
         <source>Gallery</source>
-        <translation type="unfinished"></translation>
+        <translation>Галерея</translation>
     </message>
     <message>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>Сохранить</translation>
     </message>
     <message>
         <source>View</source>
-        <translation type="unfinished"></translation>
+        <translation>Просмотр</translation>
     </message>
     <message>
         <source>Restore original?</source>
-        <translation type="unfinished"></translation>
+        <translation>Восстановить оригинал</translation>
     </message>
     <message>
         <source>stretch to edges</source>
-        <translation type="unfinished"></translation>
+        <translation>растянуть до краев</translation>
     </message>
     <message>
         <source>fold from edges</source>
-        <translation type="unfinished"></translation>
+        <translation>сложить по сторонам</translation>
     </message>
     <message>
         <source>free crop</source>
-        <translation type="unfinished"></translation>
+        <translation>свободная обрезка</translation>
     </message>
     <message>
         <source>original</source>
-        <translation type="unfinished"></translation>
+        <translation>оригинал</translation>
     </message>
     <message>
         <source>manual</source>
-        <translation type="unfinished"></translation>
+        <translation>ручной</translation>
     </message>
     <message>
         <source>DIN-landscape</source>
-        <translation type="unfinished"></translation>
+        <translation>DIN горизонтальная</translation>
     </message>
     <message>
         <source>DIN-portrait</source>
-        <translation type="unfinished"></translation>
+        <translation>DIN вертикальная</translation>
     </message>
     <message>
         <source>4:3</source>
-        <translation type="unfinished"></translation>
+        <translation>4:3</translation>
     </message>
     <message>
         <source>16:10</source>
-        <translation type="unfinished"></translation>
+        <translation>16:10</translation>
     </message>
     <message>
         <source>16:9</source>
-        <translation type="unfinished"></translation>
+        <translation>16:9</translation>
     </message>
     <message>
         <source>21:9</source>
-        <translation type="unfinished"></translation>
+        <translation>21:9</translation>
     </message>
     <message>
         <source>1:1</source>
-        <translation type="unfinished"></translation>
+        <translation>1:1</translation>
     </message>
     <message>
         <source>3:4</source>
-        <translation type="unfinished"></translation>
+        <translation>3:4</translation>
     </message>
     <message>
         <source>1:2</source>
-        <translation type="unfinished"></translation>
+        <translation>1:2</translation>
     </message>
     <message>
         <source>pixels</source>
-        <translation type="unfinished"></translation>
+        <translation>пиксели</translation>
     </message>
     <message>
         <source>point 1x</source>
-        <translation type="unfinished"></translation>
+        <translation>X первой точки</translation>
     </message>
     <message>
         <source>point 2x</source>
-        <translation type="unfinished"></translation>
+        <translation>X второй точки</translation>
     </message>
     <message>
         <source>point 1y</source>
-        <translation type="unfinished"></translation>
+        <translation>Y первой точки</translation>
     </message>
     <message>
         <source>point 2y</source>
-        <translation type="unfinished"></translation>
+        <translation>Y второй точки</translation>
     </message>
     <message>
         <source>width, preserve ratio</source>
-        <translation type="unfinished"></translation>
+        <translation>ширина, сохранить соотношение</translation>
     </message>
     <message>
         <source>height, preserve ratio</source>
-        <translation type="unfinished"></translation>
+        <translation>высота, сохранить соотношение</translation>
     </message>
     <message>
         <source>width  x  height</source>
-        <translation type="unfinished"></translation>
+        <translation>ширина  x  высота</translation>
     </message>
     <message>
         <source>screen ratio</source>
-        <translation type="unfinished"></translation>
+        <translation>соотношение сторон экрана</translation>
     </message>
     <message>
         <source>padding with</source>
-        <translation type="unfinished"></translation>
+        <translation>отступ при помощи</translation>
     </message>
     <message>
         <source>color</source>
-        <translation type="unfinished"></translation>
+        <translation>цвета</translation>
     </message>
     <message>
         <source>blur</source>
-        <translation type="unfinished"></translation>
+        <translation>размытия</translation>
     </message>
     <message>
         <source>left</source>
-        <translation type="unfinished"></translation>
+        <translation>против часовой</translation>
     </message>
     <message>
         <source>right</source>
-        <translation type="unfinished"></translation>
+        <translation>по часовой</translation>
     </message>
     <message>
         <source>flip</source>
-        <translation type="unfinished"></translation>
+        <translation>перевернуть</translation>
     </message>
     <message>
         <source>mirror</source>
-        <translation type="unfinished"></translation>
+        <translation>отразить</translation>
     </message>
     <message>
         <source>brightness</source>
-        <translation type="unfinished"></translation>
+        <translation>яркость</translation>
     </message>
     <message>
         <source>contrast</source>
-        <translation type="unfinished"></translation>
+        <translation>контраст</translation>
     </message>
     <message>
         <source>sharpness</source>
-        <translation type="unfinished"></translation>
+        <translation>резкость</translation>
     </message>
     <message>
         <source>hue</source>
-        <translation type="unfinished"></translation>
+        <translation>цвета HUE</translation>
     </message>
     <message>
         <source>red</source>
-        <translation type="unfinished"></translation>
+        <translation>красный</translation>
     </message>
     <message>
         <source>yellow</source>
-        <translation type="unfinished"></translation>
+        <translation>желтый</translation>
     </message>
     <message>
         <source>green</source>
-        <translation type="unfinished"></translation>
+        <translation>зеленый</translation>
     </message>
     <message>
         <source>blue</source>
-        <translation type="unfinished"></translation>
+        <translation>синий</translation>
     </message>
     <message>
         <source>violet</source>
-        <translation type="unfinished"></translation>
+        <translation>фиолетовый</translation>
     </message>
     <message>
         <source>pixel</source>
-        <translation type="unfinished"></translation>
+        <translation>пиксели</translation>
     </message>
     <message>
         <source>channel</source>
-        <translation type="unfinished"></translation>
+        <translation>каналы</translation>
     </message>
     <message>
         <source>filter</source>
-        <translation type="unfinished"></translation>
+        <translation>фильтры</translation>
     </message>
     <message>
         <source>effect</source>
-        <translation type="unfinished"></translation>
+        <translation>эффекты</translation>
     </message>
     <message>
         <source>collage</source>
-        <translation type="unfinished"></translation>
+        <translation>коллаж</translation>
     </message>
     <message>
         <source>Delete file?</source>
-        <translation type="unfinished"></translation>
+        <translation>Удалить файл?</translation>
     </message>
     <message>
         <source>delete</source>
-        <translation type="unfinished"></translation>
+        <translation>удалить</translation>
     </message>
     <message>
         <source>rename</source>
-        <translation type="unfinished"></translation>
+        <translation>переименовать</translation>
     </message>
     <message>
         <source>meta</source>
-        <translation type="unfinished"></translation>
+        <translation>мета-данные</translation>
     </message>
     <message>
         <source>new</source>
-        <translation type="unfinished"></translation>
+        <translation>новый</translation>
     </message>
     <message>
         <source>about</source>
-        <translation type="unfinished"></translation>
+        <translation>о файле</translation>
     </message>
     <message>
         <source>free</source>
-        <translation type="unfinished"></translation>
+        <translation>свободно</translation>
     </message>
     <message>
         <source>area</source>
-        <translation type="unfinished"></translation>
+        <translation>область</translation>
     </message>
     <message>
         <source>frame</source>
-        <translation type="unfinished"></translation>
+        <translation>кадр</translation>
     </message>
     <message>
         <source>spray</source>
-        <translation type="unfinished"></translation>
+        <translation>спрей</translation>
     </message>
     <message>
         <source>copy</source>
-        <translation type="unfinished"></translation>
+        <translation>копировать</translation>
     </message>
     <message>
         <source>paste</source>
-        <translation type="unfinished"></translation>
+        <translation>вставить</translation>
     </message>
     <message>
         <source>line</source>
-        <translation type="unfinished"></translation>
+        <translation>линия</translation>
     </message>
     <message>
         <source>point</source>
-        <translation type="unfinished"></translation>
+        <translation>точка</translation>
     </message>
     <message>
         <source>symbol</source>
-        <translation type="unfinished"></translation>
+        <translation>символ</translation>
     </message>
     <message>
         <source>label</source>
-        <translation type="unfinished"></translation>
+        <translation>лейбл</translation>
     </message>
     <message>
         <source>100%</source>
-        <translation type="unfinished"></translation>
+        <translation>100%</translation>
     </message>
     <message>
         <source>fill</source>
-        <translation type="unfinished"></translation>
+        <translation>заполнить</translation>
     </message>
     <message>
         <source>keep</source>
-        <translation type="unfinished"></translation>
+        <translation>оставить</translation>
     </message>
     <message>
         <source>remove</source>
-        <translation type="unfinished"></translation>
+        <translation>удалить</translation>
     </message>
     <message>
         <source>size</source>
-        <translation type="unfinished"></translation>
+        <translation>размер</translation>
     </message>
     <message>
         <source>dots</source>
-        <translation type="unfinished"></translation>
+        <translation>точки</translation>
     </message>
     <message>
         <source>°</source>
-        <translation type="unfinished"></translation>
+        <translation>°</translation>
     </message>
     <message>
         <source>angle</source>
-        <translation type="unfinished"></translation>
+        <translation>угол</translation>
     </message>
     <message>
         <source>font</source>
-        <translation type="unfinished"></translation>
+        <translation>шрифт</translation>
     </message>
     <message>
         <source>Sailfish</source>
-        <translation type="unfinished"></translation>
+        <translation>Sailfish</translation>
     </message>
     <message>
         <source>load custom font</source>
-        <translation type="unfinished"></translation>
+        <translation>загрузить свой шрифт</translation>
     </message>
     <message>
         <source>(custom)</source>
-        <translation type="unfinished"></translation>
+        <translation>(свой)</translation>
     </message>
     <message>
         <source>Angelface</source>
-        <translation type="unfinished"></translation>
+        <translation>Angelface</translation>
     </message>
     <message>
         <source>Antonio</source>
-        <translation type="unfinished"></translation>
+        <translation>Antonio</translation>
     </message>
     <message>
         <source>Bananasplit</source>
-        <translation type="unfinished"></translation>
+        <translation>Bananasplit</translation>
     </message>
     <message>
         <source>Baskerville</source>
-        <translation type="unfinished"></translation>
+        <translation>Baskerville</translation>
     </message>
     <message>
         <source>Fraktur</source>
-        <translation type="unfinished"></translation>
+        <translation>Fraktur</translation>
     </message>
     <message>
         <source>League Gothic</source>
-        <translation type="unfinished"></translation>
+        <translation>League Gothic</translation>
     </message>
     <message>
         <source>Lobster</source>
-        <translation type="unfinished"></translation>
+        <translation>Lobster</translation>
     </message>
     <message>
         <source>Miso</source>
-        <translation type="unfinished"></translation>
+        <translation>Miso</translation>
     </message>
     <message>
         <source>Monterey</source>
-        <translation type="unfinished"></translation>
+        <translation>Monterey</translation>
     </message>
     <message>
         <source>Nebula bold</source>
-        <translation type="unfinished"></translation>
+        <translation>Nebula bold</translation>
     </message>
     <message>
         <source>Oswald heavy</source>
-        <translation type="unfinished"></translation>
+        <translation>Oswald heavy</translation>
     </message>
     <message>
         <source>Raleway</source>
-        <translation type="unfinished"></translation>
+        <translation>Raleway</translation>
     </message>
     <message>
         <source>Roland</source>
-        <translation type="unfinished"></translation>
+        <translation>Roland</translation>
     </message>
     <message>
         <source>Stay Girly</source>
-        <translation type="unfinished"></translation>
+        <translation>Stay Girly</translation>
     </message>
     <message>
         <source>Yanone</source>
-        <translation type="unfinished"></translation>
+        <translation>Yanone</translation>
     </message>
     <message>
         <source>Sans regular</source>
-        <translation type="unfinished"></translation>
+        <translation>Sans regular</translation>
     </message>
     <message>
         <source>Sans bold</source>
-        <translation type="unfinished"></translation>
+        <translation>Sans bold</translation>
     </message>
     <message>
         <source>Sans italic</source>
-        <translation type="unfinished"></translation>
+        <translation>Sans italic</translation>
     </message>
     <message>
         <source>Serif regular</source>
-        <translation type="unfinished"></translation>
+        <translation>Serif regular</translation>
     </message>
     <message>
         <source>Serif bold</source>
-        <translation type="unfinished"></translation>
+        <translation>Serif bold</translation>
     </message>
     <message>
         <source>Serif italic</source>
-        <translation type="unfinished"></translation>
+        <translation>Serif italic</translation>
     </message>
     <message>
         <source>Mono regular</source>
-        <translation type="unfinished"></translation>
+        <translation>Mono regular</translation>
     </message>
     <message>
         <source>Mono bold</source>
-        <translation type="unfinished"></translation>
+        <translation>Mono bold</translation>
     </message>
     <message>
         <source>Mono italic</source>
-        <translation type="unfinished"></translation>
+        <translation>Mono italic</translation>
     </message>
     <message>
         <source>layer</source>
-        <translation type="unfinished"></translation>
+        <translation>слой</translation>
     </message>
     <message>
         <source>transparent</source>
-        <translation type="unfinished"></translation>
+        <translation>прозрачный</translation>
     </message>
     <message>
         <source>clipboard color</source>
-        <translation type="unfinished"></translation>
+        <translation>цвет в буфере обмена</translation>
     </message>
     <message>
         <source>black</source>
-        <translation type="unfinished"></translation>
+        <translation>черный</translation>
     </message>
     <message>
         <source>white</source>
-        <translation type="unfinished"></translation>
+        <translation>белый</translation>
     </message>
     <message>
         <source>cursor</source>
-        <translation type="unfinished"></translation>
+        <translation>курсор</translation>
     </message>
     <message>
         <source>visibility</source>
-        <translation type="unfinished"></translation>
+        <translation>видимость</translation>
     </message>
     <message>
         <source>average</source>
-        <translation type="unfinished"></translation>
+        <translation>среднее</translation>
     </message>
 </context>
 <context>
     <name>InfoPage</name>
     <message>
         <source>About Imageworks</source>
-        <translation type="unfinished"></translation>
+        <translation>О приложении</translation>
     </message>
     <message>
         <source>Copyright © 2020 Tobias Planitzer</source>
-        <translation type="unfinished"></translation>
+        <translation>Copyright © 2020 Tobias Planitzer</translation>
     </message>
     <message>
         <source> © 2021 Mark Washeim</source>
-        <translation type="unfinished"></translation>
+        <translation> © 2021 Mark Washeim</translation>
     </message>
     <message>
         <source>Feedback: https://github.com/poetaster/harbour-simplecrop:</source>
-        <translation type="unfinished"></translation>
+        <translation>Обратная связь: https://github.com/poetaster/harbour-simplecrop:</translation>
     </message>
 </context>
 <context>
     <name>MetadataPage</name>
     <message>
         <source>File contains no EXIF tags.</source>
-        <translation type="unfinished"></translation>
+        <translation>Файл не содержит EXIF-тегов.</translation>
     </message>
     <message>
         <source>Filetype does not support EXIF tags.</source>
-        <translation type="unfinished"></translation>
+        <translation>Тип файла не поддерживает теги EXIF</translation>
     </message>
     <message>
         <source>Metadata</source>
-        <translation type="unfinished"></translation>
+        <translation>Мета-данные</translation>
     </message>
     <message>
         <source>File</source>
-        <translation type="unfinished"></translation>
+        <translation>Файл</translation>
     </message>
     <message>
         <source>Path</source>
-        <translation type="unfinished"></translation>
+        <translation>Путь</translation>
     </message>
     <message>
         <source>Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Размер</translation>
     </message>
     <message>
         <source>Width</source>
-        <translation type="unfinished"></translation>
+        <translation>Ширина</translation>
     </message>
     <message>
         <source>Height</source>
-        <translation type="unfinished"></translation>
+        <translation>Высота</translation>
     </message>
     <message>
         <source>Format</source>
-        <translation type="unfinished"></translation>
+        <translation>Формат</translation>
     </message>
     <message>
         <source>Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Режим</translation>
     </message>
     <message>
         <source>Palette</source>
-        <translation type="unfinished"></translation>
+        <translation>Палитра</translation>
     </message>
 </context>
 <context>
     <name>NewPage</name>
     <message>
         <source>Create Image</source>
-        <translation type="unfinished"></translation>
+        <translation>Создать изображение</translation>
     </message>
     <message>
         <source>width</source>
-        <translation type="unfinished"></translation>
+        <translation>ширина</translation>
     </message>
     <message>
         <source>height</source>
-        <translation type="unfinished"></translation>
+        <translation>высота</translation>
     </message>
     <message>
         <source>color</source>
-        <translation type="unfinished"></translation>
+        <translation>цвет</translation>
     </message>
     <message>
         <source>Presets</source>
-        <translation type="unfinished"></translation>
+        <translation>Пресеты</translation>
     </message>
     <message>
         <source>from</source>
-        <translation type="unfinished"></translation>
+        <translation>из</translation>
     </message>
     <message>
         <source>clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>буфер обмена</translation>
     </message>
     <message>
         <source>screen</source>
-        <translation type="unfinished"></translation>
+        <translation>экран</translation>
     </message>
     <message>
         <source>resolution</source>
-        <translation type="unfinished"></translation>
+        <translation>разрешение</translation>
     </message>
     <message>
         <source>DIN A4</source>
-        <translation type="unfinished"></translation>
+        <translation>DIN A4</translation>
     </message>
     <message>
         <source>72 dpi</source>
-        <translation type="unfinished"></translation>
+        <translation>72 dpi</translation>
     </message>
     <message>
         <source>150 dpi</source>
-        <translation type="unfinished"></translation>
+        <translation>150 dpi</translation>
     </message>
     <message>
         <source>300 dpi</source>
-        <translation type="unfinished"></translation>
+        <translation>300 dpi</translation>
     </message>
     <message>
         <source>XGA</source>
-        <translation type="unfinished"></translation>
+        <translation>XGA</translation>
     </message>
     <message>
         <source>WXGA</source>
-        <translation type="unfinished"></translation>
+        <translation>WXGA</translation>
     </message>
     <message>
         <source>WXGA+</source>
-        <translation type="unfinished"></translation>
+        <translation>WXGA+</translation>
     </message>
     <message>
         <source>Full HD</source>
-        <translation type="unfinished"></translation>
+        <translation>Full HD</translation>
     </message>
     <message>
         <source>4k</source>
-        <translation type="unfinished"></translation>
+        <translation>4k</translation>
     </message>
 </context>
 <context>
     <name>PixelBench</name>
     <message>
         <source>Pixel bench</source>
-        <translation type="unfinished"></translation>
+        <translation>Пиксели</translation>
     </message>
     <message>
         <source>find and replace</source>
-        <translation type="unfinished"></translation>
+        <translation>Находите и заменяйте</translation>
     </message>
     <message>
         <source>Alpha</source>
-        <translation type="unfinished"></translation>
+        <translation>Альфа</translation>
     </message>
     <message>
         <source>Red</source>
-        <translation type="unfinished"></translation>
+        <translation>Красный</translation>
     </message>
     <message>
         <source>Green</source>
-        <translation type="unfinished"></translation>
+        <translation>Зеленый</translation>
     </message>
     <message>
         <source>Blue</source>
-        <translation type="unfinished"></translation>
+        <translation>Синий</translation>
     </message>
     <message>
         <source>old</source>
-        <translation type="unfinished"></translation>
+        <translation>старый</translation>
     </message>
     <message>
         <source>+/-</source>
-        <translation type="unfinished"></translation>
+        <translation>+/-</translation>
     </message>
     <message>
         <source>replace</source>
-        <translation type="unfinished"></translation>
+        <translation>заменить</translation>
     </message>
     <message>
         <source>with</source>
-        <translation type="unfinished"></translation>
+        <translation>на</translation>
     </message>
     <message>
         <source>keep</source>
-        <translation type="unfinished"></translation>
+        <translation>оставить</translation>
     </message>
     <message>
         <source>values</source>
-        <translation type="unfinished"></translation>
+        <translation>значения</translation>
     </message>
     <message>
         <source>new</source>
-        <translation type="unfinished"></translation>
+        <translation>новый</translation>
     </message>
     <message>
         <source>Results</source>
-        <translation type="unfinished"></translation>
+        <translation>Результат</translation>
     </message>
     <message>
         <source>normal</source>
-        <translation type="unfinished"></translation>
+        <translation>нормальный</translation>
     </message>
     <message>
         <source>invert</source>
-        <translation type="unfinished"></translation>
+        <translation>инвертировать</translation>
     </message>
 </context>
 <context>
     <name>RenamePage</name>
     <message>
         <source>Rename as</source>
-        <translation type="unfinished"></translation>
+        <translation>Переименовать как</translation>
     </message>
     <message>
         <source>Path</source>
-        <translation type="unfinished"></translation>
+        <translation>Путь</translation>
     </message>
     <message>
         <source>Width</source>
-        <translation type="unfinished"></translation>
+        <translation>Ширина</translation>
     </message>
     <message>
         <source>Height</source>
-        <translation type="unfinished"></translation>
+        <translation>Высота</translation>
     </message>
     <message>
         <source>Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Размер</translation>
     </message>
 </context>
 <context>
     <name>SavePage</name>
     <message>
         <source>Save as</source>
-        <translation type="unfinished"></translation>
+        <translation>Сохранить как</translation>
     </message>
     <message>
         <source>overwrite...</source>
-        <translation type="unfinished"></translation>
+        <translation>заменить...</translation>
     </message>
     <message>
         <source>.pdf</source>
-        <translation type="unfinished"></translation>
+        <translation>.pdf</translation>
     </message>
     <message>
         <source>Documents</source>
-        <translation type="unfinished"></translation>
+        <translation>Документы</translation>
     </message>
     <message>
         <source>Original Folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Оригинальная папка</translation>
     </message>
     <message>
         <source>Pages Contained</source>
-        <translation type="unfinished"></translation>
+        <translation>Страницы в выходном документе</translation>
     </message>
     <message>
         <source>Width</source>
-        <translation type="unfinished"></translation>
+        <translation>Ширина</translation>
     </message>
     <message>
         <source>Height</source>
-        <translation type="unfinished"></translation>
+        <translation>Высота</translation>
     </message>
     <message>
         <source>Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Размер</translation>
     </message>
     <message>
         <source>Filetype does not support transparency.</source>
-        <translation type="unfinished"></translation>
+        <translation>Формат файла не поддерживает прозрачность.</translation>
     </message>
 </context>
 </TS>

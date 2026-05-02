@@ -6,7 +6,8 @@ import "perspectivetransformhelper.js" as PerspT
 
 Page {
     id: page
-    allowedOrientations: Orientation.Portrait //All
+
+    allowedOrientations: Orientation.Portrait
 
     /*
     onOrientationChanged: {
