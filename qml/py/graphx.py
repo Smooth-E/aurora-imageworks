@@ -48,15 +48,20 @@ def argb2rgba ( paintColor ) :
     last6 = paintColor[3:9]
     rgbaColor = "#" + last6 + first2
     return rgbaColor
+
+
 def argb2rgb ( paintColor ) :
     first2 = paintColor[1:3]
     last6 = paintColor[3:9]
     rgbColor = "#" + last6
     return rgbColor
+
+
 def argb2alpha ( paintColor ) :
     first2 = paintColor[1:3]
     alphaValue = int(first2, 16)
     return alphaValue
+
 
 def createTmpAndSaveFolder ( tempImageFolderPath, saveImageFolderPath ):
     if os.path.exists("/" + "/home" + "/defaultuser" + "/imageworks_tmp/"): #if folder exists from older versions, remove it
@@ -67,6 +72,7 @@ def createTmpAndSaveFolder ( tempImageFolderPath, saveImageFolderPath ):
     if not os.path.exists("/"+saveImageFolderPath):
         os.makedirs("/"+saveImageFolderPath)
         pyotherside.send('folderExistence', )
+
 
 def createPreviewBaseImage ( inputPathPy, previewBaseImagePath, previewBaseImageWidth ):
     img = Image.open(inputPathPy)
@@ -80,6 +86,7 @@ def createPreviewBaseImage ( inputPathPy, previewBaseImagePath, previewBaseImage
     pyotherside.send('previewImageCreated', previewBaseImagePath)
     img.close()
     output_img.close()
+
 
 def cropNowFunction ( inputPathPy, outputPathPy, rectX, rectY, rectWidth, rectHeight, scaleFactor, undoNr ):
     img = Image.open(inputPathPy)
@@ -95,6 +102,7 @@ def cropNowFunction ( inputPathPy, outputPathPy, rectX, rectY, rectWidth, rectHe
     img.close()
     output_img.close()
 
+
 def cropCoordinatesFunction ( inputPathPy, outputPathPy, rectX, rectY, rectWidth, rectHeight, undoNr ):
     img = Image.open(inputPathPy)
     img = ImageOps.exif_transpose(img)
@@ -108,6 +116,7 @@ def cropCoordinatesFunction ( inputPathPy, outputPathPy, rectX, rectY, rectWidth
     pyotherside.send('exchangeImage', outputPathPy)
     img.close()
     output_img.close()
+
 
 def cropCanvasPolygonFunction( inputPathPy, outputPathPy, freeDrawPolyCoordinates, scaleFactor, paintColor, actionSelection ):
     img = Image.open(inputPathPy)
