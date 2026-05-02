@@ -1,11 +1,5 @@
 # -*- coding: utf-8 -*-
 
-# POETASTER
-import sys
-sys.path.append('/usr/share/harbour-simplecrop/lib/')
-
-# POETASTER
-
 import pyotherside
 import threading
 import time

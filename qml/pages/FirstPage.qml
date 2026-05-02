@@ -28,9 +28,9 @@ Page {
     property string origImageFolderPath
     property string tempImageFolderPath
     property string saveImageFolderPath
-    property string symbolSourceFolder: "/usr" + "/share" + "/harbour-simplecrop" + "/qml" + "/symbols/"
-    property string filterSourceFolder: "/usr" + "/share" + "/harbour-simplecrop" + "/qml" + "/filters/"
-    property string fontSourceFolder: "/usr" + "/share" + "/harbour-simplecrop" + "/qml" + "/fonts/"
+    property string symbolSourceFolder: urlToPath(Qt.resolvedUrl("../symbols/"))
+    property string filterSourceFolder: urlToPath(Qt.resolvedUrl("../filters/"))
+    property string fontSourceFolder: urlToPath(Qt.resolvedUrl("../fonts/"))
     property string fontPath
     property string tempCopyPasteFileName: "copyPaste"
     property string inputPathPy
@@ -180,6 +180,10 @@ Page {
     property bool finishedLoading : true
     property var lastTMP2delete
     property var new_imagePath
+
+    function urlToPath(url) {
+        return url.substring(url.indexOf(":") + 1)
+    }
 
     // autostart functions
     Component.onCompleted: {
@@ -476,155 +480,155 @@ Page {
                 } else if (effectName === "sierra") {
                     py.sierraFilterFunction()
                 } else if (effectName === "clarendon") {
-                    var cubeFilePath = "/" + filterSourceFolder + "Clarendon.png"
+                    var cubeFilePath = filterSourceFolder + "Clarendon.png"
                     var lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
                 } else if (effectName === "reyes") {
-                    cubeFilePath = "/" + filterSourceFolder + "Reyes.png"
+                    cubeFilePath = filterSourceFolder + "Reyes.png"
                     lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
                 } else if (effectName === "moon") {
-                    cubeFilePath = "/" + filterSourceFolder + "Moon.png"
+                    cubeFilePath = filterSourceFolder + "Moon.png"
                     lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
                 } else if (effectName === "lark") {
-                    cubeFilePath = "/" + filterSourceFolder + "Lark.png"
+                    cubeFilePath = filterSourceFolder + "Lark.png"
                     lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
                 } else if (effectName === "spring") {
-                    cubeFilePath = "/" + filterSourceFolder + "spring.png"
+                    cubeFilePath = filterSourceFolder + "spring.png"
                     lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
                 } else if (effectName === "summer") {
-                    cubeFilePath = "/" + filterSourceFolder + "summer.png"
+                    cubeFilePath = filterSourceFolder + "summer.png"
                     lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
                 } else if (effectName === "fall") {
-                    cubeFilePath = "/" + filterSourceFolder + "fall.png"
+                    cubeFilePath = filterSourceFolder + "fall.png"
                     lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
                 } else if (effectName === "winter") {
-                    cubeFilePath = "/" + filterSourceFolder + "winter.png"
+                    cubeFilePath = filterSourceFolder + "winter.png"
                     lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
                 } else if (effectName === "backlight") {
-                    cubeFilePath = "/" + filterSourceFolder + "backlight.png"
+                    cubeFilePath = filterSourceFolder + "backlight.png"
                     lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
                 } else if (effectName === "goldvibrant") {
-                    cubeFilePath = "/" + filterSourceFolder + "goldvibrant.png"
+                    cubeFilePath = filterSourceFolder + "goldvibrant.png"
                     lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
                 } else if (effectName === "polaroid") {
-                    cubeFilePath = "/" + filterSourceFolder + "polaroid.png"
+                    cubeFilePath = filterSourceFolder + "polaroid.png"
                     lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
                 } else if (effectName === "fadeprint") {
-                    cubeFilePath = "/" + filterSourceFolder + "fadeprint.png"
+                    cubeFilePath = filterSourceFolder + "fadeprint.png"
                     lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
                 } else if (effectName === "bleakfuture") {
-                    cubeFilePath = "/" + filterSourceFolder + "bleakfuture.png"
+                    cubeFilePath = filterSourceFolder + "bleakfuture.png"
                     lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
                 } else if (effectName === "desaturated") {
-                    cubeFilePath = "/" + filterSourceFolder + "desaturated.png"
+                    cubeFilePath = filterSourceFolder + "desaturated.png"
                     lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
                 } else if (effectName === "monotint") {
-                    cubeFilePath = "/" + filterSourceFolder + "monotint.png"
+                    cubeFilePath = filterSourceFolder + "monotint.png"
                     lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
                 } else if (effectName === "fujigray") {
-                    cubeFilePath = "/" + filterSourceFolder + "fujigray.png"
+                    cubeFilePath = filterSourceFolder + "fujigray.png"
                     lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
                 } else if (effectName === "moon") {
-                    cubeFilePath = "/" + filterSourceFolder + "Moon.png"
+                    cubeFilePath = filterSourceFolder + "Moon.png"
                     lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
                 } else if (effectName === "moonlight") {
-                    cubeFilePath = "/" + filterSourceFolder + "moonlight.png"
+                    cubeFilePath = filterSourceFolder + "moonlight.png"
                     lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
                 } else if (effectName === "gingham") {
-                    cubeFilePath = "/" + filterSourceFolder + "Gingham.png"
+                    cubeFilePath = filterSourceFolder + "Gingham.png"
                     lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
                 } else if (effectName === "tensiongreen") {
-                    cubeFilePath = "/" + filterSourceFolder + "tensiongreen.png"
+                    cubeFilePath = filterSourceFolder + "tensiongreen.png"
                     lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
                 } else if (effectName === "anime") {
-                    cubeFilePath = "/" + filterSourceFolder + "anime.png"
+                    cubeFilePath = filterSourceFolder + "anime.png"
                     lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
                 } else if (effectName === "tealmagentagold") {
-                    cubeFilePath = "/" + filterSourceFolder + "tealmagentagold.png"
+                    cubeFilePath = filterSourceFolder + "tealmagentagold.png"
                     lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
                 } else if (effectName === "juno2") {
-                    cubeFilePath = "/" + filterSourceFolder + "Juno2.png"
+                    cubeFilePath = filterSourceFolder + "Juno2.png"
                     lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
                 } else if (effectName === "hudson2") {
-                    cubeFilePath = "/" + filterSourceFolder + "Hudson2.png"
+                    cubeFilePath = filterSourceFolder + "Hudson2.png"
                     lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
                 } else if (effectName === "darkblue") {
-                    cubeFilePath = "/" + filterSourceFolder + "darkblue.png"
+                    cubeFilePath = filterSourceFolder + "darkblue.png"
                     lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
                 } else if (effectName === "howlite") {
-                    cubeFilePath = "/" + filterSourceFolder + "howlite.png"
+                    cubeFilePath = filterSourceFolder + "howlite.png"
                     lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
                 } else if (effectName === "cinevibrant") {
-                    cubeFilePath = "/" + filterSourceFolder + "cinevibrant.png"
+                    cubeFilePath = filterSourceFolder + "cinevibrant.png"
                     lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
                 } else if (effectName === "sweetGelatto") {
-                    cubeFilePath = "/" + filterSourceFolder + "sweetGelatto.png"
+                    cubeFilePath = filterSourceFolder + "sweetGelatto.png"
                     lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
                 } else if (effectName === "newspaper") {
-                    cubeFilePath = "/" + filterSourceFolder + "newspaper.png"
+                    cubeFilePath = filterSourceFolder + "newspaper.png"
                     lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
                 } else if (effectName === "analogOldstyle") {
-                    cubeFilePath = "/" + filterSourceFolder + "analogOldstyle.png"
+                    cubeFilePath = filterSourceFolder + "analogOldstyle.png"
                     lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
                 } else if (effectName === "hilutite") {
-                    cubeFilePath = "/" + filterSourceFolder + "hilutite.png"
+                    cubeFilePath = filterSourceFolder + "hilutite.png"
                     lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
                 } else if (effectName === "hackmanite") {
-                    cubeFilePath = "/" + filterSourceFolder + "hackmanite.png"
+                    cubeFilePath = filterSourceFolder + "hackmanite.png"
                     lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
                 } else if (effectName === "herderite") {
-                    cubeFilePath = "/" + filterSourceFolder + "herderite.png"
+                    cubeFilePath = filterSourceFolder + "herderite.png"
                     lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
                 } else if (effectName === "heulandite") {
-                    cubeFilePath = "/" + filterSourceFolder + "heulandite.png"
+                    cubeFilePath = filterSourceFolder + "heulandite.png"
                     lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
                 } else if (effectName === "hiddenite") {
-                    cubeFilePath = "/" + filterSourceFolder + "hiddenite.png"
+                    cubeFilePath = filterSourceFolder + "hiddenite.png"
                     lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
                 } else if (effectName === "bleach") {
-                    cubeFilePath = "/" + filterSourceFolder + "bleach.png"
+                    cubeFilePath = filterSourceFolder + "bleach.png"
                     lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
                 } else if (effectName === "dropblues") {
-                    cubeFilePath = "/" + filterSourceFolder + "dropblues.png"
+                    cubeFilePath = filterSourceFolder + "dropblues.png"
                     lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
                 } else if (effectName === "latesunset") {
-                    cubeFilePath = "/" + filterSourceFolder + "latesunset.png"
+                    cubeFilePath = filterSourceFolder + "latesunset.png"
                     lut3dType = "imageFile"
                     py.apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType )
                 } else if (effectName === "fxAutoContrast") {
@@ -1018,7 +1022,7 @@ Page {
             var targetImage = "current"
             generatePathAndUndoNr()
 
-            var alphaMaskPath = "/" + symbolSourceFolder + "alphaMaskCircleSmall.png"
+            var alphaMaskPath = symbolSourceFolder + "alphaMaskCircleSmall.png"
             var radiusEdgeBlur = centerFocusValue // 6 // 4
             var enhanceColorFaktor = 1
             var enhanceContrastFaktor = 1
@@ -1033,11 +1037,11 @@ Page {
             var targetImage = "current"
             generatePathAndUndoNr()
 
-            var alphaMaskPath = "/" + symbolSourceFolder + "alphaMaskStandard.png"
-            var radiusEdgeBlur = miniatureBlurValue // 5 // 4
-            var enhanceColorFaktor = miniatureColorValue // 1.75 // 1.9
-            var enhanceContrastFaktor = 1.3 // 1.4
-            var addExtraBlurAroundPath = "/" + symbolSourceFolder + "alphaMaskCircleSmall.png"
+            var alphaMaskPath = symbolSourceFolder + "alphaMaskStandard.png"
+            var radiusEdgeBlur = miniatureBlurValue
+            var enhanceColorFaktor = miniatureColorValue
+            var enhanceContrastFaktor = 1.3
+            var addExtraBlurAroundPath = symbolSourceFolder + "alphaMaskCircleSmall.png"
 
             call("graphx.miniatureFocusFunction", [ targetImage, inputPathPy, outputPathPy, alphaMaskPath,
                                                     radiusEdgeBlur, enhanceColorFaktor, enhanceContrastFaktor, 
@@ -3792,103 +3796,155 @@ Page {
                         text: qsTr("color") //+ "\n" + qsTr("bench")
                     }
                 }
+
                 IconButton {
                     id: idIconButtonFilters
-                    enabled: ( idImageLoadedFreecrop.status !== Image.Null && finishedLoading === true ) ? true : false
+
+                    enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading === true
                     width: parent.width / itemsPerRow //Less
                     height: Theme.itemSizeSmall
-                    icon.source : "../symbols/icon-m-filters.svg"
-                    icon.width: Theme.iconSizeMedium
-                    icon.height: Theme.iconSizeMedium
+
+                    icon {
+                        source : "../symbols/icon-m-filters.svg"
+                        width: Theme.iconSizeMedium
+                        height: Theme.iconSizeMedium
+                    }
+
                     onClicked: {
-                        pageStack.push(Qt.resolvedUrl("FilterBench.qml"), {
-                                           previewImageRatio : idImageLoadedFreecrop.sourceSize.width/idImageLoadedFreecrop.sourceSize.height,
-                                           tempImageFolderPath : tempImageFolderPath,
-                                           filterSourceFolder : filterSourceFolder,
-                                           handleWidth : handleWidth,
-                                           opacityEdges : opacityEdges,
-                                           toolsDrawingColorFrame : toolsDrawingColorFrame,
-                                           inputPathPy : decodeURIComponent( "/" + idImageLoadedFreecrop.source.toString().replace(/^(file:\/{3})|(qrc:\/{2})|(http:\/{2})/,"") ),
-                                           outputPathPy : tempImageFolderPath + origImageFileName + ".tmp" + (undoNr+1) + ".png",
-                                           previewBaseImagePath : previewBaseImagePath,
-                                       } ) }
+                        const ratio = idImageLoadedFreecrop.sourceSize.width / idImageLoadedFreecrop.sourceSize.height
+
+                        const uri = decodeURIComponent("/" + idImageLoadedFreecrop.source.toString()
+                                                             .replace(/^(file:\/{3})|(qrc:\/{2})|(http:\/{2})/,""))
+
+                        const args = {
+                            "previewImageRatio": ratio,
+                            "tempImageFolderPath": tempImageFolderPath,
+                            "filterSourceFolder": filterSourceFolder,
+                            "handleWidth": handleWidth,
+                            "opacityEdges": opacityEdges,
+                            "toolsDrawingColorFrame": toolsDrawingColorFrame,
+                            "inputPathPy": uri,
+                            "outputPathPy": tempImageFolderPath + origImageFileName + ".tmp" + (undoNr+1) + ".png",
+                            "previewBaseImagePath": previewBaseImagePath,
+                        }
+
+                        pageStack.push(Qt.resolvedUrl("FilterBench.qml"), args)
+                    }
+                    
                     Label {
                         id: idFiltersLabel
+
                         anchors {
                             top: parent.bottom
                             topMargin: -Theme.paddingSmall
                             horizontalCenter: parent.horizontalCenter
                         }
+
                         font.pixelSize: Theme.fontSizeExtraSmall
                         horizontalAlignment: Text.AlignHCenter
-                        text: qsTr("filter") //+ "\n" + qsTr("bench")
+                        text: qsTr("filter")
                     }
                 }
+
                 IconButton {
                     id: idIconButtonFx
-                    enabled: ( idImageLoadedFreecrop.status !== Image.Null && finishedLoading === true ) ? true : false
+                
+                    enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading === true
                     width: parent.width / itemsPerRow //Less
                     height: Theme.itemSizeSmall
-                    icon.source : "../symbols/icon-m-effect.svg"
-                    icon.width: Theme.iconSizeMedium * 1.1
-                    icon.height: Theme.iconSizeMedium * 1.1
+                    icon {
+                        source : "../symbols/icon-m-effect.svg"
+                        width: Theme.iconSizeMedium * 1.1
+                        height: Theme.iconSizeMedium * 1.1
+                    }
+                    
                     onClicked: {
-                        pageStack.push(Qt.resolvedUrl("EffectsBench.qml"), {
-                                           previewImageRatio : idImageLoadedFreecrop.sourceSize.width/idImageLoadedFreecrop.sourceSize.height,
-                                           inputImageWidth : idImageLoadedFreecrop.sourceSize.width,
-                                           tempImageFolderPath : tempImageFolderPath,
-                                           filterSourceFolder : filterSourceFolder,
-                                           symbolSourceFolder : symbolSourceFolder,
-                                           handleWidth : handleWidth,
-                                           opacityEdges : opacityEdges,
-                                           paintToolColor : paintToolColor,
-                                           toolsDrawingColorFrame : toolsDrawingColorFrame,
-                                           inputPathPy : decodeURIComponent( "/" + idImageLoadedFreecrop.source.toString().replace(/^(file:\/{3})|(qrc:\/{2})|(http:\/{2})/,"") ),
-                                           outputPathPy : tempImageFolderPath + origImageFileName + ".tmp" + (undoNr+1) + ".png",
-                                           previewBaseImagePath : previewBaseImagePath,
-                                       } ) }
+                        const previewImageRatio = idImageLoadedFreecrop.sourceSize.width 
+                                                  / idImageLoadedFreecrop.sourceSize.height
+
+                        const sanitized = idImageLoadedFreecrop.source.toString()
+                                          .replace(/^(file:\/{3})|(qrc:\/{2})|(http:\/{2})/,"")
+
+                        const inputPathPy = decodeURIComponent("/" +  sanitized)
+
+                        const args = {
+                            "previewImageRatio": previewImageRatio,
+                            "inputImageWidth": idImageLoadedFreecrop.sourceSize.width,
+                            "tempImageFolderPath": tempImageFolderPath,
+                            "filterSourceFolder": filterSourceFolder,
+                            "symbolSourceFolder": symbolSourceFolder,
+                            "handleWidth": handleWidth,
+                            "opacityEdges": opacityEdges,
+                            "paintToolColor": paintToolColor,
+                            "toolsDrawingColorFrame": toolsDrawingColorFrame,
+                            "inputPathPy": inputPathPy,
+                            "outputPathPy": tempImageFolderPath + origImageFileName + ".tmp" + (undoNr+1) + ".png",
+                            "previewBaseImagePath": previewBaseImagePath,
+                        }
+
+                        pageStack.push(Qt.resolvedUrl("EffectsBench.qml"), args)
+                    }
+
                     Label {
                         id: idFxLabel
+                        
                         anchors {
                             top: parent.bottom
                             topMargin: -Theme.paddingSmall
                             horizontalCenter: parent.horizontalCenter
                         }
+
                         font.pixelSize: Theme.fontSizeExtraSmall
                         horizontalAlignment: Text.AlignHCenter
-                        text: qsTr("effect") // + "\n" + qsTr("bench")
+                        text: qsTr("effect")
                     }
                 }
+
                 IconButton {
                     id: idIconButtonCollage
-                    enabled: ( idImageLoadedFreecrop.status !== Image.Null && finishedLoading === true ) ? true : false
+
+                    enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading === true
                     width: parent.width / itemsPerRow //Less
                     height: Theme.itemSizeSmall
-                    icon.source : "../symbols/icon-m-collage.svg"
-                    icon.width: Theme.iconSizeMedium * 1.1
-                    icon.height: Theme.iconSizeMedium * 1.1
+
+                    icon {
+                        source : "../symbols/icon-m-collage.svg"
+                        width: Theme.iconSizeMedium * 1.1
+                        height: Theme.iconSizeMedium * 1.1
+                    }
+                    
                     onClicked: {
-                        pageStack.push(Qt.resolvedUrl("CollageBench.qml"), {
-                                           previewImageRatio : idImageLoadedFreecrop.sourceSize.width/idImageLoadedFreecrop.sourceSize.height,
-                                           inputImageWidth : idImageLoadedFreecrop.sourceSize.width,
-                                           tempImageFolderPath : tempImageFolderPath,
-                                           filterSourceFolder : filterSourceFolder,
-                                           symbolSourceFolder : symbolSourceFolder,
-                                           handleWidth : handleWidth,
-                                           opacityEdges : opacityEdges,
-                                           paintToolColor : paintToolColor,
-                                           toolsDrawingColorFrame : toolsDrawingColorFrame,
-                                           inputPathPy : decodeURIComponent( "/" + idImageLoadedFreecrop.source.toString().replace(/^(file:\/{3})|(qrc:\/{2})|(http:\/{2})/,"") ),
-                                           outputPathPy : tempImageFolderPath + origImageFileName + ".tmp" + (undoNr+1) + ".png",
-                                           previewBaseImagePath : previewBaseImagePath,
-                                       } ) }
+                        const ratio = idImageLoadedFreecrop.sourceSize.width/idImageLoadedFreecrop.sourceSize.height
+
+                        const uri = decodeURIComponent("/" + idImageLoadedFreecrop.source.toString()
+                                                             .replace(/^(file:\/{3})|(qrc:\/{2})|(http:\/{2})/,""))
+
+                        const args = {
+                            "previewImageRatio": ratio,
+                            "inputImageWidth": idImageLoadedFreecrop.sourceSize.width,
+                            "tempImageFolderPath": tempImageFolderPath,
+                            "filterSourceFolder": filterSourceFolder,
+                            "symbolSourceFolder": symbolSourceFolder,
+                            "handleWidth": handleWidth,
+                            "opacityEdges": opacityEdges,
+                            "paintToolColor": paintToolColor,
+                            "toolsDrawingColorFrame": toolsDrawingColorFrame,
+                            "inputPathPy": uri,
+                            "outputPathPy": tempImageFolderPath + origImageFileName + ".tmp" + (undoNr+1) + ".png",
+                            "previewBaseImagePath": previewBaseImagePath,
+                        }
+
+                        pageStack.push(Qt.resolvedUrl("CollageBench.qml"), args)    
+                    }
                     Label {
                         id: idCollageLabel
+
                         anchors {
                             top: parent.bottom
                             topMargin: -Theme.paddingSmall
                             horizontalCenter: parent.horizontalCenter
                         }
+
                         font.pixelSize: Theme.fontSizeExtraSmall
                         horizontalAlignment: Text.AlignHCenter
                         text: qsTr("collage")
@@ -3897,36 +3953,15 @@ Page {
 
             } // end tools effects
 
-
             Grid {
                 id: idGridFile
+
                 visible: ( buttonFile.down === true) ? true : false
                 x: Theme.paddingLarge
                 width: parent.width - 2* Theme.paddingLarge - spacing
                 rowSpacing: Theme.itemSizeExtraSmall * 0.8
                 columns: itemsPerRow
 
-                /*
-                IconButton {
-                    enabled: ( idImageLoadedFreecrop.status !== Image.Null && finishedLoading === true && undoNr >= 1 ) ? true : false
-                    width: parent.width / itemsPerRow
-                    height: Theme.itemSizeSmall
-                    icon.source: "image://theme/icon-m-backspace?"
-                    onClicked: {
-                        remorse.execute( qsTr("Restore original?"),  py.deleteAllTMPFunction )
-                    }
-                    Label {
-                        horizontalAlignment: Text.AlignHCenter
-                        text: qsTr("restore")
-                        font.pixelSize: Theme.fontSizeExtraSmall
-                        anchors {
-                            top: parent.bottom
-                            topMargin: -Theme.paddingSmall
-                            horizontalCenter: parent.horizontalCenter
-                        }
-                    }
-                }
-                */
                 IconButton {
                     enabled: ( idImageLoadedFreecrop.status !== Image.Null && finishedLoading === true && templock === -1 ) ? true : false
                     width: parent.width / itemsPerRow
@@ -4952,12 +4987,15 @@ Page {
 
                             ComboBox {
                                 id: idComboBoxFontPicker
+
                                 width: parent.width / 3 * 1.15
                                 description: qsTr("font")
+
                                 menu: ContextMenu {
                                     MenuItem {
                                         text: qsTr("Sailfish")
                                         font.pixelSize: Theme.fontSizeExtraSmall
+
                                         onClicked: {
                                             paintTextStyleNr = 0
                                             paintTextNameNr = 0
@@ -4965,8 +5003,12 @@ Page {
                                         }
                                     }
                                     MenuItem {
-                                        text: ( customFontName ==="" ) ? qsTr("load custom font") : ( customFontName + " " + qsTr("(custom)"))
+                                        text: customFontName === ""
+                                              ? qsTr("load custom font") 
+                                              : customFontName + " " + qsTr("(custom)")
+                                        
                                         font.pixelSize: Theme.fontSizeExtraSmall
+                                        
                                         onClicked: {
                                             paintTextStyleNr = 0
                                             paintTextNameNr = 1
@@ -4974,10 +5016,10 @@ Page {
                                         }
                                     }
 
-
                                     MenuItem {
                                         text: qsTr("Angelface")
                                         font.pixelSize: Theme.fontSizeExtraSmall
+
                                         onClicked: {
                                             paintTextStyleNr = 0
                                             paintTextNameNr = 5
@@ -4986,9 +5028,11 @@ Page {
                                             idPaintTextPreview.font.family = localFont.name
                                         }
                                     }
+
                                     MenuItem {
                                         text: qsTr("Antonio")
                                         font.pixelSize: Theme.fontSizeExtraSmall
+                                        
                                         onClicked: {
                                             paintTextStyleNr = 0
                                             paintTextNameNr = 5
@@ -4997,9 +5041,11 @@ Page {
                                             idPaintTextPreview.font.family = localFont.name
                                         }
                                     }
+                                    
                                     MenuItem {
                                         text: qsTr("Bananasplit")
                                         font.pixelSize: Theme.fontSizeExtraSmall
+                                    
                                         onClicked: {
                                             paintTextStyleNr = 0
                                             paintTextNameNr = 5
@@ -5008,9 +5054,11 @@ Page {
                                             idPaintTextPreview.font.family = localFont.name
                                         }
                                     }
+                                    
                                     MenuItem {
                                         text: qsTr("Baskerville")
                                         font.pixelSize: Theme.fontSizeExtraSmall
+                                    
                                         onClicked: {
                                             paintTextStyleNr = 0
                                             paintTextNameNr = 5
@@ -5019,9 +5067,11 @@ Page {
                                             idPaintTextPreview.font.family = localFont.name
                                         }
                                     }
+                                    
                                     MenuItem {
                                         text: qsTr("Fraktur")
                                         font.pixelSize: Theme.fontSizeExtraSmall
+                                    
                                         onClicked: {
                                             paintTextStyleNr = 0
                                             paintTextNameNr = 5
@@ -5030,9 +5080,11 @@ Page {
                                             idPaintTextPreview.font.family = localFont.name
                                         }
                                     }
+                                    
                                     MenuItem {
                                         text: qsTr("League Gothic")
                                         font.pixelSize: Theme.fontSizeExtraSmall
+                                    
                                         onClicked: {
                                             paintTextStyleNr = 0
                                             paintTextNameNr = 5
@@ -5041,9 +5093,11 @@ Page {
                                             idPaintTextPreview.font.family = localFont.name
                                         }
                                     }
+                                    
                                     MenuItem {
                                         text: qsTr("Lobster")
                                         font.pixelSize: Theme.fontSizeExtraSmall
+                                    
                                         onClicked: {
                                             paintTextStyleNr = 0
                                             paintTextNameNr = 5
@@ -5052,9 +5106,11 @@ Page {
                                             idPaintTextPreview.font.family = localFont.name
                                         }
                                     }
+                                    
                                     MenuItem {
                                         text: qsTr("Miso")
                                         font.pixelSize: Theme.fontSizeExtraSmall
+                                    
                                         onClicked: {
                                             paintTextStyleNr = 0
                                             paintTextNameNr = 5
@@ -5063,9 +5119,11 @@ Page {
                                             idPaintTextPreview.font.family = localFont.name
                                         }
                                     }
+                                    
                                     MenuItem {
                                         text: qsTr("Monterey")
                                         font.pixelSize: Theme.fontSizeExtraSmall
+                                    
                                         onClicked: {
                                             paintTextStyleNr = 0
                                             paintTextNameNr = 5
@@ -5074,9 +5132,11 @@ Page {
                                             idPaintTextPreview.font.family = localFont.name
                                         }
                                     }
+                                    
                                     MenuItem {
                                         text: qsTr("Nebula bold")
                                         font.pixelSize: Theme.fontSizeExtraSmall
+                                    
                                         onClicked: {
                                             paintTextStyleNr = 0
                                             paintTextNameNr = 5
@@ -5085,9 +5145,11 @@ Page {
                                             idPaintTextPreview.font.family = localFont.name
                                         }
                                     }
+                                    
                                     MenuItem {
                                         text: qsTr("Oswald heavy")
                                         font.pixelSize: Theme.fontSizeExtraSmall
+                                    
                                         onClicked: {
                                             paintTextStyleNr = 0
                                             paintTextNameNr = 5
@@ -5096,9 +5158,11 @@ Page {
                                             idPaintTextPreview.font.family = localFont.name
                                         }
                                     }
+                                    
                                     MenuItem {
                                         text: qsTr("Raleway")
                                         font.pixelSize: Theme.fontSizeExtraSmall
+                                    
                                         onClicked: {
                                             paintTextStyleNr = 0
                                             paintTextNameNr = 5
@@ -5107,9 +5171,11 @@ Page {
                                             idPaintTextPreview.font.family = localFont.name
                                         }
                                     }
+                                    
                                     MenuItem {
                                         text: qsTr("Roland")
                                         font.pixelSize: Theme.fontSizeExtraSmall
+                                    
                                         onClicked: {
                                             paintTextStyleNr = 0
                                             paintTextNameNr = 5
@@ -5118,9 +5184,11 @@ Page {
                                             idPaintTextPreview.font.family = localFont.name
                                         }
                                     }
+                                    
                                     MenuItem {
                                         text: qsTr("Stay Girly")
                                         font.pixelSize: Theme.fontSizeExtraSmall
+                                    
                                         onClicked: {
                                             paintTextStyleNr = 0
                                             paintTextNameNr = 5
@@ -5129,9 +5197,11 @@ Page {
                                             idPaintTextPreview.font.family = localFont.name
                                         }
                                     }
+                                    
                                     MenuItem {
                                         text: qsTr("Yanone")
                                         font.pixelSize: Theme.fontSizeExtraSmall
+                                    
                                         onClicked: {
                                             paintTextStyleNr = 0
                                             paintTextNameNr = 5
@@ -5141,47 +5211,52 @@ Page {
                                         }
                                     }
 
-
-
-
                                     MenuItem {
                                         text: qsTr("Sans regular")
                                         font.pixelSize: Theme.fontSizeExtraSmall
+
                                         onClicked: {
                                             paintTextStyleNr = 0
                                             paintTextNameNr = 2
                                             idPaintTextPreview.font.family = "Sans"
                                         }
                                     }
+
                                     MenuItem {
                                         text: qsTr("Sans bold")
                                         font.bold : true
                                         font.pixelSize: Theme.fontSizeExtraSmall
+
                                         onClicked: {
                                             paintTextStyleNr = 1
                                             paintTextNameNr = 2
                                             idPaintTextPreview.font.family = "Sans"
                                         }
                                     }
+
                                     MenuItem {
                                         text: qsTr("Sans italic")
                                         font.italic : true
                                         font.pixelSize: Theme.fontSizeExtraSmall
+
                                         onClicked: {
                                             paintTextStyleNr = 2
                                             paintTextNameNr = 2
                                             idPaintTextPreview.font.family = "Sans"
                                         }
                                     }
+
                                     MenuItem {
                                         text: qsTr("Serif regular")
                                         font.pixelSize: Theme.fontSizeExtraSmall
+
                                         onClicked: {
                                             paintTextStyleNr = 0
                                             paintTextNameNr = 3
                                             idPaintTextPreview.font.family = "Serif"
                                         }
                                     }
+
                                     MenuItem {
                                         text: qsTr("Serif bold")
                                         font.bold : true
@@ -5192,39 +5267,47 @@ Page {
                                             idPaintTextPreview.font.family = "Serif"
                                         }
                                     }
+
                                     MenuItem {
                                         text: qsTr("Serif italic")
                                         font.italic : true
                                         font.pixelSize: Theme.fontSizeExtraSmall
+
                                         onClicked: {
                                             paintTextStyleNr = 2
                                             paintTextNameNr = 3
                                             idPaintTextPreview.font.family = "Serif"
                                         }
                                     }
+
                                     MenuItem {
                                         text: qsTr("Mono regular")
                                         font.pixelSize: Theme.fontSizeExtraSmall
+
                                         onClicked: {
                                             paintTextStyleNr = 0
                                             paintTextNameNr = 4
                                             idPaintTextPreview.font.family = "Mono"
                                         }
                                     }
+
                                     MenuItem {
                                         text: qsTr("Mono bold")
                                         font.bold : true
                                         font.pixelSize: Theme.fontSizeExtraSmall
+
                                         onClicked: {
                                             paintTextStyleNr = 1
                                             paintTextNameNr = 4
                                             idPaintTextPreview.font.family = "Mono"
                                         }
                                     }
+
                                     MenuItem {
                                         text: qsTr("Mono italic")
                                         font.italic : true
                                         font.pixelSize: Theme.fontSizeExtraSmall
+
                                         onClicked: {
                                             paintTextStyleNr = 2
                                             paintTextNameNr = 4
@@ -5236,8 +5319,10 @@ Page {
 
                             ComboBox {
                                 id: idComboBoxFontBackColor
+
                                 width: parent.width / 3* 1.15
                                 description: qsTr("layer")
+
                                 menu: ContextMenu {
                                     MenuItem {
                                         text: qsTr("transparent")
@@ -6184,7 +6269,7 @@ Page {
         paintSymbolSizeFaktor = paintSymbolSizeFaktor
         var symbolPathFull = idComboBoxPaintSymbolPicker.icon.source.toString()
         var newSymbolPathArray = symbolPathFull.split("/")
-        symbolSourcePath = "/" + symbolSourceFolder + newSymbolPathArray.slice(-1)[0] + ".png"
+        symbolSourcePath = symbolSourceFolder + newSymbolPathArray.slice(-1)[0] + ".png"
     }
 
     function paintCalculateSprayDiameter() {

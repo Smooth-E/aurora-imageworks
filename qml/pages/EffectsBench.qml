@@ -3,10 +3,8 @@ import Sailfish.Silica 1.0
 import io.thp.pyotherside 1.5
 import Sailfish.Pickers 1.0 // File-Loader
 
-
 Page {
     id: page
-    allowedOrientations: Orientation.Portrait //All
 
     // values transmitted from FirstPage.qml
     property var tempImageFolderPath
@@ -30,9 +28,10 @@ Page {
     // variables for UI
     property var cubeFilePath : ""
     property var cubeFileName : ""
-    property bool blockerApply : false // (idComboBoxMoods.currentIndex === 0 && idComboBoxPresets.currentIndex === 0) || ( idComboBoxMoods.currentIndex === 1 && cubeFileName === "")
+    property bool blockerApply : false
     property var ratioWidthOriginal2Base
 
+    allowedOrientations: Orientation.All
 
     // autostart functions
     Component.onCompleted: {
@@ -41,10 +40,10 @@ Page {
 
     Python {
         id: py
+
         Component.onCompleted: {
-            // addImportPath(Qt.resolvedUrl('../lib'));
             addImportPath(Qt.resolvedUrl('../py'));
-            importModule('graphx', function () {}); // Which Pythonfile will be used?
+            importModule('graphx', function () { }); // Which Python file will be used?
 
             // Handlers = Signals to do something in QML whith received Infos from pyotherside
             setHandler('previewImageCreated', function( previewPath ) {
@@ -58,8 +57,8 @@ Page {
             });
         }
 
-
         // Functions affecting original image
+
         function filtersEffectsMiddleStepFunction() {
             var coalValue = idFxSliderCoalBlur.value
             var blurValue = idFxSliderBlur.value
@@ -69,144 +68,160 @@ Page {
             var addFrameValue = idFxSliderAddFrame.value
             var brushSize = idFxSliderDrawing.value
             var quantizeColors = idFxSliderQuantize.value
-
-            if (idComboBoxAlphaColor.currentIndex === 0) {
-                var targetColor2Alpha = "white"
-            }
-            else {
-                targetColor2Alpha = "black"
-            }
+            
+            const targetColor2Alpha = idComboBoxAlphaColor.currentIndex === 0 ? "white" : "black"
+            
             var alphaTolerance = idFxSliderAlphaTolerance.value
-
             var opacityValue = idFxSliderOpacity.value
-            if (idComboBoxColorExtract.currentIndex === 0) {
-                var colorExtractARGB = "R"
-            }
-            else if (idComboBoxColorExtract.currentIndex === 1) {
-                colorExtractARGB = "G"
-            }
-            else {
-                colorExtractARGB = "G"
-            }
+            
+            const colorExtractARGB = idComboBoxColorExtract.currentIndex === 0
+                                     ? "R"
+                                     : idComboBoxColorExtract.currentIndex === 1
+                                       ? "G"
+                                       : "B"
 
-            if (idComboBoxChannelExtract.currentIndex === 0) {
-                var channelExtractARGB = "R"
-            }
-            else if (idComboBoxChannelExtract.currentIndex === 1) {
-                channelExtractARGB = "G"
-            }
-            else if (idComboBoxChannelExtract.currentIndex === 2) {
-                channelExtractARGB = "B"
-            }
-            else {
-                channelExtractARGB = "A"
-            }
+            const channelExtractARGB = idComboBoxChannelExtract.currentIndex === 0
+                                       ? "R"
+                                       : idComboBoxChannelExtract.currentIndex === 1
+                                         ? "G"
+                                         : idComboBoxChannelExtract.currentIndex === 2
+                                           ? "B"
+                                           : "A"
+
             var unsharpRadiusMask = idFxUnsharpRadiusMask.value
             var unsharpPercentMask = idFxUnsharpPercentMask.value
             var unsharpThresholdMask = idFxUnsharpThresholdMask.value
             var brightspotSize = idFxSliderBrightspotSize.value
-            call("graphx.filtersEffectsMiddleStepFunction", [ currentEffectName, coalValue, blurValue, centerFocusValue, miniatureBlurValue, miniatureColorValue, addFrameValue, brushSize, quantizeColors, targetColor2Alpha, alphaTolerance, opacityValue, colorExtractARGB, channelExtractARGB, unsharpRadiusMask, unsharpPercentMask, unsharpThresholdMask, brightspotSize ])
+
+            call("graphx.filtersEffectsMiddleStepFunction", [ currentEffectName, coalValue, blurValue, centerFocusValue,
+                                                              miniatureBlurValue, miniatureColorValue, addFrameValue, 
+                                                              brushSize, quantizeColors, targetColor2Alpha, 
+                                                              alphaTolerance, opacityValue, colorExtractARGB, 
+                                                              channelExtractARGB, unsharpRadiusMask, unsharpPercentMask,
+                                                              unsharpThresholdMask, brightspotSize ])
+            
             pageStack.pop()
         }
 
-
         // Functions affecting preview image
+
         function createPreviewBaseImage () {
             idNewPreviewButtonRunningIndicator.running = true
             blockerApply = true
             call("graphx.createPreviewBaseImage", [ inputPathPy, previewBaseImagePath, previewBaseImageWidth ])
         }
 
-
         function autocontrastFunction() {
             var targetImage = "preview"
             var previewImageEffectPath = tempImageFolderPath + "preview" + "-" + currentEffectName + ".tmp.png"
             call("graphx.autocontrastFunction", [ targetImage, previewBaseImagePath, previewImageEffectPath ])
         }
+
         function stretchContrastFunction() {
             var targetImage = "preview"
             var previewImageEffectPath = tempImageFolderPath + "preview" + "-" + currentEffectName + ".tmp.png"
             call("graphx.stretchContrastFunction", [ targetImage, previewBaseImagePath, previewImageEffectPath ])
         }
+
         function blackWhiteFunction() {
             var targetImage = "preview"
             var previewImageEffectPath = tempImageFolderPath + "preview" + "-" + currentEffectName + ".tmp.png"
             call("graphx.blackWhiteFunction", [ targetImage, previewBaseImagePath, previewImageEffectPath ])
         }
+
         function coalFilterFunction() {
             var targetImage = "preview"
             var previewImageEffectPath = tempImageFolderPath + "preview" + "-" + currentEffectName + ".tmp.png"
             var blurRadius = Math.round( idFxSliderCoalBlur.value / ratioWidthOriginal2Base)
             call("graphx.coalFilterFunction", [ targetImage, previewBaseImagePath, previewImageEffectPath, blurRadius ])
         }
+
         function grayscaleFunction() {
             var targetImage = "preview"
             var previewImageEffectPath = tempImageFolderPath + "preview" + "-" + currentEffectName + ".tmp.png"
             call("graphx.grayscaleFunction", [ targetImage, previewBaseImagePath, previewImageEffectPath ])
         }
+
         function invertFunction() {
             var targetImage = "preview"
             var previewImageEffectPath = tempImageFolderPath + "preview" + "-" + currentEffectName + ".tmp.png"
             call("graphx.invertFunction", [ targetImage, previewBaseImagePath, previewImageEffectPath ])
         }
+
         function equalizeFunction() {
             var targetImage = "preview"
             var previewImageEffectPath = tempImageFolderPath + "preview" + "-" + currentEffectName + ".tmp.png"
             call("graphx.equalizeFunction", [ targetImage, previewBaseImagePath, previewImageEffectPath ])
         }
+
         function solarizeFunction() {
             var targetImage = "preview"
             var previewImageEffectPath = tempImageFolderPath + "preview" + "-" + currentEffectName + ".tmp.png"
             call("graphx.solarizeFunction", [ targetImage, previewBaseImagePath, previewImageEffectPath ])
         }
+
         function modedrawingFunction() {
             var targetImage = "preview"
             var previewImageEffectPath = tempImageFolderPath + "preview" + "-" + currentEffectName + ".tmp.png"
             var brushSize = Math.round( idFxSliderDrawing.value / ratioWidthOriginal2Base)
             call("graphx.modedrawingFunction", [ targetImage, previewBaseImagePath, previewImageEffectPath, brushSize ])
         }
+
         function posterizeFunction() {
             var targetImage = "preview"
             var previewImageEffectPath = tempImageFolderPath + "preview" + "-" + currentEffectName + ".tmp.png"
             call("graphx.posterizeFunction", [ targetImage, previewBaseImagePath, previewImageEffectPath ])
         }
+
         function blurFunction() {
             var targetImage = "preview"
             var previewImageEffectPath = tempImageFolderPath + "preview" + "-" + currentEffectName + ".tmp.png"
             var blurFactor =  Math.round( idFxSliderBlur.value / ratioWidthOriginal2Base)
             call("graphx.blurFunction", [ targetImage, previewBaseImagePath, previewImageEffectPath, blurFactor ])
         }
+
         function smoothSurfaceFunction() {
             var targetImage = "preview"
             var previewImageEffectPath = tempImageFolderPath + "preview" + "-" + currentEffectName + ".tmp.png"
             var smoothingStrength = "strong"
-            call("graphx.smoothSurfaceFunction", [ targetImage, previewBaseImagePath, previewImageEffectPath, smoothingStrength ])
+            const args = [ targetImage, previewBaseImagePath, previewImageEffectPath, smoothingStrength ]
+            call("graphx.smoothSurfaceFunction", args)
         }
+
         function centerFocusFunction() {
             var targetImage = "preview"
             var previewImageEffectPath = tempImageFolderPath + "preview" + "-" + currentEffectName + ".tmp.png"
-            var alphaMaskPath = "/" + symbolSourceFolder + "alphaMaskCircleSmall.png"
-            var radiusEdgeBlur = Math.round( idFxSliderCentralFocus.value / ratioWidthOriginal2Base) // 6 // 4
+            var alphaMaskPath = symbolSourceFolder + "alphaMaskCircleSmall.png"
+            var radiusEdgeBlur = Math.round( idFxSliderCentralFocus.value / ratioWidthOriginal2Base)
             var enhanceColorFaktor = 1
             var enhanceContrastFaktor = 1
             var addExtraBlurAroundPath = "none"
-            call("graphx.miniatureFocusFunction", [ targetImage, previewBaseImagePath, previewImageEffectPath, alphaMaskPath, radiusEdgeBlur, enhanceColorFaktor, enhanceContrastFaktor, addExtraBlurAroundPath ])
+
+            call("graphx.miniatureFocusFunction", [ targetImage, previewBaseImagePath, previewImageEffectPath, 
+                                                    alphaMaskPath, radiusEdgeBlur, enhanceColorFaktor, 
+                                                    enhanceContrastFaktor, addExtraBlurAroundPath ])
         }
+
         function miniatureFocusFunction() {
             var targetImage = "preview"
             var previewImageEffectPath = tempImageFolderPath + "preview" + "-" + currentEffectName + ".tmp.png"
-            var alphaMaskPath = "/" + symbolSourceFolder + "alphaMaskStandard.png"
-            var radiusEdgeBlur = Math.round( idFxSliderMiniatureBlur.value / ratioWidthOriginal2Base) // 5 // 4
-            var enhanceColorFaktor = Math.round( idFxSliderMiniatureColor.value ) // 1.75 // 1.9
-            var enhanceContrastFaktor = 1.3 // 1.4
-            var addExtraBlurAroundPath = "/" + symbolSourceFolder + "alphaMaskCircleSmall.png"
-            call("graphx.miniatureFocusFunction", [ targetImage, previewBaseImagePath, previewImageEffectPath, alphaMaskPath, radiusEdgeBlur, enhanceColorFaktor, enhanceContrastFaktor, addExtraBlurAroundPath ])
+            var alphaMaskPath = symbolSourceFolder + "alphaMaskStandard.png"
+            var radiusEdgeBlur = Math.round( idFxSliderMiniatureBlur.value / ratioWidthOriginal2Base)
+            var enhanceColorFaktor = Math.round( idFxSliderMiniatureColor.value )
+            var enhanceContrastFaktor = 1.3
+            var addExtraBlurAroundPath = symbolSourceFolder + "alphaMaskCircleSmall.png"
+
+            call("graphx.miniatureFocusFunction", [ targetImage, previewBaseImagePath, previewImageEffectPath, 
+                                                    alphaMaskPath, radiusEdgeBlur, enhanceColorFaktor, 
+                                                    enhanceContrastFaktor, addExtraBlurAroundPath ])
         }
+
         function edgeenhanceFunction() {
             var targetImage = "preview"
             var previewImageEffectPath = tempImageFolderPath + "preview" + "-" + currentEffectName + ".tmp.png"
             call("graphx.edgeenhanceFunction", [ targetImage, previewBaseImagePath, previewImageEffectPath ])
         }
+
         function unsharpmaskFunction() {
             var targetImage = "preview"
             var previewImageEffectPath = tempImageFolderPath + "preview" + "-" + currentEffectName + ".tmp.png"
@@ -326,18 +341,16 @@ Page {
             call("graphx.fishEyeFunction", [ targetImage, previewBaseImagePath, previewImageEffectPath, paintToolColor ])
         }
 
-
-
         onError: {
             // when an exception is raised, this error handler will be called
-            //console.log('python error: ' + traceback);
+            console.log('python error: ' + traceback);
         }
+
         onReceived: {
             // asychronous messages from Python arrive here; done there via pyotherside.send()
-            //console.log('got message from python: ' + data);
+            console.log('got message from python: ' + data);
         }
     } // end Python
-
 
     SilicaFlickable {
         id: listView
