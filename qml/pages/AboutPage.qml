@@ -1,104 +1,120 @@
-import QtQuick 2.0
+import QtQuick 2.6
 import Sailfish.Silica 1.0
+import Aurora.Controls 1.0
+import QtGraphicalEffects 1.0
 
 Page {
-    objectName: "AboutPage"
-
     allowedOrientations: Orientation.All
 
-    Column {
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.leftMargin: Theme.paddingMedium
-        anchors.rightMargin: Theme.paddingMedium
+    AppBar {
+        id: appBar
 
-        PageHeader {
-            title: qsTr("About Imageworks")
+        headerText: qsTr("About")
+    }
+
+    SilicaFlickable {
+        anchors {
+            fill: parent
+            topMargin: appBar.height
         }
 
-        Item {
-            width: 1
-            height: 3 * Theme.paddingLarge
-        }
+        contentHeight: column.height
+        topMargin: Theme.paddingLarge
+        bottomMargin: Theme.paddingLarge
 
-        Image {
-            width: parent.width / 5
-            height: width
-            anchors.horizontalCenter: parent.horizontalCenter
-            source: "../cover/imageworks.svg"
-            smooth: true
-            asynchronous: true
-        }
+        Column {
+            id: column
 
-        Item {
-            width: 1
-            height: Theme.paddingLarge
-        }
+            anchors {
+                left: parent.left
+                right: parent.right
+                leftMargin: Theme.horizontalPageMargin
+                rightMargin: Theme.horizontalPageMargin
+            }
 
-        Label {
-            width: parent.width
-            horizontalAlignment: Text.AlignHCenter
-            font.pixelSize: Theme.fontSizeMedium
-            color: Theme.primaryColor
-            text: qsTr("An Image Editor")
-        }
+            height: childrenRect.height
+            spacing: Theme.paddingMedium
 
-        Item {
-            width: 1
-            height: Theme.paddingLarge
-        }
+            Image {
+                id: icon
 
-        Label {
-            width: parent.width
-            horizontalAlignment: Text.AlignHCenter
-            font.pixelSize: Theme.fontSizeExtraSmall
-            color: Theme.secondaryColor
-            text: qsTr("Copyright © 2020 Tobias Planitzer") + "\n "
-                  + qsTr(" © 2021-22 Mark Washeim")
-        }
+                anchors.horizontalCenter: parent.horizontalCenter
+                width: Theme.dp(128)
+                height: width
+                source: Qt.resolvedUrl("../symbols/app-icon.png")
 
-        Item {
-            width: 1
-            height: 2 * Theme.paddingLarge
-        }
+                layer.enabled: true
+                layer.effect: OpacityMask {
+                    maskSource: Rectangle {
+                        width: icon.width
+                        height: icon.height
+                        radius: Theme.paddingLarge
+                    }
+                }
+            }
 
-        Label {
-            width: parent.width
-            horizontalAlignment: Text.AlignHCenter
-            font.pixelSize: Theme.fontSizeSmall
-            color: Theme.secondaryColor
-            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-            text: qsTr("Imageworks is open source software licensed under the terms of ")
-                  + qsTr("the GNU General Public License v3.")
-        }
+            Label {
+                width: parent.width
+                text: qsTr("Imageworks")
+                horizontalAlignment: Text.AlignHCenter
+                wrapMode: Text.WordWrap
+                
+                font {
+                    pixelSize: Theme.fontSizeLarge
+                    weight: Font.DemiBold
+                }
+            }
 
-        Item {
-            width: 1
-            height: 2 * Theme.paddingLarge
-        }
+            Label {
+                width: parent.width
+                text: qsTr("Feature-rich image editing application for Aurora OS based on Python Pillow library. Originally made for Sailfish OS, then ported to Aurora OS by Smooth-E.")
+                horizontalAlignment: Text.AlignHCenter
+                color: Theme.colorSecondary
+                wrapMode: Text.WordWrap
+            }
 
-        Label {
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.bottomMargin: Theme.paddingSmall
-            color: Theme.secondaryColor
-            textFormat: Text.StyledText
-            linkColor: Theme.highlightColor
-            font.pixelSize: Theme.fontSizeSmall
-            text: "<a href=\"https://github.com/poetaster/harbour-simplecrop\">Source: github</a>"
-            /*text: "<style>a:link{color: " + Theme.highlightColor + ";}</style>" +  "<a href=\"https://github.com/poetaster/harbour-simplecrop\">Source: github</a>" */
-            onLinkActivated: {
-                console.log("Opening external browser: " + link);
-                Qt.openUrlExternally(link)
+            Label {
+                width: parent.width
+                text: qsTr("Imageworks is free software, distributed under the terms of GNU GPL v3.")
+                color: Theme.secondaryColor
+                wrapMode: Text.WordWrap
+            }
+
+            Label {
+                width: parent.width
+                color: Theme.secondaryColor
+                wrapMode: Text.WordWrap
+
+                text: "Copyright © 2020 Tobias Planitzer"
+                      + "\nCopyright © 2021-2022 Mark Washeim"
+                      + "\nCopyright © 2026 Smooth-E"
+            }
+
+            ButtonLayout {
+                width: parent.width
+
+                Button {
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    text: qsTr("View source code on GitHub")
+
+                    onClicked: {
+                        if (mouse.button === Qt.LeftButton) {
+                            Qt.openUrlExternally("https://github.com/smooth-e/aurora-imageworks")
+                        }
+                    }
+                }
+
+                Button {
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    text: qsTr("Support port maintainer through Boosty")
+
+                    onClicked: {
+                        if (mouse.button === Qt.LeftButton) {
+                            Qt.openUrlExternally("https://boosty.to/smooth-e/donate")
+                        }
+                    }
+                }
             }
         }
-        /*
-        Button {
-            anchors.horizontalCenter: parent.horizontalCenter
-            text: qsTr("View license")
-            onClicked: {
-                pageStack.push(Qt.resolvedUrl("LicensePage.qml"));
-            }
-        }*/
-
     }
 }

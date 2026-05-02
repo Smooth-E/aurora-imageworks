@@ -4,27 +4,27 @@
 <context>
     <name>AboutPage</name>
     <message>
-        <source>About Imageworks</source>
+        <source>About</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>An Image Editor</source>
+        <source>Imageworks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Copyright © 2020 Tobias Planitzer</source>
+        <source>Feature-rich image editing application for Aurora OS based on Python Pillow library. Originally made for Sailfish OS, then ported to Aurora OS by Smooth-E.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Imageworks is open source software licensed under the terms of </source>
+        <source>View source code on GitHub</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>the GNU General Public License v3.</source>
+        <source>Support port maintainer through Boosty</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source> © 2021-22 Mark Washeim</source>
+        <source>Imageworks is free software, distributed under the terms of GNU GPL v3.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

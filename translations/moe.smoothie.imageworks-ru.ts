@@ -4,28 +4,28 @@
 <context>
     <name>AboutPage</name>
     <message>
-        <source>About Imageworks</source>
+        <source>About</source>
         <translation>О приложении</translation>
     </message>
     <message>
-        <source>An Image Editor</source>
-        <translation>Редактор изображений</translation>
+        <source>Imageworks</source>
+        <translation>Imageworks</translation>
     </message>
     <message>
-        <source>Copyright © 2020 Tobias Planitzer</source>
-        <translation>Copyright © 2020 Tobias Planitzer</translation>
+        <source>Feature-rich image editing application for Aurora OS based on Python Pillow library. Originally made for Sailfish OS, then ported to Aurora OS by Smooth-E.</source>
+        <translation>Мощный редактор изображений на основе библиотеки Pillow для Python. Приложение было изначально разработано для Sailfish OS, и затем портировано Smooth-E на ОС Аврора.</translation>
     </message>
     <message>
-        <source> © 2021-22 Mark Washeim</source>
-        <translation> © 2021-22 Mark Washeim</translation>
+        <source>View source code on GitHub</source>
+        <translation>Перейти к исходному коду на GitHub</translation>
     </message>
     <message>
-        <source>Imageworks is open source software licensed under the terms of </source>
-        <translation>Imageworks - свободное программное обеспечение, распространяемое под лицензией </translation>
+        <source>Support port maintainer through Boosty</source>
+        <translation>Поддержать разработчика порта на Boosty</translation>
     </message>
     <message>
-        <source>the GNU General Public License v3.</source>
-        <translation>GNU General Public License v3.</translation>
+        <source>Imageworks is free software, distributed under the terms of GNU GPL v3.</source>
+        <translation>Imageworks - свободное программное обеспечение, распространяемое под лицензией GNU GPL v3.</translation>
     </message>
 </context>
 <context>
