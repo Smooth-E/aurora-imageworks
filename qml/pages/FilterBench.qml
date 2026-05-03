@@ -1,12 +1,12 @@
 import QtQuick 2.6
 import Sailfish.Silica 1.0
+import Sailfish.Pickers 1.0
+import Aurora.Controls 1.0
 import io.thp.pyotherside 1.5
-import Sailfish.Pickers 1.0 // File-Loader
 
 
 Page {
     id: page
-    allowedOrientations: Orientation.Portrait //All
 
     // values transmitted from FirstPage.qml
     property var tempImageFolderPath
@@ -30,42 +30,45 @@ Page {
     property var cubeImagePath : ""
     property var cubeImageName : ""
     property var lut3dType
-    property bool blockerApply : (idComboBoxMoods.currentIndex === 0 && idComboBoxPresets.currentIndex === 0) || ( idComboBoxMoods.currentIndex === 1 && cubeFileName === "")
 
-    // autostart functions
-    Component.onCompleted: {
-        py.createPreviewBaseImage()
-    }
+    property bool blockerApply : (idComboBoxMoods.currentIndex === 0 && idComboBoxPresets.currentIndex === 0) 
+                                 || ( idComboBoxMoods.currentIndex === 1 && cubeFileName === "")
+
+    allowedOrientations: Orientation.All
+
+    Component.onCompleted: py.createPreviewBaseImage()
 
     Component {
        id: lutCubeFilePickerPage
+
        FilePickerPage {
            title: qsTr("Select LUT (*.cube, *.png)")
            nameFilters: [ '*.cube', '*.png' ]
+
            onSelectedContentPropertiesChanged: {
                cubeFilePath = selectedContentProperties.filePath
                cubeFileName = selectedContentProperties.fileName
                var cubeFileNameArray = cubeFileName.split(".")
                var oldFileName = (cubeFileNameArray.slice(0, cubeFileNameArray.length-1)).join(".")
                var oldFileType = cubeFileNameArray[cubeFileNameArray.length - 1]
+           
                if ( oldFileType === "cube" || oldFileType === "CUBE" ) {
                    lut3dType = "cubeFile"
-               }
-               else {
+               } else {
                    lut3dType = "imageFile"
                }
+
                py.apply3dLUTcubeFileFromPy(cubeFilePath, lut3dType)
            }
        }
     }
 
-
     Python {
         id: py
+
         Component.onCompleted: {
-            // addImportPath(Qt.resolvedUrl('../lib'));
-            addImportPath(Qt.resolvedUrl('../py'));
-            importModule('graphx', function () {}); // Which Pythonfile will be used?
+            addImportPath(Qt.resolvedUrl('../py'))
+            importModule('graphx', function() { })
 
             // Handlers = Signals to do something in QML whith received Infos from pyotherside
             setHandler('previewImageCreated', function( previewPath ) {
@@ -76,7 +79,6 @@ Page {
                 idPreviewImage.visible = true
             });
         }
-
 
         // Functions affecting original image
         function filtersEffectsMiddleStepFunction() {
@@ -97,16 +99,24 @@ Page {
             var unsharpPercentMask = "none"
             var unsharpThresholdMask = "none"
             var brightspotSize = "none"
-            call("graphx.filtersEffectsMiddleStepFunction", [ currentEffectName, coalValue, blurValue, centerFocusValue, miniatureBlurValue, miniatureColorValue, addFrameValue, brushSize, quantizeColors, targetColor2Alpha, alphaTolerance, opacityValue, colorExtractARGB, channelExtractARGB, unsharpRadiusMask, unsharpPercentMask, unsharpThresholdMask, brightspotSize ])
+
+            call("graphx.filtersEffectsMiddleStepFunction", [ currentEffectName, coalValue, blurValue, centerFocusValue, 
+                                                              miniatureBlurValue, miniatureColorValue, addFrameValue, 
+                                                              brushSize, quantizeColors, targetColor2Alpha, 
+                                                              alphaTolerance, opacityValue, colorExtractARGB, 
+                                                              channelExtractARGB, unsharpRadiusMask, unsharpPercentMask,
+                                                              unsharpThresholdMask, brightspotSize ])
+            
             pageStack.pop()
         }
+
         function apply3dLUTcubeMiddleStepFunction() {
             call("graphx.apply3dLUTcubeMiddleStepFunction", [ cubeFilePath, lut3dType ])
             pageStack.pop()
         }
 
-
         // Functions affecting preview image
+
         function createPreviewBaseImage () {
             idNewPreviewButtonRunningIndicator.running = true
             call("graphx.createPreviewBaseImage", [ inputPathPy, previewBaseImagePath, previewBaseImageWidth ])
@@ -115,158 +125,150 @@ Page {
         function apply3dLUTcubeFileFromPy( cubeFilePath, lut3dType ) {
             var targetImage = "preview"
             var previewImageEffectPath = tempImageFolderPath + "preview" + "-" + "lut3d" + ".tmp.png"
-            call("graphx.apply3dLUTcubeFile", [ targetImage, previewBaseImagePath, cubeFilePath, lut3dType, previewImageEffectPath ])
+            const args = [ targetImage, previewBaseImagePath, cubeFilePath, lut3dType, previewImageEffectPath ]
+            call("graphx.apply3dLUTcubeFile", args)
         }
 
         function gothamFilterFunction() {
             var targetImage = "preview"
             var previewImageEffectPath = tempImageFolderPath + "preview" + "-" + currentEffectName + ".tmp.png"
             var sharpenValue = 1.3
-            call("graphx.gothamFilterFunction", [ targetImage, previewBaseImagePath, previewImageEffectPath, sharpenValue ])
+            const args = [ targetImage, previewBaseImagePath, previewImageEffectPath, sharpenValue ]
+            call("graphx.gothamFilterFunction", args)
         }
+
         function cremaFilterFunction() {
             var targetImage = "preview"
             var previewImageEffectPath = tempImageFolderPath + "preview" + "-" + currentEffectName + ".tmp.png"
             var colorFactor = 0.8
             var contrastFactor = 0.9
-            call("graphx.cremaFilterFunction", [ targetImage, previewBaseImagePath, previewImageEffectPath, colorFactor, contrastFactor ])
+            const args = [ targetImage, previewBaseImagePath, previewImageEffectPath, colorFactor, contrastFactor ]
+            call("graphx.cremaFilterFunction", args)
         }
+
         function junoFilterFunction() {
             var targetImage = "preview"
             var previewImageEffectPath = tempImageFolderPath + "preview" + "-" + currentEffectName + ".tmp.png"
             var brightnessValue = 1.15
             var saturationValue = 1.7
-            call("graphx.junoFilterFunction", [ targetImage, previewBaseImagePath, previewImageEffectPath, brightnessValue, saturationValue ])
+            const args = [ targetImage, previewBaseImagePath, previewImageEffectPath, brightnessValue, saturationValue ]
+            call("graphx.junoFilterFunction", args)
         }
+
         function kelvinFilterFunction() {
             var targetImage = "preview"
             var previewImageEffectPath = tempImageFolderPath + "preview" + "-" + currentEffectName + ".tmp.png"
             call("graphx.kelvinFilterFunction", [ targetImage, previewBaseImagePath, previewImageEffectPath ])
         }
+
         function xproiiFilterFunction() {
             var targetImage = "preview"
             var previewImageEffectPath = tempImageFolderPath + "preview" + "-" + currentEffectName + ".tmp.png"
             call("graphx.xproiiFilterFunction", [ targetImage, previewBaseImagePath, previewImageEffectPath ])
         }
+
         function amaroFilterFunction() {
             var targetImage = "preview"
             var previewImageEffectPath = tempImageFolderPath + "preview" + "-" + currentEffectName + ".tmp.png"
             call("graphx.amaroFilterFunction", [ targetImage, previewBaseImagePath, previewImageEffectPath ])
         }
+
         function mayfairFilterFunction() {
             var targetImage = "preview"
             var previewImageEffectPath = tempImageFolderPath + "preview" + "-" + currentEffectName + ".tmp.png"
             call("graphx.mayfairFilterFunction", [ targetImage, previewBaseImagePath, previewImageEffectPath ])
         }
+
         function nineteen77FilterFunction() {
             var targetImage = "preview"
             var previewImageEffectPath = tempImageFolderPath + "preview" + "-" + currentEffectName + ".tmp.png"
             call("graphx.nineteen77FilterFunction", [ targetImage, previewBaseImagePath, previewImageEffectPath ])
         }
+        
         function lofiFilterFunction() {
             var targetImage = "preview"
             var previewImageEffectPath = tempImageFolderPath + "preview" + "-" + currentEffectName + ".tmp.png"
             call("graphx.lofiFilterFunction", [ targetImage, previewBaseImagePath, previewImageEffectPath ])
         }
+        
         function hudsonFilterFunction() {
             var targetImage = "preview"
             var previewImageEffectPath = tempImageFolderPath + "preview" + "-" + currentEffectName + ".tmp.png"
             call("graphx.hudsonFilterFunction", [ targetImage, previewBaseImagePath, previewImageEffectPath ])
         }
+        
         function redtealFilterFunction() {
             var targetImage = "preview"
             var previewImageEffectPath = tempImageFolderPath + "preview" + "-" + currentEffectName + ".tmp.png"
             var colorFactor = 1.35
             call("graphx.redtealFilterFunction", [ targetImage, previewBaseImagePath, previewImageEffectPath, colorFactor ])
         }
+        
         function nashvilleFilterFunction() {
             var targetImage = "preview"
             var previewImageEffectPath = tempImageFolderPath + "preview" + "-" + currentEffectName + ".tmp.png"
             call("graphx.nashvilleFilterFunction", [ targetImage, previewBaseImagePath, previewImageEffectPath ])
         }
+        
         function hefeFilterFunction() {
             var targetImage = "preview"
             var previewImageEffectPath = tempImageFolderPath + "preview" + "-" + currentEffectName + ".tmp.png"
             call("graphx.hefeFilterFunction", [ targetImage, previewBaseImagePath, previewImageEffectPath ])
         }
+        
         function sierraFilterFunction() {
             var targetImage = "preview"
             var previewImageEffectPath = tempImageFolderPath + "preview" + "-" + currentEffectName + ".tmp.png"
             call("graphx.sierraFilterFunction", [ targetImage, previewBaseImagePath, previewImageEffectPath ])
         }
+        
         function clarendonFilterFunction() {
             var targetImage = "preview"
             var previewImageEffectPath = tempImageFolderPath + "preview" + "-" + currentEffectName + ".tmp.png"
             call("graphx.sierraFilterFunction", [ targetImage, previewBaseImagePath, previewImageEffectPath ])
         }
+        
         function tintWithColorFunction() {
             var targetImage = "preview"
             var previewImageEffectPath = tempImageFolderPath + "preview" + "-" + currentEffectName + ".tmp.png"
             var factorBrightnessTint = 1.2
-            call("graphx.tintWithColorFunction", [ targetImage, previewBaseImagePath, previewImageEffectPath, tintColor, factorBrightnessTint ])
+            const args = [ targetImage, previewBaseImagePath, previewImageEffectPath, tintColor, factorBrightnessTint ]
+            call("graphx.tintWithColorFunction", args)
         }
+        
         function sepiaFunction() {
             var targetImage = "preview"
             var previewImageEffectPath = tempImageFolderPath + "preview" + "-" + currentEffectName + ".tmp.png"
             call("graphx.sepiaFunction", [ targetImage, previewBaseImagePath, previewImageEffectPath ])
         }
 
-
-
-
-        onError: {
-            // when an exception is raised, this error handler will be called
-            //console.log('python error: ' + traceback);
-        }
-        onReceived: {
-            // asychronous messages from Python arrive here; done there via pyotherside.send()
-            //console.log('got message from python: ' + data);
-        }
+        onError: console.log('python error: ' + traceback)
+        onReceived: console.log('got message from python: ' + data)
     } // end Python
 
+    AppBar {
+        id: appBar
+
+        headerText: qsTr("Filter bench")
+        subHeaderText: qsTr("Apply color filters")
+    }
 
     SilicaFlickable {
         id: listView
-        anchors.fill: parent
-        contentHeight: columnMoods.height  // Tell SilicaFlickable the height of its content.
+
+        anchors {
+            fill: parent
+            topMargin: appBar.height
+        }
+
+        contentHeight: columnMoods.height
         VerticalScrollDecorator {}
 
 
         Column {
             id: columnMoods
-            width: page.width
 
-            SectionHeader {
-                id: idSectionHeader
-                height: idSectionHeaderColumn.height
-                Column {
-                    id: idSectionHeaderColumn
-                    width: parent.width / 5 * 4
-                    height: idLabelProgramName.height + idLabelFilePath.height
-                    anchors.top: parent.top
-                    anchors.topMargin: Theme.paddingMedium
-                    anchors.right: parent.right
-                    Label {
-                        id: idLabelProgramName
-                        width: parent.width
-                        anchors.right: parent.right
-                        horizontalAlignment: Text.AlignRight
-                        font.pixelSize: Theme.fontSizeLarge
-                        color: Theme.highlightColor
-                        text: qsTr("Filter bench")
-                    }
-                    Label {
-                        id: idLabelFilePath
-                        width: parent.width
-                        anchors.right: parent.right
-                        horizontalAlignment: Text.AlignRight
-                        font.pixelSize: Theme.fontSizeTiny
-                        color: Theme.highlightColor
-                        truncationMode: TruncationMode.Elide
-                        text: "apply color filters" + "\n"
-                    }
-                }
-            }
+            width: page.width
 
             Row {
                 width: parent.width

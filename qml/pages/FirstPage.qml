@@ -1574,13 +1574,13 @@ Page {
 
     SilicaFlickable {
         anchors {
-            top: appBar.bottom
-            bottom: parent.bottom
-            left: parent.left
-            right: parent.right
+            fill: parent
+            topMargin: appBar.height
         }
 
         contentHeight: column.height
+        topMargin: Theme.paddingLarge
+        bottomMargin: Theme.paddingLarge
 
         Column {
             id: column

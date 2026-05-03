@@ -119,7 +119,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>replace, invert and saturate</source>
+        <source>Replace, invert and saturate</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -158,14 +158,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>combine</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>images</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>blurry image</source>
         <translation type="unfinished"></translation>
     </message>
@@ -194,15 +186,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>px</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>frame width</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>output limited to </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -237,17 +221,17 @@
         <source>scattered</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Combine %n images</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Output limited to %1px. %2</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ColorcurveBench</name>
-    <message>
-        <source>Color bench</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>histogram, adjust curves</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <source>Alpha</source>
         <translation type="unfinished"></translation>
@@ -286,6 +270,14 @@
     </message>
     <message>
         <source>max</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Color curve bench</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>View histogram or adjust curves</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -500,6 +492,10 @@
     </message>
     <message>
         <source>fishEye</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Apply effects</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -749,6 +745,10 @@
         <source>hiddenite</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Apply color filters</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>FirstPage</name>
@@ -970,10 +970,6 @@
     </message>
     <message>
         <source>new</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>about</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1210,25 +1206,6 @@
     </message>
 </context>
 <context>
-    <name>InfoPage</name>
-    <message>
-        <source>Copyright © 2020 Tobias Planitzer</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source> © 2021 Mark Washeim</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Feedback: https://github.com/poetaster/harbour-simplecrop:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>About Imageworks</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>MetadataPage</name>
     <message>
         <source>File</source>
@@ -1277,10 +1254,6 @@
 </context>
 <context>
     <name>NewPage</name>
-    <message>
-        <source>Create Image</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <source>color</source>
         <translation type="unfinished"></translation>
@@ -1349,6 +1322,10 @@
         <source>4k</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Create image</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>PixelBench</name>
@@ -1409,11 +1386,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>find and replace</source>
+        <source>Pixel bench</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Pixel bench</source>
+        <source>Find and replace</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1436,16 +1413,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Rename as</source>
+        <source>Rename as...</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>SavePage</name>
-    <message>
-        <source>Save as</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <source>Original Folder</source>
         <translation type="unfinished"></translation>
@@ -1480,6 +1453,10 @@
     </message>
     <message>
         <source>Filetype does not support transparency.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Save as...</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

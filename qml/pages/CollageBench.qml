@@ -1,12 +1,11 @@
 import QtQuick 2.6
 import Sailfish.Silica 1.0
+import Sailfish.Pickers 1.0
+import Aurora.Controls 1.0
 import io.thp.pyotherside 1.5
-import Sailfish.Pickers 1.0 // File-Loader
-
 
 Page {
     id: page
-    allowedOrientations: Orientation.Portrait //All
 
     // values transmitted from FirstPage.qml
     property var tempImageFolderPath
@@ -35,7 +34,8 @@ Page {
     property var ratioWanted : ""
     property var selectedFilesCounter : 0
 
-    // autostart functions
+    allowedOrientations: Orientation.All
+
     Component.onCompleted: {
         if (inputImageWidth > warningInputMaxWidth) {
             warningLargeSize = true
@@ -45,27 +45,27 @@ Page {
 
     Component {
         id: multiImagePickerDialog
+
         MultiImagePickerDialog {
             onAccepted: {
                 allSelectedPaths = ""
                 randomAngleList = ""
                 var urls = []
                 var paths = []
+
                 for (var i = 0; i < selectedContent.count; ++i) {
                     var url = selectedContent.get(i).url
-                    var path = decodeURIComponent( "/" + (selectedContent.get(i).url).toString().replace(/^(file:\/{3})|(qrc:\/{2})|(http:\/{2})/,"") )
+                    var path = decodeURIComponent("/" + (selectedContent.get(i).url).toString()
+                                                        .replace(/^(file:\/{3})|(qrc:\/{2})|(http:\/{2})/,""))
                     urls.push(selectedContent.get(i).url)
-                    paths.push(decodeURIComponent( "/" + (selectedContent.get(i).url).toString().replace(/^(file:\/{3})|(qrc:\/{2})|(http:\/{2})/,"") ))
+                    paths.push(decodeURIComponent("/" + (selectedContent.get(i).url).toString()
+                                                        .replace(/^(file:\/{3})|(qrc:\/{2})|(http:\/{2})/,"") ))
                 }
+
                 allSelectedPaths = paths.join(",")
                 selectedFilesCounter = selectedContent.count
                 blockApply = true
                 py.createImageMosaic("preview")
-            }
-            onRejected: {
-                //allSelectedPaths = ""
-                //randomAngleList = ""
-                //selectedFilesCounter = 0
             }
         }
     }
@@ -73,8 +73,8 @@ Page {
     Python {
         id: py
         Component.onCompleted: {
-            addImportPath(Qt.resolvedUrl('../py'));
-            importModule('graphx', function () {}); // Which Pythonfile will be used?
+            addImportPath(Qt.resolvedUrl('../py'))
+            importModule('graphx', function () { })
 
             // Handlers = Signals to do something in QML whith received Infos from pyotherside
             setHandler('previewImageCreated', function( previewPath, shuffledPaths, randomAngles ) {
@@ -86,140 +86,115 @@ Page {
             });
         }
 
-
-
         // Functions affecting preview image
         function createImageMosaic (targetImage) {
             var previewImagePath = tempImageFolderPath + "preview" + "-" + "collage" + ".tmp.png"
 
-            if (idComboBoxBackColor.currentIndex === 0) {
-                var targetBackground = "image"
-            }
-            else if (idComboBoxBackColor.currentIndex === 1) {
-                targetBackground = paintToolColor
-            }
-            else if (idComboBoxBackColor.currentIndex === 2) {
-                targetBackground = "#ff000000" //black
-            }
-            else if (idComboBoxBackColor.currentIndex === 3) {
-                targetBackground = "#ffffffff" //white
-            }
-            else if (idComboBoxBackColor.currentIndex === 4) {
-                targetBackground = "#00000000" //transparent
-            }
+            const targetBackground = idComboBoxBackColor.currentIndex === 0
+                                     ? "image"
+                                     : idComboBoxBackColor.currentIndex === 1
+                                       ? paintToolColor
+                                       : idComboBoxBackColor.currentIndex === 2
+                                        ? "#ff000000" // black
+                                        : idComboBoxBackColor.currentIndex === 3
+                                          ? "#ffffffff" // white
+                                          : "#00000000" //transparent
 
-            if (idComboBoxFrameColor.currentIndex === 0) {
-                var targetFrameSetup = "none"
-            }
-            else if (idComboBoxFrameColor.currentIndex === 1) {
-                targetFrameSetup = paintToolColor
-            }
-            else if (idComboBoxFrameColor.currentIndex === 2) {
-                targetFrameSetup = "#ff000000"
-            }
-            else if (idComboBoxFrameColor.currentIndex === 3) {
-                targetFrameSetup = "#ffffffff"
-            }
+            const targetFrameSetup = idComboBoxFrameColor.currentIndex === 0
+                                     ? "none"
+                                     : idComboBoxFrameColor.currentIndex === 1
+                                       ? paintToolColor
+                                       : idComboBoxFrameColor.currentIndex === 2
+                                         ? "#ff000000"
+                                         : "#ffffffff"
 
             if (idComboBoxAspect.currentIndex === 0) {
                 ratioWanted = 3/2
-            }
-            else if (idComboBoxAspect.currentIndex === 1) {
+            } else if (idComboBoxAspect.currentIndex === 1) {
                 ratioWanted = 1
-            }
-            else if (idComboBoxAspect.currentIndex === 2) {
+            } else if (idComboBoxAspect.currentIndex === 2) {
                 ratioWanted = 2/3
             }
-
 
             if (targetImage === "preview") {
                 var shuffle = "yes"
                 var targetWidth = idPreviewImage.width
                 var targetBlur = 20 // 1...50
                 var targetSpacing = idSliderSpacing.value
+              
                 targetFrameSetup = targetFrameSetup + "," + idSliderFrameWidth.value
+              
                 if ( currentCollageType === "mosaic") {
-                    call("graphx.createCollageMosaic", [ previewImagePath, inputPathPy, targetWidth , allSelectedPaths, shuffle, targetBackground, idSliderColumns.value, targetSpacing, targetBlur, targetImage, targetFrameSetup ])
-                }
-                else if ( currentCollageType === "lines") {
-                    call("graphx.createCollageLines", [ previewImagePath, inputPathPy, targetWidth , allSelectedPaths, shuffle, targetBackground, idSliderHeight.value, targetSpacing, targetBlur, targetImage, targetFrameSetup ])
-                }
-                else if ( currentCollageType === "columns") {
-                    call("graphx.createCollageColumns", [ previewImagePath, inputPathPy, targetWidth , allSelectedPaths, shuffle, targetBackground, idSliderColumns.value, targetSpacing, targetBlur, targetImage, targetFrameSetup ])
-                }
-                else if ( currentCollageType === "polaroids") {
-                    call("graphx.createCollagePolaroids", [ previewImagePath, inputPathPy, targetWidth , allSelectedPaths, shuffle, targetBackground, idSliderColumns.value, targetSpacing, targetBlur, targetImage, targetFrameSetup, randomAngleList, ratioWanted ])
-                }
-                else if ( currentCollageType === "scattered") {
-                    call("graphx.createCollageScattered", [ previewImagePath, inputPathPy, targetWidth , allSelectedPaths, shuffle, targetBackground, idSliderColumns.value, targetSpacing, targetBlur, targetImage, targetFrameSetup, randomAngleList, ratioWanted ])
+                    call("graphx.createCollageMosaic", [ previewImagePath, inputPathPy, targetWidth , allSelectedPaths, 
+                                                         shuffle, targetBackground, idSliderColumns.value, 
+                                                         targetSpacing, targetBlur, targetImage, targetFrameSetup ])
+                } else if ( currentCollageType === "lines") {
+                    call("graphx.createCollageLines", [ previewImagePath, inputPathPy, targetWidth , allSelectedPaths, 
+                                                        shuffle, targetBackground, idSliderHeight.value, targetSpacing, 
+                                                        targetBlur, targetImage, targetFrameSetup ])
+                } else if ( currentCollageType === "columns") {
+                    call("graphx.createCollageColumns", [ previewImagePath, inputPathPy, targetWidth , allSelectedPaths,
+                                                          shuffle, targetBackground, idSliderColumns.value, 
+                                                          targetSpacing, targetBlur, targetImage, targetFrameSetup ])
+                } else if ( currentCollageType === "polaroids") {
+                    call("graphx.createCollagePolaroids", [ previewImagePath, inputPathPy, targetWidth , 
+                                                            allSelectedPaths, shuffle, targetBackground, 
+                                                            idSliderColumns.value, targetSpacing, targetBlur, 
+                                                            targetImage, targetFrameSetup, randomAngleList, 
+                                                            ratioWanted ])
+                } else if ( currentCollageType === "scattered") {
+                    call("graphx.createCollageScattered", [ previewImagePath, inputPathPy, targetWidth , 
+                                                            allSelectedPaths, shuffle, targetBackground, 
+                                                            idSliderColumns.value, targetSpacing, targetBlur, 
+                                                            targetImage, targetFrameSetup, randomAngleList, 
+                                                            ratioWanted ])
                 }
 
+                return
             }
-            else {
-                shuffle = "no"
-                targetWidth = inputImageWidth
-                targetBlur = Math.round(20 * ratioWidthOriginal2Preview)
-                targetSpacing = Math.round(idSliderSpacing.value * ratioWidthOriginal2Preview)
-                targetFrameSetup = targetFrameSetup + "," + Math.round(idSliderFrameWidth.value * ratioWidthOriginal2Preview)
-                call("graphx.createCollageMiddleStepFunction", [ currentCollageType, targetWidth , allSelectedPaths, shuffle, targetBackground, idSliderColumns.value, targetSpacing, targetBlur, randomAngleList, ratioWanted, targetFrameSetup ])
-                pageStack.pop()
-            }
 
+            
+            shuffle = "no"
+            targetWidth = inputImageWidth
+            targetBlur = Math.round(20 * ratioWidthOriginal2Preview)
+            targetSpacing = Math.round(idSliderSpacing.value * ratioWidthOriginal2Preview)
+
+            targetFrameSetup = targetFrameSetup + "," 
+                               + Math.round(idSliderFrameWidth.value * ratioWidthOriginal2Preview)
+            
+            call("graphx.createCollageMiddleStepFunction", [ currentCollageType, targetWidth , allSelectedPaths, 
+                                                             shuffle, targetBackground, idSliderColumns.value, 
+                                                             targetSpacing, targetBlur, randomAngleList, ratioWanted, 
+                                                             targetFrameSetup ])
+            
+            pageStack.pop()
         }
 
 
-        onError: {
-            // when an exception is raised, this error handler will be called
-            //console.log('python error: ' + traceback);
-        }
-        onReceived: {
-            // asychronous messages from Python arrive here; done there via pyotherside.send()
-            //console.log('got message from python: ' + data);
-        }
+        onError: console.log('python error: ' + traceback);
+        onReceived: console.log('got message from python: ' + data);
     } // end Python
 
+    AppBar {
+        readonly property string subheader: qsTr("Combine %n images", selectedFilesCounter)
+
+        headerText: qsTr("Collage bench")
+        subHeaderText: warningLargeSize
+                       ? qsTr("Output limited to %1px. %2").arg(warningInputMaxWidth).arg(subheader)
+                       : subheader 
+    }
 
     SilicaFlickable {
         id: listView
         anchors.fill: parent
-        contentHeight: columnMoods.height  // Tell SilicaFlickable the height of its content.
-        VerticalScrollDecorator {}
+        contentHeight: columnMoods.height
+
+        VerticalScrollDecorator { }
 
         Column {
             id: columnMoods
-            width: page.width
 
-            SectionHeader {
-                id: idSectionHeader
-                height: idSectionHeaderColumn.height
-                Column {
-                    id: idSectionHeaderColumn
-                    width: parent.width / 5 * 4
-                    height: idLabelProgramName.height + idLabelFilePath.height
-                    anchors.top: parent.top
-                    anchors.topMargin: Theme.paddingMedium
-                    anchors.right: parent.right
-                    Label {
-                        id: idLabelProgramName
-                        width: parent.width
-                        anchors.right: parent.right
-                        horizontalAlignment: Text.AlignRight
-                        font.pixelSize: Theme.fontSizeLarge
-                        color: Theme.highlightColor
-                        text: qsTr("Collage bench")
-                    }
-                    Label {
-                        id: idLabelFilePath
-                        width: parent.width
-                        anchors.right: parent.right
-                        horizontalAlignment: Text.AlignRight
-                        font.pixelSize: Theme.fontSizeTiny
-                        color: Theme.highlightColor
-                        truncationMode: TruncationMode.Elide
-                        text: (warningLargeSize === false) ? ( qsTr("combine") + " [" + selectedFilesCounter + "] " + qsTr("images") + "\n" ) : ( qsTr("output limited to ") + warningInputMaxWidth + qsTr("px") + "\n" + qsTr("combine") + " [" + selectedFilesCounter + "] " + qsTr("images") + "\n" )
-                    }
-                }
-            }
+            width: page.width
 
             Row {
                 width: parent.width

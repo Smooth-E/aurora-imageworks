@@ -1,12 +1,13 @@
 import QtQuick 2.6
 import Sailfish.Silica 1.0
-import io.thp.pyotherside 1.5
 import Sailfish.Pickers 1.0
+import Aurora.Controls 1.0
+import io.thp.pyotherside 1.5
+
 import "catmullromcurve.js" as CurveC
 
 Page {
     id: page
-    allowedOrientations: Orientation.Portrait //All
 
     // values transmitted from FirstPage.qml
     property var inputPathPy
@@ -37,28 +38,29 @@ Page {
     property var maxB : "max"
     property var maxRGB : "max"
 
+    allowedOrientations: Orientation.All
 
     Component.onCompleted: {
         // get infos from the original file
         py.createHistogramImageFunction()
     }
 
-
     Python {
         id: py
         Component.onCompleted: {
-            addImportPath(Qt.resolvedUrl('../py'));
-            importModule('graphx', function () {}); // Which Pythonfile will be used?
+            addImportPath(Qt.resolvedUrl('../py'))
+            importModule('graphx', function() { })
 
             setHandler('histogramsReady', function(max_alpha, max_red, max_green, max_blue, max_rgb) {
-                idImageLoadedHistoR.source = ""
-                idImageLoadedHistoR.source = outputPathHistRGB
-                maxA = max_alpha
-                maxR = max_red
-                maxG = max_green
-                maxB = max_blue
-                maxRGB = max_rgb
-            })
+                    idImageLoadedHistoR.source = ""
+                    idImageLoadedHistoR.source = outputPathHistRGB
+                    maxA = max_alpha
+                    maxR = max_red
+                    maxG = max_green
+                    maxB = max_blue
+                    maxRGB = max_rgb
+                }
+            )
         }
 
         function colorcurveMiddleStepFunction() {
@@ -73,63 +75,39 @@ Page {
             }
             call("graphx.colorcurveMiddleStepFunction", [ curveFactors, currentColor, minValue, maxValue ])
         }
+
         function createHistogramImageFunction() {
-            call("graphx.createHistogramImageFunction", [ inputPathPy, outputPathPy, outputPathHistA, outputPathHistR, outputPathHistG, outputPathHistB, outputPathHistRGB ])
+            call("graphx.createHistogramImageFunction", [ inputPathPy, outputPathPy, outputPathHistA, outputPathHistR, 
+                                                          outputPathHistG, outputPathHistB, outputPathHistRGB ])
         }
-        onError: {
-            // when an exception is raised, this error handler will be called
-            //console.log('python error: ' + traceback);
-        }
-        onReceived: {
-            // asychronous messages from Python arrive here; done there via pyotherside.send()
-            //console.log('got message from python: ' + data);
-        }
+
+        onError: console.log('python error: ' + traceback);
+        onReceived: console.log('got message from python: ' + data);
     } // end Python
 
+    AppBar {
+        id: appBar
+
+        headerText: qsTr("Color curve bench")
+        subHeaderText: qsTr("View histogram or adjust curves")
+    }
 
     SilicaFlickable {
         id: listView
-        anchors.fill: parent
-        contentHeight: columnSaveAs.height  // Tell SilicaFlickable the height of its content.
-        VerticalScrollDecorator {}
+        
+        anchors {
+            fill: parent
+            topMargin: appBar.height
+        }
 
+        contentHeight: columnSaveAs.height 
+        
+        VerticalScrollDecorator {}
 
         Column {
             id: columnSaveAs
+
             width: page.width
-
-            SectionHeader {
-                id: idSectionHeader
-                height: idSectionHeaderColumn.height
-                Column {
-                    id: idSectionHeaderColumn
-                    width: parent.width / 5 * 4
-                    height: idLabelProgramName.height + idLabelFilePath.height
-                    anchors.top: parent.top
-                    anchors.topMargin: Theme.paddingMedium
-                    anchors.right: parent.right
-                    Label {
-                        id: idLabelProgramName
-                        width: parent.width
-                        anchors.right: parent.right
-                        horizontalAlignment: Text.AlignRight
-                        font.pixelSize: Theme.fontSizeLarge
-                        color: Theme.highlightColor
-                        text: qsTr("Color bench")
-                    }
-                    Label {
-                        id: idLabelFilePath
-                        width: parent.width
-                        anchors.right: parent.right
-                        horizontalAlignment: Text.AlignRight
-                        font.pixelSize: Theme.fontSizeTiny
-                        color: Theme.highlightColor
-                        truncationMode: TruncationMode.Elide
-                        text: qsTr("histogram, adjust curves") + "\n "
-                    }
-                }
-            }
-
 
             Row {
                 id: idRecolorizeInfoRow

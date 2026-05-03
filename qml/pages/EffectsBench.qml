@@ -1,7 +1,8 @@
 import QtQuick 2.6
 import Sailfish.Silica 1.0
+import Sailfish.Pickers 1.0
+import Aurora.Controls 1.0
 import io.thp.pyotherside 1.5
-import Sailfish.Pickers 1.0 // File-Loader
 
 Page {
     id: page
@@ -33,7 +34,6 @@ Page {
 
     allowedOrientations: Orientation.All
 
-    // autostart functions
     Component.onCompleted: {
         py.createPreviewBaseImage()
     }
@@ -42,8 +42,8 @@ Page {
         id: py
 
         Component.onCompleted: {
-            addImportPath(Qt.resolvedUrl('../py'));
-            importModule('graphx', function () { }); // Which Python file will be used?
+            addImportPath(Qt.resolvedUrl('../py'))
+            importModule('graphx', function () { })
 
             // Handlers = Signals to do something in QML whith received Infos from pyotherside
             setHandler('previewImageCreated', function( previewPath ) {
@@ -341,59 +341,33 @@ Page {
             call("graphx.fishEyeFunction", [ targetImage, previewBaseImagePath, previewImageEffectPath, paintToolColor ])
         }
 
-        onError: {
-            // when an exception is raised, this error handler will be called
-            console.log('python error: ' + traceback);
-        }
-
-        onReceived: {
-            // asychronous messages from Python arrive here; done there via pyotherside.send()
-            console.log('got message from python: ' + data);
-        }
+        onError: console.log('python error: ' + traceback);
+        onReceived: console.log('got message from python: ' + data);
     } // end Python
+
+    AppBar {
+        id: appBar
+
+        headerText: qsTr("Effects bench")
+        subHeaderText: qsTr("Apply effects")
+    }
 
     SilicaFlickable {
         id: listView
-        anchors.fill: parent
-        contentHeight: columnMoods.height  // Tell SilicaFlickable the height of its content.
-        VerticalScrollDecorator {}
 
+        anchors{
+            fill: parent
+            topMargin: appBar.height
+        }
+
+        contentHeight: columnMoods.height
+
+        VerticalScrollDecorator { }
 
         Column {
             id: columnMoods
-            width: page.width
 
-            SectionHeader {
-                id: idSectionHeader
-                height: idSectionHeaderColumn.height
-                Column {
-                    id: idSectionHeaderColumn
-                    width: parent.width / 5 * 4
-                    height: idLabelProgramName.height + idLabelFilePath.height
-                    anchors.top: parent.top
-                    anchors.topMargin: Theme.paddingMedium
-                    anchors.right: parent.right
-                    Label {
-                        id: idLabelProgramName
-                        width: parent.width
-                        anchors.right: parent.right
-                        horizontalAlignment: Text.AlignRight
-                        font.pixelSize: Theme.fontSizeLarge
-                        color: Theme.highlightColor
-                        text: qsTr("Effects bench")
-                    }
-                    Label {
-                        id: idLabelFilePath
-                        width: parent.width
-                        anchors.right: parent.right
-                        horizontalAlignment: Text.AlignRight
-                        font.pixelSize: Theme.fontSizeTiny
-                        color: Theme.highlightColor
-                        truncationMode: TruncationMode.Elide
-                        text: "apply effects" + "\n"
-                    }
-                }
-            }
+            width: page.width
 
             Row {
                 width: parent.width
@@ -405,137 +379,107 @@ Page {
 
                 ComboBox {
                     id: idComboBoxPresets
+                    
                     x: Theme.paddingMedium
                     width: parent.width / 6 * 5 - Theme.paddingMedium
-                    //width: parent.width - 2 * Theme.paddingMedium
+                    
                     menu: ContextMenu {
                         MenuItem {
                             text: qsTr("original")
-                            font.pixelSize: Theme.fontSizeExtraSmall
                         }
                         MenuItem {
                             text: qsTr("auto contrast")
-                            font.pixelSize: Theme.fontSizeExtraSmall
                         }
                         MenuItem {
                             text: qsTr("stretch contrast")
-                            font.pixelSize: Theme.fontSizeExtraSmall
                         }
                         MenuItem {
                             text: qsTr("dithering")
-                            font.pixelSize: Theme.fontSizeExtraSmall
                         }
                         MenuItem {
                             text: qsTr("coal drawing")
-                            font.pixelSize: Theme.fontSizeExtraSmall
                         }
                         MenuItem {
                             text: qsTr("grayscale")
-                            font.pixelSize: Theme.fontSizeExtraSmall
                         }
                         MenuItem {
                             text: qsTr("invert colors")
-                            font.pixelSize: Theme.fontSizeExtraSmall
                         }
                         MenuItem {
                             text: qsTr("equalize colors")
-                            font.pixelSize: Theme.fontSizeExtraSmall
                         }
                         MenuItem {
                             text: qsTr("solarize")
-                            font.pixelSize: Theme.fontSizeExtraSmall
                         }
                         MenuItem {
                             text: qsTr("brush art")
-                            font.pixelSize: Theme.fontSizeExtraSmall
                         }
                         MenuItem {
                             text: qsTr("posterize")
-                            font.pixelSize: Theme.fontSizeExtraSmall
                         }
                         MenuItem {
                             text: qsTr("blur image")
-                            font.pixelSize: Theme.fontSizeExtraSmall
                         }
                         MenuItem {
                             text: qsTr("smooth surface")
-                            font.pixelSize: Theme.fontSizeExtraSmall
                         }
                         MenuItem {
                             text: qsTr("central focus")
-                            font.pixelSize: Theme.fontSizeExtraSmall
                         }
                         MenuItem {
                             text: qsTr("miniature world")
-                            font.pixelSize: Theme.fontSizeExtraSmall
                         }
                         MenuItem {
                             text: qsTr("enhance edges")
-                            font.pixelSize: Theme.fontSizeExtraSmall
                         }
                         MenuItem {
                             text: qsTr("digital unsharp masking")
-                            font.pixelSize: Theme.fontSizeExtraSmall
                         }
                         MenuItem {
                             text: qsTr("find edges")
-                            font.pixelSize: Theme.fontSizeExtraSmall
                         }
                         MenuItem {
                             text: qsTr("find contour")
-                            font.pixelSize: Theme.fontSizeExtraSmall
                         }
                         MenuItem {
                             text: qsTr("emboss")
-                            font.pixelSize: Theme.fontSizeExtraSmall
                         }
                         MenuItem {
                             text: qsTr("add current colored frame")
-                            font.pixelSize: Theme.fontSizeExtraSmall
                         }
                         MenuItem {
                             text: qsTr("tint with current color")
-                            font.pixelSize: Theme.fontSizeExtraSmall
                         }
                         MenuItem {
                             text: qsTr("reduce colors")
-                            font.pixelSize: Theme.fontSizeExtraSmall
                         }
                         MenuItem {
                             text: qsTr("change opacity")
-                            font.pixelSize: Theme.fontSizeExtraSmall
                         }
                         MenuItem {
                             text: qsTr("create alpha from")
-                            font.pixelSize: Theme.fontSizeExtraSmall
                         }
                         MenuItem {
                             text: qsTr("extract color")
-                            font.pixelSize: Theme.fontSizeExtraSmall
                         }
                         MenuItem {
                             text: qsTr("extract channel")
-                            font.pixelSize: Theme.fontSizeExtraSmall
                         }
 
                         MenuItem {
                             text: qsTr("minFilter (bright spots darker)")
-                            font.pixelSize: Theme.fontSizeExtraSmall
                         }
                         MenuItem {
                             text: qsTr("maxFilter (dark spots brighter)")
-                            font.pixelSize: Theme.fontSizeExtraSmall
                         }
                         MenuItem {
                             text: qsTr("mediumFilter")
-                            font.pixelSize: Theme.fontSizeExtraSmall
                         }
                         MenuItem {
                             text: qsTr("fishEye")
-                            font.pixelSize: Theme.fontSizeExtraSmall
                         }
-
                     }
+
                     onCurrentIndexChanged: {
                         blockerApply = true
                         previewImageEffectPicker()

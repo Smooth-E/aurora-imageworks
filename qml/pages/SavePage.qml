@@ -1,11 +1,11 @@
 import QtQuick 2.6
 import Sailfish.Silica 1.0
+import Aurora.Controls 1.0
 import io.thp.pyotherside 1.5
 
 
 Page {
     id: page
-    allowedOrientations: Orientation.Portrait //All
 
     // values transmitted from FirstPage.qml
     property var homeDirectory
@@ -29,50 +29,47 @@ Page {
     // variables for warning overwrite
     property var estimatedFolder
 
+    allowedOrientations: Orientation.All
 
-    // autostart functions
     Component.onCompleted: {
         // get infos from the original file
         origImageFileNameArray = origImageFileName.split(".")
         oldFileName = (origImageFileNameArray.slice(0, origImageFileNameArray.length-1)).join(".")
         oldFileType = origImageFileNameArray[origImageFileNameArray.length - 1]
+
         if (oldFileType.indexOf('jpg') !== -1 || oldFileType.indexOf('jpeg') !== -1) {
             idComboBoxFileExtension.currentIndex = 0
-        }
-        else if (oldFileType.indexOf('png') !== -1) {
+        } else if (oldFileType.indexOf('png') !== -1) {
             idComboBoxFileExtension.currentIndex = 1
-        }
-        else if (oldFileType.indexOf('gif') !== -1) {
+        } else if (oldFileType.indexOf('gif') !== -1) {
             idComboBoxFileExtension.currentIndex = 2
-        }
-        else if (oldFileType.indexOf('bmp') !== -1) {
+        } else if (oldFileType.indexOf('bmp') !== -1) {
             idComboBoxFileExtension.currentIndex = 3
-        }
-        else {
+        } else {
             // suggested file format if none of the above
             idComboBoxFileExtension.currentIndex = 0
         }
+
         py.getImageSizeFunction()
         py.getMultiPdfPagesFunction()
-        //console.log(origImageFolderPath)
     }
-
-
 
     Python {
         id: py
+
         Component.onCompleted: {
-            //addImportPath(Qt.resolvedUrl('../lib'));
-            addImportPath(Qt.resolvedUrl('../py'));
-            importModule('graphx', function () {}); // Which Pythonfile will be used?
+            addImportPath(Qt.resolvedUrl('../py'))
+            importModule('graphx', function () {})
 
             // Handlers = Signals to do something in QML whith received Infos from pyotherside.send
             setHandler('tempFilesDeleted', function(i) {
-                //console.log("temp files deleted: " + i)
-            });
+                console.log("temp files deleted: " + i)
+            })
+
             setHandler('estimatedFileSize', function(estimatedSize) {
                 estimatedFileSize = Math.round ( (parseInt(estimatedSize)/1000) * 100) / 100
-            });
+            })
+
             setHandler('fileIsSaved', function() {
                 idSaveButtonRunningIndicator.running = false
                 idSaveButtonRunningIndicatorMultiPDF.running = false
@@ -80,135 +77,135 @@ Page {
                 idSaveButtonMultiPDF.enabled = (pageNumberMultiPDF > 0) ? true : false
                 idClearMultiPDFListButton.enabled = (pageNumberMultiPDF > 0) ? true : false
                 pageStack.pop()
-            });
+            })
+
             setHandler('fileMultiPagePdfIsAdded', function() {
                 idSaveButtonRunningIndicator.running = false
                 idSaveButton.enabled = true
                 idSaveButtonMultiPDF.enabled = (pageNumberMultiPDF > 0) ? true : false
                 idClearMultiPDFListButton.enabled = (pageNumberMultiPDF > 0) ? true : false
-            });
+            })
+
             setHandler('getPagesMultiPDF', function(pagesCounter, pagesNamesList) {
                 pageNumberMultiPDF = parseInt(pagesCounter)
                 multiPdfPageNamesList = pagesNamesList
                 idSaveButtonMultiPDF.enabled = (pageNumberMultiPDF > 0) ? true : false
                 idClearMultiPDFListButton.enabled = (pageNumberMultiPDF > 0) ? true : false
-            });
+            })
             setHandler('tempMultiPDFfilesDeleted', function( ) {
                 idClearMultiPDFButtonRunningIndicator.running = false
-            });
+            })
+
             setHandler('debugPythonLogs', function(i) {
                 console.log(i)
-            });
-
-
-
-
+            })
         }
 
         // file operations
+        
         function saveFunction() {
             var folderSavePath
             if (idComboBoxTargetFolder.currentIndex === 0) {
                 if (idComboBoxFileExtension.currentIndex === 5 || idComboBoxFileExtension.currentIndex === 4) {
                     folderSavePath = homeDirectory + "/Documents/"
-                }
-                else {
+                } else {
                     folderSavePath = origImageFolderPath
                 }
-            }
-            else if (idComboBoxTargetFolder.currentIndex === 1) {
+            } else if (idComboBoxTargetFolder.currentIndex === 1) {
                 folderSavePath = homeDirectory + "/Pictures" + "/Imageworks/"
-            }
-            else if (idComboBoxTargetFolder.currentIndex === 2) {
+            } else if (idComboBoxTargetFolder.currentIndex === 2) {
                 folderSavePath = homeDirectory + "/Pictures/"
-            }
-            else if (idComboBoxTargetFolder.currentIndex === 3) {
+            } else if (idComboBoxTargetFolder.currentIndex === 3) {
                 folderSavePath = homeDirectory + "/Downloads/"
-            }
-            else if (idComboBoxTargetFolder.currentIndex === 4) {
+            } else if (idComboBoxTargetFolder.currentIndex === 4) {
                 folderSavePath = homeDirectory + "/"
             }
+
             savePath = folderSavePath + idFilenameNew.text.toString() + idComboBoxFileExtension.value.toString()
             inputPathPy = ( "/" + inputPathPy.replace(/^(file:\/{3})|(qrc:\/{2})|(http:\/{2})/,"") )
             var fileTargetType = idComboBoxFileExtension.value.toString()
-            var pdfResolution = 300 //96
-            call("graphx.saveNowFunction", [ inputPathPy, savePath, tempImageFolderPath, pdfResolution, fileTargetType ])
+            var pdfResolution = 300
+
+            const args = [ inputPathPy, savePath, tempImageFolderPath, pdfResolution, fileTargetType ]
+            call("graphx.saveNowFunction", args)
         }
+
         function getImageSizeFunction() {
             inputPathPy = decodeURIComponent( "/" + inputPathPy.replace(/^(file:\/{3})|(qrc:\/{2})|(http:\/{2})/,"") )
             call("graphx.getImageSizeFunction", [ inputPathPy ])
         }
 
-
-
         function gatherMultiPagePdfFunction() {
             pageNumberMultiPDF = pageNumberMultiPDF + 1
-            multiPdfPageNamesList = multiPdfPageNamesList + pageNumberMultiPDF + "-" + idFilenameNew.text.toString() + "\n"
+
+            multiPdfPageNamesList = multiPdfPageNamesList + pageNumberMultiPDF 
+                                    + "-" + idFilenameNew.text.toString() + "\n"
+
             inputPathPy = ( inputPathPy.replace(/^(file:\/{3})|(qrc:\/{2})|(http:\/{2})/,"") )
+
             call("graphx.gatherMultiPagePdfFunction", [ inputPathPy, pageNumberMultiPDF, multiPdfPageNamesList ])
         }
+
         function getMultiPdfPagesFunction() {
             call("graphx.getMultiPdfPagesFunction", [])
         }
+
         function deleteTempMultiPagePDF() {
             call("graphx.deleteTempMultiPagePDF", [ tempImageFolderPath ])
-        }        
+        }
+
         function createMultiPagePDFFunction() {
             var folderSavePath
             if (idComboBoxTargetFolder.currentIndex === 0) {
                 if (idComboBoxFileExtension.currentIndex === 5 || idComboBoxFileExtension.currentIndex === 4) {
                     folderSavePath = homeDirectory + "/Documents/"
-                }
-                else {
+                } else {
                     folderSavePath = origImageFolderPath
                 }
-            }
-            else if (idComboBoxTargetFolder.currentIndex === 1) {
+            } else if (idComboBoxTargetFolder.currentIndex === 1) {
                 folderSavePath = homeDirectory + "/Pictures" + "/Imageworks/"
-            }
-            else if (idComboBoxTargetFolder.currentIndex === 2) {
+            } else if (idComboBoxTargetFolder.currentIndex === 2) {
                 folderSavePath = homeDirectory + "/Pictures/"
-            }
-            else if (idComboBoxTargetFolder.currentIndex === 3) {
+            } else if (idComboBoxTargetFolder.currentIndex === 3) {
                 folderSavePath = homeDirectory + "/Downloads/"
-            }
-            else if (idComboBoxTargetFolder.currentIndex === 4) {
+            } else if (idComboBoxTargetFolder.currentIndex === 4) {
                 folderSavePath = homeDirectory + "/"
             }
+
             savePath = folderSavePath + idFilenameMultiPDF.text.toString() + ".pdf"
             call("graphx.createMultiPagePDFFunction", [ savePath, tempImageFolderPath ])
         }
 
-
-
-        onError: {
-            // when an exception is raised, this error handler will be called
-            //console.log('python error: ' + traceback);
-        }
-        onReceived: {
-            // asychronous messages from Python arrive here; done there via pyotherside.send()
-            //console.log('got message from python: ' + data);
-        }
+        onError: console.log('python error: ' + traceback);
+        onReceived: console.log('got message from python: ' + data);
     } // end Python
 
+    AppBar {
+        id: appBar
+
+        headerText: qsTr("Save as...")
+    }
 
     SilicaFlickable {
         id: listView
-        anchors.fill: parent
-        contentHeight: columnSaveAs.height  // Tell SilicaFlickable the height of its content
-        VerticalScrollDecorator {}
+        
+        anchors {
+            fill: parent
+            topMargin: appBar.height
+        }
 
+        contentHeight: columnSaveAs.height  // Tell SilicaFlickable the height of its content
+        
+        VerticalScrollDecorator { }
 
         Column {
             id: columnSaveAs
-            width: page.width
 
-            PageHeader {
-                title:  qsTr("Save as")
-            }
+            width: page.width
 
             Row {
                 width: parent.width
+
                 TextField {
                     id: idFilenameNew
                     label: (validatorNameOverwrite === true) ? qsTr("overwrite...") : ""
@@ -220,7 +217,6 @@ Page {
                     inputMethodHints: Qt.ImhNoPredictiveText
                     text: oldFileName + "_edit"
                     EnterKey.onClicked: idFilenameNew.focus = false
-                    // validator: RegExpValidator { regExp: /[a-zA-Z0-9äöüÄÖÜ_=()\/.!?#%+-]*$/ } // positive list
                     validator: RegExpValidator { regExp: /^[^<>'\"/;*:`#?]*$/ } // negative list
 
                     onTextChanged: {

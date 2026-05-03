@@ -1,6 +1,7 @@
 import QtQuick 2.6
 import Sailfish.Silica 1.0
 import Sailfish.Pickers 1.0
+import Aurora.Controls 1.0
 import io.thp.pyotherside 1.5
 
 Page {
@@ -114,22 +115,28 @@ Page {
                                                          invertR, invertG, invertB ])
         }
 
-        onError: {
-            // when an exception is raised, this error handler will be called
-            console.log('python error: ' + traceback);
-        }
-
-        onReceived: {
-            // asychronous messages from Python arrive here; done there via pyotherside.send()
-            console.log('got message from python: ' + data);
-        }
+        onError: console.log('python error: ' + traceback)
+        onReceived: console.log('got message from python: ' + data)
     } // end Python
+
+    AppBar {
+        id: appBar
+
+        headerText: qsTr("Channel bench")
+        subHeaderText: qsTr("Replace, invert and saturate")
+    }
 
     SilicaFlickable {
         id: listView
 
-        anchors.fill: parent
-        contentHeight: columnSaveAs.height  // Tell SilicaFlickable the height of its content.
+        anchors {
+            fill: parent
+            topMargin: appBar.height
+        }
+
+        contentHeight: columnSaveAs.height
+        topMargin: Theme.paddingLarge
+        bottomMargin: Theme.paddingLarge
 
         VerticalScrollDecorator { }
 
@@ -137,47 +144,6 @@ Page {
             id: columnSaveAs
 
             width: page.width
-
-            SectionHeader {
-                id: idSectionHeader
-                height: idSectionHeaderColumn.height
-
-                Column {
-                    id: idSectionHeaderColumn
-
-                    anchors {
-                        top: parent.top
-                        topMargin: Theme.paddingMedium
-                        right: parent.right
-                    }
-
-                    width: parent.width / 5 * 4
-                    height: idLabelProgramName.height + idLabelFilePath.height
-
-                    Label {
-                        id: idLabelProgramName
-
-                        anchors.right: parent.right
-                        width: parent.width
-                        horizontalAlignment: Text.AlignRight
-                        font.pixelSize: Theme.fontSizeLarge
-                        color: Theme.highlightColor
-                        text: qsTr("Channel bench")
-                    }
-
-                    Label {
-                        id: idLabelFilePath
-                    
-                        width: parent.width
-                        anchors.right: parent.right
-                        horizontalAlignment: Text.AlignRight
-                        font.pixelSize: Theme.fontSizeTiny
-                        color: Theme.highlightColor
-                        truncationMode: TruncationMode.Elide
-                        text: qsTr("replace, invert and saturate") + "\n "
-                    }
-                }
-            }
 
             Row {
                 id: idRecolorizeInfoRow

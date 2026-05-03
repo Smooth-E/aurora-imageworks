@@ -1,11 +1,11 @@
 import QtQuick 2.6
 import Sailfish.Silica 1.0
+import Aurora.Controls 1.0
 import io.thp.pyotherside 1.5
-
 
 Page {
     id: page
-    allowedOrientations: Orientation.Portrait //All
+    allowedOrientations: Orientation.All
 
     // values transmitted from FirstPage.qml
     property var tempImageFolderPath
@@ -33,9 +33,8 @@ Page {
     Python {
         id: py
         Component.onCompleted: {
-            //addImportPath(Qt.resolvedUrl('../lib'));
-            addImportPath(Qt.resolvedUrl('../py'));
-            importModule('graphx', function () {}); // Which Pythonfile will be used?
+            addImportPath(Qt.resolvedUrl('../py'))
+            importModule('graphx', function() { })
 
             setHandler('fileIsSaved', function() {
                 idNewImageButtonRunningIndicator.running = false
@@ -46,37 +45,39 @@ Page {
         }
 
         // file operations
+
         function createNewImageFunction() {
             var savePath = tempImageFolderPath + fileName
-            call("graphx.createNewFunction", [ savePath, idNewImageWidth.text.toString(), idNewImageHeight.text.toString(), paintToolColor ])
+            call("graphx.createNewFunction", [ savePath, idNewImageWidth.text.toString(), 
+                                               idNewImageHeight.text.toString(), paintToolColor ])
         }
-        onError: {
-            // when an exception is raised, this error handler will be called
-            //console.log('python error: ' + traceback);
-        }
-        onReceived: {
-            // asychronous messages from Python arrive here; done there via pyotherside.send()
-            //console.log('got message from python: ' + data);
-        }
+
+        onError: console.log('python error: ' + traceback);
+        onReceived: console.log('got message from python: ' + data);
     } // end Python
 
+    AppBar {
+        id: appBar
+
+        headerText: qsTr("Create image")
+    }
 
     SilicaFlickable {
         id: listView
-        anchors.fill: parent
-        contentHeight: columnSaveAs.height  // Tell SilicaFlickable the height of its content.
-        VerticalScrollDecorator {}
 
+        anchors {
+            fill: parent
+            topMargin: appBar.height
+        }
 
+        contentHeight: columnSaveAs.height
+        
+        VerticalScrollDecorator { }
 
         Column {
             id: columnSaveAs
+
             width: page.width
-
-            PageHeader {
-                title: qsTr("Create Image")
-            }
-
 
             Row {
                 width: parent.width

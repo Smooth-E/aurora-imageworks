@@ -1,11 +1,11 @@
 import QtQuick 2.6
 import Sailfish.Silica 1.0
+import Aurora.Controls 1.0
 import io.thp.pyotherside 1.5
 
 
 Page {
     id: page
-    allowedOrientations: Orientation.Portrait //All
 
     // values transmitted from FirstPage.qml
     property var origImageFileName
@@ -25,24 +25,23 @@ Page {
     property var imgDataExifFull
     property var metaPath
 
+    allowedOrientations: Orientation.All
 
-    // autostart functions
     Component.onCompleted: {
         // get infos from the original file
         py.getImageSizeFunction()
         py.getImageMetaDataFunction()
     }
 
-
     Python {
         id: py
+
         Component.onCompleted: {
-            //addImportPath(Qt.resolvedUrl('../lib'));
-            addImportPath(Qt.resolvedUrl('../py'));
-            importModule('graphx', function () {}); // Which Pythonfile will be used?
+            addImportPath(Qt.resolvedUrl('../py'))
+            importModule('graphx', function () {})
 
             // Handlers = Signals to do something in QML whith received Infos from pyotherside.send
-            setHandler('metaDataReceived', function( imgFormat, imgMode, imgPalette, imgWidth, imgHeight, imgExifFull ) {
+            setHandler('metaDataReceived', function(imgFormat, imgMode, imgPalette, imgWidth, imgHeight, imgExifFull) {
                 imgDataFormat = imgFormat
                 imgDataMode = imgMode
                 imgDataPalette = imgPalette
@@ -51,53 +50,57 @@ Page {
 
                 if (imgExifFull === "This file contains no EXIF tags.") {
                     imgDataExifFull = qsTr("File contains no EXIF tags.")
-                }
-                else if (imgExifFull === "Filetype does not support EXIF tags.") {
+                } else if (imgExifFull === "Filetype does not support EXIF tags.") {
                     imgDataExifFull = qsTr("Filetype does not support EXIF tags.")
+                } else {
+                    imgDataExifFull = imgExifFull
                 }
-                else {imgDataExifFull = imgExifFull}
-            });
+            })
+
             setHandler('estimatedFileSize', function(estimatedSize) {
                 estimatedFileSize = Math.round ( (parseInt(estimatedSize)/1000) * 100) / 100
-            });
-
+            })
         }
 
         // meta data operations
+        
         function getImageSizeFunction() {
             metaPath = origImageFolderPath + origImageFileName
             call("graphx.getImageSizeFunction", [ metaPath ])
         }
+        
         function getImageMetaDataFunction() {
             metaPath = origImageFolderPath + origImageFileName
             inputPathPy = "/" + inputPathPy.replace(/^(file:\/{3})|(qrc:\/{2})|(http:\/{2})/,"")
             call("graphx.getImageMetaDataFunction", [ metaPath ])
         }
 
-        onError: {
-            // when an exception is raised, this error handler will be called
-            //console.log('python error: ' + traceback);
-        }
-        onReceived: {
-            // asychronous messages from Python arrive here; done there via pyotherside.send()
-            //console.log('got message from python: ' + data);
-        }
+        onError: console.log('python error: ' + traceback)
+        onReceived: console.log('got message from python: ' + data)
     } // end Python
 
+    AppBar {
+        id: appBar
+
+        headerText: qsTr("Metadata")
+    }
 
     SilicaFlickable {
         id: listView
-        anchors.fill: parent
-        contentHeight: columnSaveAs.height  // Tell SilicaFlickable the height of its content.
-        VerticalScrollDecorator {}
+
+        anchors {
+            fill: parent
+            topMargin: appBar.height
+        }
+
+        contentHeight: columnSaveAs.height
+        
+        VerticalScrollDecorator { }
 
         Column {
             id: columnSaveAs
-            width: parent.width
 
-            PageHeader {
-                title: qsTr("Metadata")
-            }
+            width: parent.width
 
             Label {
                 x: Theme.paddingLarge

@@ -51,10 +51,6 @@
         <translation>Цветовые каналы</translation>
     </message>
     <message>
-        <source>replace, invert and saturate</source>
-        <translation>Замените, инвертируйте или измените насыщенность</translation>
-    </message>
-    <message>
         <source>Alpha</source>
         <translation>Альфа</translation>
     </message>
@@ -122,28 +118,16 @@
         <source>blue</source>
         <translation>синий</translation>
     </message>
+    <message>
+        <source>Replace, invert and saturate</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>CollageBench</name>
     <message>
         <source>Collage bench</source>
         <translation>Коллаж</translation>
-    </message>
-    <message>
-        <source>combine</source>
-        <translation>Совместить</translation>
-    </message>
-    <message>
-        <source>images</source>
-        <translation>изображений</translation>
-    </message>
-    <message>
-        <source>output limited to </source>
-        <translation>Итоговое изображение ограничено </translation>
-    </message>
-    <message>
-        <source>px</source>
-        <translation>пикс.</translation>
     </message>
     <message>
         <source>layout generator:</source>
@@ -237,17 +221,17 @@
         <source>frame width</source>
         <translation>ширина рамки</translation>
     </message>
+    <message>
+        <source>Combine %n images</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Output limited to %1px. %2</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ColorcurveBench</name>
-    <message>
-        <source>Color bench</source>
-        <translation>Настройка цвета</translation>
-    </message>
-    <message>
-        <source>histogram, adjust curves</source>
-        <translation>Гистограмма и настройка кривых</translation>
-    </message>
     <message>
         <source>Alpha</source>
         <translation>Альфа</translation>
@@ -287,6 +271,14 @@
     <message>
         <source>max</source>
         <translation>максимум</translation>
+    </message>
+    <message>
+        <source>Color curve bench</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>View histogram or adjust curves</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -501,6 +493,10 @@
     <message>
         <source>size</source>
         <translation>размер</translation>
+    </message>
+    <message>
+        <source>Apply effects</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -749,6 +745,10 @@
         <source>load</source>
         <translation>загрузить</translation>
     </message>
+    <message>
+        <source>Apply color filters</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>FirstPage</name>
@@ -967,10 +967,6 @@
     <message>
         <source>new</source>
         <translation type="unfinished">новый</translation>
-    </message>
-    <message>
-        <source>about</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>free</source>
@@ -1206,25 +1202,6 @@
     </message>
 </context>
 <context>
-    <name>InfoPage</name>
-    <message>
-        <source>About Imageworks</source>
-        <translation>О приложении</translation>
-    </message>
-    <message>
-        <source>Copyright © 2020 Tobias Planitzer</source>
-        <translation>Copyright © 2020 Tobias Planitzer</translation>
-    </message>
-    <message>
-        <source> © 2021 Mark Washeim</source>
-        <translation> © 2021 Mark Washeim</translation>
-    </message>
-    <message>
-        <source>Feedback: https://github.com/poetaster/harbour-simplecrop:</source>
-        <translation>Обратная связь: https://github.com/poetaster/harbour-simplecrop:</translation>
-    </message>
-</context>
-<context>
     <name>MetadataPage</name>
     <message>
         <source>File contains no EXIF tags.</source>
@@ -1273,10 +1250,6 @@
 </context>
 <context>
     <name>NewPage</name>
-    <message>
-        <source>Create Image</source>
-        <translation>Создать изображение</translation>
-    </message>
     <message>
         <source>width</source>
         <translation>ширина</translation>
@@ -1345,16 +1318,16 @@
         <source>4k</source>
         <translation>4k</translation>
     </message>
+    <message>
+        <source>Create image</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>PixelBench</name>
     <message>
         <source>Pixel bench</source>
         <translation>Пиксели</translation>
-    </message>
-    <message>
-        <source>find and replace</source>
-        <translation>Находите и заменяйте</translation>
     </message>
     <message>
         <source>Alpha</source>
@@ -1412,13 +1385,13 @@
         <source>invert</source>
         <translation>инвертировать</translation>
     </message>
+    <message>
+        <source>Find and replace</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>RenamePage</name>
-    <message>
-        <source>Rename as</source>
-        <translation>Переименовать как</translation>
-    </message>
     <message>
         <source>Path</source>
         <translation>Путь</translation>
@@ -1435,13 +1408,13 @@
         <source>Size</source>
         <translation>Размер</translation>
     </message>
+    <message>
+        <source>Rename as...</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SavePage</name>
-    <message>
-        <source>Save as</source>
-        <translation>Сохранить как</translation>
-    </message>
     <message>
         <source>overwrite...</source>
         <translation>заменить...</translation>
@@ -1477,6 +1450,10 @@
     <message>
         <source>Filetype does not support transparency.</source>
         <translation>Формат файла не поддерживает прозрачность.</translation>
+    </message>
+    <message>
+        <source>Save as...</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

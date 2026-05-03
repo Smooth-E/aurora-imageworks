@@ -1,11 +1,10 @@
 import QtQuick 2.6
 import Sailfish.Silica 1.0
+import Aurora.Controls 1.0
 import io.thp.pyotherside 1.5
-
 
 Page {
     id: page
-    allowedOrientations: Orientation.Portrait //All
 
     // values transmitted from FirstPage.qml
     property var origImageFileName
@@ -23,9 +22,8 @@ Page {
     property var savePath
     property var estimatedFileSize
 
+    allowedOrientations: Orientation.All
 
-
-    // autostart functions
     Component.onCompleted: {
         // get infos from the original file
         origImageFileNameArray = origImageFileName.split(".")
@@ -35,26 +33,25 @@ Page {
         py.getImageSizeFunction()
     }
 
-
-
     Python {
         id: py
+
         Component.onCompleted: {
-            //addImportPath(Qt.resolvedUrl('../lib'));
-            addImportPath(Qt.resolvedUrl('../py'));
-            importModule('graphx', function () {}); // Which Pythonfile will be used?
+            addImportPath(Qt.resolvedUrl('../py'))
+            importModule('graphx', function () {})
 
             // Handlers = Signals to do something in QML whith received Infos from pyotherside.send
             setHandler('tempFilesDeleted', function(i) {
-                //console.log("temp files deleted: " + i)
-            });
+                console.log("temp files deleted: " + i)
+            })
+
             setHandler('estimatedFileSize', function(estimatedSize) {
                 estimatedFileSize = Math.round ( (parseInt(estimatedSize)/1000) * 100) / 100
-            });
-
+            })
         }
 
         // file operations
+        
         function getImageSizeFunction() {
             inputPathPy = decodeURIComponent( "/" + inputPathPy.replace(/^(file:\/{3})|(qrc:\/{2})|(http:\/{2})/,"") )
             call("graphx.getImageSizeFunction", [ inputPathPy ])
@@ -65,37 +62,37 @@ Page {
                 inputPathPy = origImageFilePath
                 var renamedImageFilePath = origImageFolderPath + idFilenameNew.text + "." + oldFileType
                 call("graphx.renameOriginalFunction", [ inputPathPy, renamedImageFilePath ])
-            }
-            else {
+            } else {
                 console.log("image not loaded")
             }
         }
-        onError: {
-            // when an exception is raised, this error handler will be called
-            //console.log('python error: ' + traceback);
-        }
-        onReceived: {
-            // asychronous messages from Python arrive here; done there via pyotherside.send()
-            //console.log('got message from python: ' + data);
-        }
+
+        onError: console.log('python error: ' + traceback);
+        onReceived: console.log('got message from python: ' + data);
     } // end Python
 
+    AppBar {
+        id: appBar
+
+        headerText: qsTr("Rename as...")
+    }
 
     SilicaFlickable {
         id: listView
-        anchors.fill: parent
-        contentHeight: columnSaveAs.height  // Tell SilicaFlickable the height of its content.
-        VerticalScrollDecorator {}
 
+        anchors {
+            fill: parent
+            topMargin: appBar.height
+        }
 
+        contentHeight: columnSaveAs.height
+
+        VerticalScrollDecorator { }
 
         Column {
             id: columnSaveAs
-            width: page.width
 
-            PageHeader {
-                title: qsTr("Rename as")
-            }
+            width: page.width
 
             Row {
                 width: parent.width
@@ -108,7 +105,6 @@ Page {
                     inputMethodHints: Qt.ImhNoPredictiveText
                     text: (origImageFileName !== undefined) ? oldFileName : "none"
                     EnterKey.onClicked: idFilenameNew.focus = false
-                    //validator: RegExpValidator { regExp: /[a-zA-Z0-9äöüÄÖÜ_=().!?#%+-]*$/ }
                     validator: RegExpValidator { regExp: /^[^<>'\"/;*:`#?]*$/ } // negative list
                 }
                 ComboBox {
@@ -147,7 +143,5 @@ Page {
 
 
         } // end Column
-
-
     } // end Silica Flickable
 }

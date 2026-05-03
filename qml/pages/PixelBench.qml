@@ -1,11 +1,10 @@
 import QtQuick 2.6
 import Sailfish.Silica 1.0
+import Aurora.Controls 1.0
 import io.thp.pyotherside 1.5
-
 
 Page {
     id: page
-    allowedOrientations: Orientation.Portrait //All
 
     // values transmitted from FirstPage.qml
     property var inputPathPy
@@ -41,77 +40,52 @@ Page {
     property var changeB
     property var modePixeldraw
 
+    allowedOrientations: Orientation.All
 
     Python {
         id: py
+
         Component.onCompleted: {
-            //addImportPath(Qt.resolvedUrl('../lib'));
-            addImportPath(Qt.resolvedUrl('../py'));
-            importModule('graphx', function () {}); // Which Pythonfile will be used?
+            addImportPath(Qt.resolvedUrl('../py'))
+            importModule('graphx', function() {})
         }
 
         // calculate functions in py
         function repixelMiddleStepFunction() {
             collectValues()
-            call("graphx.repixelMiddleStepFunction", [ oldA, oldR, oldG, oldB, newA, newR, newG, newB, compareA, compareR, compareG, compareB, tolA, tolR, tolG, tolB, changeA, changeR, changeG, changeB, modePixeldraw ])
+            call("graphx.repixelMiddleStepFunction", [ oldA, oldR, oldG, oldB, newA, newR, newG, newB, compareA, 
+                                                       compareR, compareG, compareB, tolA, tolR, tolG, tolB, changeA, 
+                                                       changeR, changeG, changeB, modePixeldraw ])
         }
 
 
-        onError: {
-            // when an exception is raised, this error handler will be called
-            //console.log('python error: ' + traceback);
-        }
-        onReceived: {
-            // asychronous messages from Python arrive here; done there via pyotherside.send()
-            //console.log('got message from python: ' + data);
-        }
+        onError: console.log('python error: ' + traceback)
+        onReceived: console.log('got message from python: ' + data);
     } // end Python
 
+    AppBar {
+        id: appBar
+
+        headerText: qsTr("Pixel bench")
+        subHeaderText: qsTr("Find and replace")
+    }
 
     SilicaFlickable {
         id: listView
-        anchors.fill: parent
-        contentHeight: columnSaveAs.height  // Tell SilicaFlickable the height of its content.
-        VerticalScrollDecorator {}
 
+        anchors {
+            fill: parent
+            topMargin: appBar.height
+        }
 
+        contentHeight: columnSaveAs.height
+        
+        VerticalScrollDecorator { }
 
         Column {
             id: columnSaveAs
-            width: page.width //- 2* Theme.paddingLarge
 
-            SectionHeader {
-                id: idSectionHeader
-                height: idSectionHeaderColumn.height
-                Column {
-                    id: idSectionHeaderColumn
-                    width: parent.width / 5 * 4
-                    height: idLabelProgramName.height + idLabelFilePath.height
-                    anchors.top: parent.top
-                    anchors.topMargin: Theme.paddingMedium
-                    anchors.right: parent.right
-                    Label {
-                        id: idLabelProgramName
-                        width: parent.width
-                        anchors.right: parent.right
-                        horizontalAlignment: Text.AlignRight
-                        font.pixelSize: Theme.fontSizeLarge
-                        color: Theme.highlightColor
-                        text: qsTr("Pixel bench")
-                    }
-                    Label {
-                        id: idLabelFilePath
-                        width: parent.width
-                        anchors.right: parent.right
-                        horizontalAlignment: Text.AlignRight
-                        font.pixelSize: Theme.fontSizeTiny
-                        color: Theme.highlightColor
-                        truncationMode: TruncationMode.Elide
-                        text: qsTr("find and replace") + "\n "
-                    }
-                }
-            }
-
+            width: page.width
 
             Row {
                 id: idRecolorizeInfoRow
