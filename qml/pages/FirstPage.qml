@@ -11,7 +11,7 @@ import "perspectivetransformhelper.js" as PerspT
 Page {
     id: page
 
-    allowedOrientations: Orientation.Portrait
+    readonly property bool fileLoaded: idImageLoadedFreecrop.status !== Image.Null
 
     // file variables
     property string homeDirectory
@@ -58,7 +58,7 @@ Page {
     property var scaleDisplayFactorCrop
     property var correctXmini : 0
     property int placeholderManualCrop : 1
-    property var toolsDrawingColorFrame : Theme.errorColor //Theme.secondaryHighlightColor
+    property var toolsDrawingColorFrame : Theme.errorColor
 
     property bool zoomWindowVisible: (dragArea1.pressed || dragArea2.pressed || dragPerspective1.pressed
                                       || dragPerspective2.pressed || dragPerspective3.pressed 
@@ -176,12 +176,32 @@ Page {
         return url.substring(url.indexOf(":") + 1)
     }
 
-    // autostart functions
+    function openFromGallery() {
+        pageStack.push(imagePickerPage)
+    }
+
+    function openFromFiles() {
+        pageStack.push(filePickerPage)
+    }
+
+    function openNewImagePage() {
+        const args = {
+            "tempImageFolderPath": tempImageFolderPath,
+            "myColors": myColors,
+            "maxScalePixels": maxScalePixels,
+            "copyPasteImageWidth": copyPasteImageWidth,
+            "copyPasteImageHeight": copyPasteImageHeight,
+        }
+
+        pageStack.push(Qt.resolvedUrl("NewPage.qml"), args)
+    }
+
+    allowedOrientations: Orientation.Portrait
+
     Component.onCompleted: {
         py.getHomePath(); // also deletes TMPs on path returned to qml, see handler "homePathFolder"
         hexToRGBA(paintToolColor);
         openWithPath();
-
     }
 
     // special auto resetter for markers, when stretchOversizeActive changess
@@ -206,16 +226,6 @@ Page {
         onTriggered: pageStack.push(fontPickerPage)
     }
     
-    Timer {
-        id: openDelayTimer
-    
-        interval: 10
-        running: false
-        repeat: false
-    
-        onTriggered: pageStack.push(imagePickerPage)
-    }
-
     Component {
        id: filePickerPage
     
@@ -1489,30 +1499,23 @@ Page {
         id: appBar
 
         headerText: qsTr("Imageworks")
-
-        // TODO: Write something if there is no file open,
-        // also remove dependency on this property for other ui elements
         subHeaderText: idImageLoadedFreecrop.source.toString()
 
         AppBarSpacer { }
 
-        BusyIndicator {
-            size: BusyIndicatorSize.Medium
-            running: !finishedLoading
-        }
-
         AppBarButton {
             icon.source: "../symbols/phosphor-light-arrow-arc-left.svg"
             text: undoNr
-            enabled: visible && idImageLoadedFreecrop.status !== Image.Null
-            visible: undoNr >= 1 && finishedLoading
+            enabled: finishedLoading
+            visible: undoNr >= 1
 
             onClicked: undoBackwards()
             onPressAndHold: remorse.execute(qsTr("Restore original?"), py.deleteAllTMPFunction)
         }
 
         AppBarButton {
-            enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
+            visible: page.fileLoaded
+            enabled: finishedLoading
             icon.source: "../symbols/phosphor-light-eye.svg"
             
             onClicked: {
@@ -1522,7 +1525,7 @@ Page {
         }
 
         AppBarButton {
-            enabled: idImageLoadedFreecrop.status !== Image.Null
+            visible: page.fileLoaded
             icon.source: "image://theme/icon-splus-save"
             
             onClicked: {
@@ -1541,6 +1544,7 @@ Page {
         }
 
         AppBarButton {
+            visible: page.fileLoaded
             icon.source: "image://theme/icon-splus-more"
 
             onClicked: appBarPopup.open()
@@ -1572,6 +1576,80 @@ Page {
                 }
             }
         }
+
+        AppBarButton {
+            visible: !page.fileLoaded
+            icon.source: "image://theme/icon-splus-about"
+    
+            onClicked: pageStack.push("AboutPage.qml")
+        }
+    }
+
+    Item {
+        anchors {
+            fill: parent
+            topMargin: appBar.height
+        }
+
+        opacity: page.fileLoaded ? 0 : 1
+        visible: opacity > 0
+
+        Behavior on opacity {
+            FadeAnimation { }
+        }
+
+        Column {
+            anchors {
+                verticalCenter: parent.verticalCenter
+                left: parent.left
+                right: parent.right
+                leftMargin: Theme.horizontalPageMargin
+                rightMargin: Theme.horizontalPageMargin
+            }
+
+            height: implicitHeight
+            spacing: Theme.paddingLarge
+
+            Label {
+                width: parent.width
+                text: qsTr("Welcome to Imageworks!")
+                color: Theme.highlightColor
+                font.pixelSize: Theme.fontSizeHuge
+                wrapMode: Text.WordWrap
+                horizontalAlignment: Text.AlignHCenter
+            }
+
+            Label {
+                width: parent.width
+                text: qsTr("Open an exisiting image or create a new one to start editing")
+                color: Theme.secondaryColor
+                wrapMode: Text.WordWrap
+                horizontalAlignment: Text.AlignHCenter
+                font.pixelSize: Theme.fontSizeLarge
+            }
+
+            ButtonLayout {
+                width: parent.width
+
+                Button {
+                    text: qsTr("Open from gallery")
+
+                    onClicked: page.openFromGallery()
+                }
+
+                Button {
+                    text: qsTr("Open from files")
+
+                    onClicked: page.openFromFiles()
+                }
+
+                Button {
+                    text: qsTr("Create new image")
+
+                    onClicked: page.openNewImagePage()
+                }
+            }
+        }
     }
 
     SilicaFlickable {
@@ -1583,15 +1661,19 @@ Page {
         contentHeight: column.height
         topMargin: Theme.paddingLarge
         bottomMargin: Theme.paddingLarge
+        opacity: page.fileLoaded && page.finishedLoading ? 1 : 0
+        visible: opacity > 0
+
+        Behavior on opacity {
+            FadeAnimation { }
+        }
 
         Column {
             id: column
 
             width: page.width
             spacing: Theme.paddingLarge
-            // POETASTER
-            Component.onCompleted: openDelayTimer.start()
-            
+
             Image {
                 id: idImageLoadedFreecrop
 
@@ -2532,12 +2614,17 @@ Page {
                     }
                 }
                 IconButton {
-                    enabled: ( (idCropInputRatioWidth.text !== "" && idCropInputRatioHeight.text !== "" && idInputManualX1.text !== "" && idInputManualX2.text !== "" && idInputManualY1.text !== "" && idInputManualY2.text !== "" ) && ( idImageLoadedFreecrop.status !== Image.Null && finishedLoading === true )) ? true : false
+                    enabled: (idCropInputRatioWidth.text !== "" && idCropInputRatioHeight.text !== "" 
+                              && idInputManualX1.text !== "" && idInputManualX2.text !== "" 
+                              && idInputManualY1.text !== "" && idInputManualY2.text !== "" ) 
+                             && (idImageLoadedFreecrop.status !== Image.Null && finishedLoading === true)
+
                     width: parent.width / itemsPerRow
                     height: Theme.itemSizeSmall
                     icon.source: "../symbols/icon-m-apply.svg"
                     icon.width: Theme.iconSizeMedium
                     icon.height: Theme.iconSizeMedium
+
                     onClicked: {
                         if ( pickerTransformOrCropIndex === 0  ) {
                             finishedLoading = false
@@ -3791,13 +3878,8 @@ Page {
                     icon.source : "../symbols/icon-m-newpage.svg"
                     icon.width: Theme.iconSizeMedium
                     icon.height: Theme.iconSizeMedium
-                    onClicked: { pageStack.push(Qt.resolvedUrl("NewPage.qml"), {
-                        tempImageFolderPath : tempImageFolderPath,
-                        myColors : myColors,
-                        maxScalePixels : maxScalePixels,
-                        copyPasteImageWidth : copyPasteImageWidth,
-                        copyPasteImageHeight : copyPasteImageHeight,
-                    } ) }
+
+                    onClicked: page.openNewImagePage()
 
                     Label {
                         horizontalAlignment: Text.AlignHCenter
@@ -5457,33 +5539,47 @@ Page {
 
     } // end SilicaFlickable
 
+    BusyLabel {
+        text: qsTr("Applying changes")
+        running: !page.finishedLoading
+    }
+
     Item {
         id: idZoomItem
-        visible: ( zoomWindowVisible === true && (dragArea1.pressed || dragArea2.pressed || dragPerspective1.pressed || dragPerspective2.pressed || dragPerspective3.pressed || dragPerspective4.pressed || mouseCanvasArea.pressed) ) ? true : false
+
+        visible: zoomWindowVisible === true 
+                 && (dragArea1.pressed || dragArea2.pressed || dragPerspective1.pressed || dragPerspective2.pressed 
+                     || dragPerspective3.pressed || dragPerspective4.pressed || mouseCanvasArea.pressed)
+        
         anchors.top: parent.top
         anchors.topMargin: Theme.paddingMedium
         width: page.width/4
         height: page.width/4
         z: 5
         clip: true
+
         function reanchorToRight() {
             anchors.leftMargin = undefined
             anchors.rightMargin = Theme.paddingSmall
             anchors.left = undefined
             anchors.right = parent.right
         }
+
         function reanchorToLeft() {
             anchors.rightMargin = undefined
             anchors.leftMargin = Theme.paddingSmall
             anchors.right = undefined
             anchors.left = parent.left
         }
+
         Rectangle {
             anchors.fill: parent
             color: "black"
         }
+
         Image {
             id: idZoomImagePart
+        
             x: 0
             y: 0
             cache: false
@@ -5491,15 +5587,19 @@ Page {
             fillMode: Image.PreserveAspectFit
             scale: 1
         }
+        
         Rectangle {
             id: idZoomImageFrame
+        
             anchors.fill: parent
             color: "transparent"
             border.color: Theme.highlightColor
             border.width: Theme.paddingSmall/2
         }
+        
         Rectangle {
             id: grayVerticalDeviderZoom
+        
             x: parent.width/2
             y: 0
             width: opticalDividersWidth
@@ -5507,8 +5607,10 @@ Page {
             color: Theme.highlightColor
             opacity: opacityCut
         }
+        
         Rectangle {
             id: grayHorizontalDeviderZoom
+        
             x: 0
             y: parent.height/2
             width: parent.width

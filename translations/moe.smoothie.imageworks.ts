@@ -1236,6 +1236,22 @@
         <source>File</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Welcome to Imageworks!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Create new image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Applying changes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open an exisiting image or create a new one to start editing</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>MetadataPage</name>
