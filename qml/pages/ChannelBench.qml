@@ -38,62 +38,6 @@ Page {
 
     allowedOrientations: Orientation.All
 
-    Component {
-       id: alphaPickerPage
-
-       FilePickerPage {
-           title: qsTr("Select alpha")
-           nameFilters: [ '*.jpg', '*.jpeg', '*.png', '*.tif', '*.tiff', '*.bmp', '*.gif' ]
-
-           onSelectedContentPropertiesChanged: {
-               channelPathAlpha = selectedContentProperties.filePath
-               fileNameAlpha = selectedContentProperties.fileName
-           }
-       }
-    }
-
-    Component {
-       id: redPickerPage
-
-       FilePickerPage {
-           title: qsTr("Select red")
-           nameFilters: [ '*.jpg', '*.jpeg', '*.png', '*.tif', '*.tiff', '*.bmp', '*.gif' ]
-
-           onSelectedContentPropertiesChanged: {
-               channelPathRed = selectedContentProperties.filePath
-               fileNameRed = selectedContentProperties.fileName
-           }
-       }
-    }
-    
-    Component {
-       id: greenPickerPage
-
-       FilePickerPage {
-           title: qsTr("Select green")
-           nameFilters: [ '*.jpg', '*.jpeg', '*.png', '*.tif', '*.tiff', '*.bmp', '*.gif' ]
-
-           onSelectedContentPropertiesChanged: {
-               channelPathGreen = selectedContentProperties.filePath
-               fileNameGreen = selectedContentProperties.fileName
-           }
-       }
-    }
-
-    Component {
-       id: bluePickerPage
-
-       FilePickerPage {
-           title: qsTr("Select blue")
-           nameFilters: [ '*.jpg', '*.jpeg', '*.png', '*.tif', '*.tiff', '*.bmp', '*.gif' ]
-
-           onSelectedContentPropertiesChanged: {
-               channelPathBlue = selectedContentProperties.filePath
-               fileNameBlue = selectedContentProperties.fileName
-           }
-       }
-    }
-
     Python {
         id: py
 
@@ -945,4 +889,59 @@ Page {
         } // end Column
     } // end Silica Flickable
 
+    Component {
+       id: alphaPickerPage
+
+       FilePickerPage {
+           title: qsTr("Select alpha")
+           nameFilters: [ '*.jpg', '*.jpeg', '*.png', '*.tif', '*.tiff', '*.bmp', '*.gif' ]
+
+           onSelectedContentPropertiesChanged: {
+               channelPathAlpha = selectedContentProperties.filePath
+               fileNameAlpha = selectedContentProperties.fileName
+           }
+       }
+    }
+
+    Component {
+       id: redPickerPage
+
+       FilePickerPage {
+           title: qsTr("Select red")
+           nameFilters: [ '*.jpg', '*.jpeg', '*.png', '*.tif', '*.tiff', '*.bmp', '*.gif' ]
+
+           onSelectedContentPropertiesChanged: {
+               channelPathRed = selectedContentProperties.filePath
+               fileNameRed = selectedContentProperties.fileName
+           }
+       }
+    }
+    
+    Component {
+       id: greenPickerPage
+
+       FilePickerPage {
+           title: qsTr("Select green")
+           nameFilters: [ '*.jpg', '*.jpeg', '*.png', '*.tif', '*.tiff', '*.bmp', '*.gif' ]
+
+           onSelectedContentPropertiesChanged: {
+               channelPathGreen = selectedContentProperties.filePath
+               fileNameGreen = selectedContentProperties.fileName
+           }
+       }
+    }
+
+    Component {
+       id: bluePickerPage
+
+       FilePickerPage {
+           title: qsTr("Select blue")
+           nameFilters: [ '*.jpg', '*.jpeg', '*.png', '*.tif', '*.tiff', '*.bmp', '*.gif' ]
+
+           onSelectedContentPropertiesChanged: {
+               channelPathBlue = selectedContentProperties.filePath
+               fileNameBlue = selectedContentProperties.fileName
+           }
+       }
+    }
 }

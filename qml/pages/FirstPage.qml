@@ -3,6 +3,9 @@ import Sailfish.Silica 1.0
 import Sailfish.Pickers 1.0
 import Aurora.Controls 1.0
 import io.thp.pyotherside 1.5
+
+import "../components"
+
 import "perspectivetransformhelper.js" as PerspT
 
 Page {
@@ -77,7 +80,6 @@ Page {
 
     property var zoomItemCenterTolerance : 4 * Theme.paddingLarge
     property var fontSizePreviewDivisor : 14
-    property var lastToolsButtonPressed : "File"
 
     // crop transform variables
     property var transformPerspectiveMode : "stretch" // or "fold"
@@ -1502,15 +1504,15 @@ Page {
         AppBarButton {
             icon.source: "../symbols/phosphor-light-arrow-arc-left.svg"
             text: undoNr
-            enabled: undoNr >= 1 && finishedLoading === true && idImageLoadedFreecrop.status !== Image.Null
-            visible: undoNr >= 1 && finishedLoading === true
+            enabled: visible && idImageLoadedFreecrop.status !== Image.Null
+            visible: undoNr >= 1 && finishedLoading
 
             onClicked: undoBackwards()
             onPressAndHold: remorse.execute(qsTr("Restore original?"), py.deleteAllTMPFunction)
         }
 
         AppBarButton {
-            enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading === true
+            enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
             icon.source: "../symbols/phosphor-light-eye.svg"
             
             onClicked: {
@@ -1588,7 +1590,7 @@ Page {
             width: page.width
             spacing: Theme.paddingLarge
             // POETASTER
-            Component.onCompleted: openDelayTimer.start();
+            Component.onCompleted: openDelayTimer.start()
             
             Image {
                 id: idImageLoadedFreecrop
@@ -1608,8 +1610,9 @@ Page {
                     freeDrawCanvas.clear_canvas()
 
                     if (sourceSize.width < width) {
-                        idItemCropzoneHandles.anchors.leftMargin = (width-sourceSize.width) / 2
-                        idItemCropzoneHandles.anchors.rightMargin = (width-sourceSize.width) / 2
+                        const margin = width - sourceSize.width / 2
+                        idItemCropzoneHandles.anchors.leftMargin = margin
+                        idItemCropzoneHandles.anchors.rightMargin = margin
                     } else {
                         idItemCropzoneHandles.anchors.leftMargin = 0
                         idItemCropzoneHandles.anchors.rightMargin = 0
@@ -1941,6 +1944,7 @@ Page {
 
                 Item {
                     id: idItemPerspectiveHandles
+
                     visible: ( idImageLoadedFreecrop.status !== Image.Null && (  (buttonCrop.down === true && pickerTransformOrCropIndex !== 0) )) ? true : false
                     anchors.fill: idItemCropzoneHandles
                     // Handles for image transformation
@@ -2205,321 +2209,123 @@ Page {
                         border.width: opticalDividersWidth * 20
                     }
                 }
-
             } // end Image area
-            Rectangle {
+
+            Item {
                 width: parent.width
                 height: 1
-                color: "transparent"
             }
 
-
             Row {
-                id: idToolsRow
-                x: Theme.paddingLarge
-                width: parent.width - 2* Theme.paddingLarge
+                id: toolbar
 
-                IconButton {
+                readonly property real itemWidth: width / 7
+                readonly property real itemHeight: Theme.itemSizeSmall
+
+                property var selectedButton
+
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                    leftMargin: Theme.horizontalPageMargin
+                    rightMargin: anchors.leftMargin
+                }
+
+                ToolbarItem {
                     id: buttonCrop
-                    icon.opacity: 1
-                    down: false
-                    width: parent.width/7
-                    height: Theme.itemSizeSmall
-                    icon.source: "image://theme/icon-m-crop?"
-                    icon.color: undefined
+
+                    width: toolbar.itemWidth
+                    height: toolbar.itemHeight
+                    icon.source: "image://theme/icon-m-crop"
+                    down: toolbar.selectedButton === buttonCrop
+
                     onClicked: {
-                        buttonCrop.down = true
-                        buttonScale.down = false
-                        buttonPaint.down = false
-                        buttonShape.down = false
-                        buttonColors.down = false
-                        buttonWorkbenches.down = false
-                        buttonFile.down = false
+                        toolbar.selectedButton = buttonCrop
                         idCropTransformPicker.icon.source = "../symbols/icon-m-cut.svg"
                         pickerTransformOrCropIndex = 0
                         presetCroppingFree() // Patch: reset cropping markers to free when returning to cropping tool
-                        if (lastToolsButtonPressed !== "Crop") {
-                            animateOpacityCropPerspective.start()
-                        }
-                        lastToolsButtonPressed = "Crop"
                     }
-                    Rectangle {
-                        anchors.top: parent.bottom
-                        anchors.topMargin:  Theme.paddingMedium
-                        height: Theme.paddingSmall
-                        width: parent.width
-                        color: (parent.down === true) ? "transparent" : Theme.secondaryColor
-                        border.color: Theme.secondaryColor
-                    }
-                    NumberAnimation {
-                        id: animateOpacityCropPerspective
-                        target: idGridCropPerspectivePicker
-                        properties: "opacity"
-                        from: 0
-                        to: 1
-                        loops: 1
-                        duration: 400
-                   }
                 }
-                IconButton {
+
+                ToolbarItem {
                     id: buttonPaint
-                    icon.opacity: 1
-                    down: false
-                    width: parent.width/7
-                    height: Theme.itemSizeSmall
-                    icon.source: "image://theme/icon-m-edit?"
+
+                    width: toolbar.itemWidth
+                    height: toolbar.itemHeight
+                    icon.source: "image://theme/icon-m-edit"
+                    down: toolbar.selectedButton === buttonPaint
+                    
                     onClicked: {
-                        buttonCrop.down = false
-                        buttonScale.down = false
-                        buttonPaint.down = true
-                        buttonShape.down = false
-                        buttonColors.down = false
-                        buttonWorkbenches.down = false
-                        buttonFile.down = false
+                        toolbar.selectedButton = buttonPaint
                         presetCroppingFree()
-                        if (lastToolsButtonPressed !== "Paint") {
-                            animateOpacityPaint.start()
-                            animateOpacityPaintSubmenu.start()
-                            animateOpacityPaintText.start()
-                        }
-                        lastToolsButtonPressed = "Paint"
                     }
-                    Rectangle {
-                        anchors.top: parent.bottom
-                        anchors.topMargin:  Theme.paddingMedium
-                        height: Theme.paddingSmall
-                        width: parent.width
-                        color: (parent.down === true) ? "transparent" : Theme.secondaryColor
-                        border.color: Theme.secondaryColor
-                    }
-                    NumberAnimation {
-                        id: animateOpacityPaint
-                        target: idGridPaint
-                        properties: "opacity"
-                        from: 0
-                        to: 1
-                        loops: 1
-                        duration: 400
-                   }
-                   NumberAnimation {
-                        id: animateOpacityPaintSubmenu
-                        target: idGridSubmodulPaint
-                        properties: "opacity"
-                        from: 0
-                        to: 1
-                        loops: 1
-                        duration: 400
-                   }
-                   NumberAnimation {
-                        id: animateOpacityPaintText
-                        target: idTextPaintInput
-                        properties: "opacity"
-                        from: 0
-                        to: 1
-                        loops: 1
-                        duration: 400
-                   }
                 }
-                IconButton {
+
+                ToolbarItem {
                     id: buttonShape
-                    icon.opacity: 1
-                    down: false
-                    width: parent.width/7
-                    height: Theme.itemSizeSmall
-                    icon.source: "image://theme/icon-m-rotate?"
-                    onClicked: {
-                        buttonCrop.down = false
-                        buttonScale.down = false
-                        buttonPaint.down = false
-                        buttonShape.down = true
-                        buttonColors.down = false
-                        buttonWorkbenches.down = false
-                        buttonFile.down = false
-                        if (lastToolsButtonPressed !== "Shape") {
-                            animateOpacityShape.start()
-                        }
-                        lastToolsButtonPressed = "Shape"
-                    }
-                    Rectangle {
-                        anchors.top: parent.bottom
-                        anchors.topMargin:  Theme.paddingMedium
-                        height: Theme.paddingSmall
-                        width: parent.width
-                        color: (parent.down === true) ? "transparent" : Theme.secondaryColor
-                        border.color: Theme.secondaryColor
-                    }
-                    NumberAnimation {
-                        id: animateOpacityShape
-                        target: idGridShape
-                        properties: "opacity"
-                        from: 0
-                        to: 1
-                        loops: 1
-                        duration: 400
-                   }
+
+                    width: toolbar.itemWidth
+                    height: toolbar.itemHeight
+                    down: toolbar.selectedButton === buttonShape
+                    icon.source: "image://theme/icon-m-rotate"
+
+                    onClicked: toolbar.selectedButton = buttonShape
                 }
-                IconButton {
+
+                ToolbarItem {
                     id: buttonColors
-                    icon.opacity: 1
-                    down: false
-                    width: parent.width/7
-                    height: Theme.itemSizeSmall
-                    icon.source: "image://theme/icon-m-light-contrast?"
-                    onClicked: {
-                        buttonCrop.down = false
-                        buttonScale.down = false
-                        buttonPaint.down = false
-                        buttonShape.down = false
-                        buttonColors.down = true
-                        buttonWorkbenches.down = false
-                        buttonFile.down = false
-                        if (lastToolsButtonPressed !== "Colors") {
-                            animateOpacityColors.start()
-                        }
-                        lastToolsButtonPressed = "Colors"
-                    }
-                    Rectangle {
-                        anchors.top: parent.bottom
-                        anchors.topMargin:  Theme.paddingMedium
-                        height: Theme.paddingSmall
-                        width: parent.width
-                        color: (parent.down === true) ? "transparent" : Theme.secondaryColor
-                        border.color: Theme.secondaryColor
-                    }
-                    NumberAnimation {
-                        id: animateOpacityColors
-                        target: idGridColors
-                        properties: "opacity"
-                        from: 0
-                        to: 1
-                        loops: 1
-                        duration: 400
-                   }
+
+                    width: toolbar.itemWidth
+                    height: toolbar.itemHeight
+                    icon.source: "image://theme/icon-m-light-contrast"
+                    down: toolbar.selectedButton === buttonColors
+
+                    onClicked: toolbar.selectedButton = buttonColors
                 }
-                IconButton {
+
+                ToolbarItem {
                     id: buttonScale
-                    icon.opacity: 1
-                    down: false
-                    width: parent.width/7
-                    height: Theme.itemSizeSmall
-                    icon.source: "image://theme/icon-m-scale?"
-                    onClicked: {
-                        buttonCrop.down = false
-                        buttonScale.down = true
-                        buttonPaint.down = false
-                        buttonShape.down = false
-                        buttonColors.down = false
-                        buttonWorkbenches.down = false
-                        buttonFile.down = false
-                        if (lastToolsButtonPressed !== "Scale") {
-                            animateOpacityScale.start()
-                        }
-                        lastToolsButtonPressed = "Scale"
-                    }
-                    Rectangle {
-                        anchors.top: parent.bottom
-                        anchors.topMargin:  Theme.paddingMedium
-                        height: Theme.paddingSmall
-                        width: parent.width
-                        color: (parent.down === true) ? "transparent" : Theme.secondaryColor
-                        border.color: Theme.secondaryColor
-                    }
-                    NumberAnimation {
-                        id: animateOpacityScale
-                        target: idGridScale
-                        properties: "opacity"
-                        from: 0
-                        to: 1
-                        loops: 1
-                        duration: 400
-                   }
+
+                    width: toolbar.itemWidth
+                    height: toolbar.itemHeight
+                    icon.source: "image://theme/icon-m-scale"
+                    down: toolbar.selectedButton === buttonScale
+
+                    onClicked: toolbar.selectedButton = buttonScale
                 }
-                IconButton {
+
+                ToolbarItem {
                     id: buttonWorkbenches
-                    icon.opacity: 1
-                    down: false
-                    width: parent.width/7
-                    height: Theme.itemSizeSmall
-                    icon.source : "../symbols/icon-m-effects.svg"
-                    icon.width: Theme.iconSizeMedium
-                    icon.height: Theme.iconSizeMedium
-                    onClicked: {
-                        buttonCrop.down = false
-                        buttonScale.down = false
-                        buttonPaint.down = false
-                        buttonShape.down = false
-                        buttonColors.down = false
-                        buttonWorkbenches.down = true
-                        buttonFile.down = false
-                        if (lastToolsButtonPressed !== "Workbenches") {
-                            animateOpacityWorkbenches.start()
-                        }
-                        lastToolsButtonPressed = "Workbenches"
+
+                    width: toolbar.itemWidth
+                    height: toolbar.itemHeight
+                    down: toolbar.selectedButton === buttonWorkbenches
+                    
+                    icon {
+                        source: "../symbols/icon-m-effects.svg"
+                        width: Theme.iconSizeMedium
+                        height: Theme.iconSizeMedium
                     }
-                    Rectangle {
-                        anchors.top: parent.bottom
-                        anchors.topMargin:  Theme.paddingMedium
-                        height: Theme.paddingSmall
-                        width: parent.width
-                        color: (parent.down === true) ? "transparent" : Theme.secondaryColor
-                        border.color: Theme.secondaryColor
-                    }
-                    NumberAnimation {
-                        id: animateOpacityWorkbenches
-                        target: idGridWorkbenches
-                        properties: "opacity"
-                        from: 0
-                        to: 1
-                        loops: 1
-                        duration: 400
-                   }
+
+                    onClicked: toolbar.selectedButton = buttonWorkbenches
                 }
-                IconButton {
+
+                ToolbarItem {
                     id: buttonFile
-                    icon.opacity: 1
-                    down: true
-                    width: parent.width/7
-                    height: Theme.itemSizeSmall
-                    icon.source: "image://theme/icon-m-file-document-light?"
-                    onClicked: {
-                        buttonCrop.down = false
-                        buttonScale.down = false
-                        buttonPaint.down = false
-                        buttonShape.down = false
-                        buttonColors.down = false
-                        buttonWorkbenches.down = false
-                        buttonFile.down = true
-                        if (lastToolsButtonPressed !== "File") {
-                            animateOpacityFile.start()
-                        }
-                        lastToolsButtonPressed = "File"
-                    }
-                    Rectangle {
-                        anchors.top: parent.bottom
-                        anchors.topMargin:  Theme.paddingMedium
-                        height: Theme.paddingSmall
-                        width: parent.width
-                        color: (parent.down === true) ? "transparent" : Theme.secondaryColor
-                        border.color: Theme.secondaryColor
-                    }
-                    NumberAnimation {
-                        id: animateOpacityFile
-                        target: idGridFile
-                        properties: "opacity"
-                        from: 0
-                        to: 1
-                        loops: 1
-                        duration: 400
-                   }
+
+                    width: toolbar.itemWidth
+                    height: toolbar.itemHeight
+                    down: toolbar.selectedButton === buttonFile
+                    icon.source: "image://theme/icon-m-file-document"
+
+                    onClicked: toolbar.selectedButton = buttonFile
                 }
             } // end ToolsRow
-            Rectangle {
-                // spacer item
+
+            Item {
                 width: parent.width
                 height: 1
-                color: "transparent"
             }
-
 
             Grid {
                 id: idGridCropPerspectivePicker
