@@ -1719,10 +1719,22 @@ Page {
                     Rectangle {
                         id: rectDrag1
 
-                        visible: ( (buttonCrop.down && idComboBoxCrop.currentIndex === 12 && pickerTransformOrCropIndex === 0) || (idPaintCanvasButton.down && buttonPaint.down ) ) ? false : true
+                        visible: ((buttonCrop.down 
+                                   && idComboBoxCrop.currentIndex === 12 
+                                   && pickerTransformOrCropIndex === 0) 
+                                  || (idPaintCanvasButton.down 
+                                     && buttonPaint.down )) 
+                                 ? false 
+                                 : true
+
                         x: parent.x
                         y: parent.y
-                        radius: ( (idPaintLineButton.down || idPaintPointButton.down || idPaintTextButton.down || idPaintShapesButton.down || idPaintColorPickerButton.down) && buttonPaint.down ) ? handleWidth : 0
+
+                        radius: ((idPaintLineButton.down || idPaintPointButton.down || idPaintTextButton.down 
+                                  || idPaintShapesButton.down || idPaintColorPickerButton.down) && buttonPaint.down) 
+                                ? handleWidth 
+                                : 0
+                        
                         width: handleWidth
                         height: handleHeight
                         color: toolsDrawingColorFrame
@@ -1732,42 +1744,59 @@ Page {
                             id: dragArea1
 
                             preventStealing: true // Patch: crop by coordinates disables moving...
-                            enabled: ( (buttonCrop.down) && (pickerTransformOrCropIndex === 0) && (idComboBoxCrop.currentIndex === 12) ) ? false : true
+
+                            enabled: (buttonCrop.down && pickerTransformOrCropIndex === 0 
+                                      && idComboBoxCrop.currentIndex === 12) 
+                                     ? false 
+                                     : true
+
                             anchors.fill: parent
-                            drag.target: parent
-                            drag.minimumX: (stretchOversizeActive === true) ? (0-handleWidth/2) : (0) //idItemCropzoneHandles.x
-                            drag.maximumX: (stretchOversizeActive === true) ? (idItemCropzoneHandles.width - handleWidth/2) : (idItemCropzoneHandles.width - handleWidth)
-                            drag.minimumY: (stretchOversizeActive === true) ? (idItemCropzoneHandles.y - handleHeight/2) : (idItemCropzoneHandles.y)
-                            drag.maximumY: (stretchOversizeActive === true) ? (idItemCropzoneHandles.height - handleHeight/2) : (idItemCropzoneHandles.height - handleHeight)
+
+                            drag {
+                                target: parent
+                                minimumX: stretchOversizeActive === true ? (0 - handleWidth / 2) : 0
+                                maximumX: stretchOversizeActive === true 
+                                          ? (idItemCropzoneHandles.width - handleWidth / 2) 
+                                          : (idItemCropzoneHandles.width - handleWidth)
+                                minimumY: stretchOversizeActive === true 
+                                          ? (idItemCropzoneHandles.y - handleHeight / 2) 
+                                          : (idItemCropzoneHandles.y)
+                                maximumY: stretchOversizeActive === true 
+                                          ? (idItemCropzoneHandles.height - handleHeight / 2) 
+                                          : (idItemCropzoneHandles.height - handleHeight)
+                            }
+                            
                             onEntered: {
                                 oldPosX1 = rectDrag1.x
                                 oldPosY1 = rectDrag1.y
                                 calculateZoomImagePart(rectDrag1)
                             }
+
                             onPositionChanged: {
                                 if (croppingRatio != 0) {
                                     diffX1 = rectDrag1.x - oldPosX1
                                     diffY1 = (diffX1 / croppingRatio)
                                     rectDrag1.y = oldPosY1 + diffY1
+                            
                                     if (rectDrag1.y > (idItemCropzoneHandles.height - handleHeight)) {
                                         rectDrag1.y = idItemCropzoneHandles.height - handleHeight
                                         rectDrag1.x = stopX1
-                                    }
-                                    else if (rectDrag1.y < 0) {
+                                    } else if (rectDrag1.y < 0) {
                                         rectDrag1.y = 0
                                         rectDrag1.x = stopX1
-                                    }
-                                    else {
+                                    } else {
                                         stopX1 = rectDrag1.x
                                     }
                                 }
+
                                 calculateZoomImagePart(rectDrag1)
                             }
                         }
 
                         Icon {
                             id: idPaintSymbolPreview
-                            visible: ( buttonPaint.down && idPaintShapesButton.down )
+                            
+                            visible: buttonPaint.down && idPaintShapesButton.down
                             anchors.centerIn: parent
                             source: idComboBoxPaintSymbolPicker.icon.source
                             color: paintToolColor
@@ -1776,7 +1805,8 @@ Page {
 
                         Rectangle {
                             id: idPaintPointPreview
-                            visible: ( buttonPaint.down && idPaintPointButton.down )
+                            
+                            visible: buttonPaint.down && idPaintPointButton.down
                             anchors.centerIn: parent
                             color: paintToolColor
                             radius: paintPointWidthQML
@@ -1786,14 +1816,19 @@ Page {
 
                         Label {
                             id: idPaintTextPreview
+
                             visible: (buttonPaint.down && idPaintTextButton.down) ? true : false
                             anchors.centerIn: parent
                             rotation: -parseInt(idInputAngleManual.text)
                             color: paintToolColor
-                            font.pixelSize: idImageLoadedFreecrop.width / fontSizePreviewDivisor //* (idImageLoadedFreecrop.sourceSize.width / idImageLoadedFreecrop.width)
-                            font.bold: (paintTextStyleNr === 1) ? true : false
-                            font.italic: (paintTextStyleNr === 2) ? true : false
                             text: " " + paintToolText + " "
+
+                            font {
+                                pixelSize: idImageLoadedFreecrop.width / fontSizePreviewDivisor
+                                bold: (paintTextStyleNr === 1) ? true : false
+                                italic: (paintTextStyleNr === 2) ? true : false
+                            }
+                            
                             Rectangle {
                                 id: idPaintTextPreviewBox
                                 z: -1
@@ -1807,21 +1842,38 @@ Page {
 
                     Rectangle {
                         id: rectDrag2
-                        visible: ( buttonPaint.down && (idPaintTextButton.down || idPaintPointButton.down || idPaintShapesButton.down || idPaintColorPickerButton.down)
-                                  || ( buttonCrop.down && idComboBoxCrop.currentIndex === 12 && pickerTransformOrCropIndex === 0 ) || (idPaintCanvasButton.down && buttonPaint.down ) ) ? false : true
+
+                        visible: (buttonPaint.down 
+                                  && (idPaintTextButton.down 
+                                      || idPaintPointButton.down 
+                                      || idPaintShapesButton.down 
+                                      || idPaintColorPickerButton.down)
+                                  || (buttonCrop.down 
+                                      && idComboBoxCrop.currentIndex === 12 
+                                      && pickerTransformOrCropIndex === 0) 
+                                  || (idPaintCanvasButton.down 
+                                      && buttonPaint.down)) 
+                                 ? false 
+                                 : true
+
                         x: parent.width - handleWidth
                         y: parent.height - handleHeight
-                        radius: (idPaintLineButton.down && buttonPaint.down) ? handleWidth : 0
+                        radius: idPaintLineButton.down && buttonPaint.down ? handleWidth : 0
                         height: handleHeight
                         width: handleWidth
                         color: toolsDrawingColorFrame
                         opacity: opacityEdges
+
                         MouseArea {
                             id: dragArea2
+
                             preventStealing: true
+                            
                             // Patch: crop by coordinates disables moving...
                             enabled: ( (buttonCrop.down) && (pickerTransformOrCropIndex === 0) && (idComboBoxCrop.currentIndex === 12) ) ? false : true
+                            
                             anchors.fill: parent
+                            
                             drag.target: parent
                             drag.minimumX: (stretchOversizeActive === true) ? (0-handleWidth/2) : (0) //idItemCropzoneHandles.x
                             drag.maximumX: (stretchOversizeActive === true) ? (idItemCropzoneHandles.width - handleWidth/2) : (idItemCropzoneHandles.width - handleWidth)
