@@ -1620,6 +1620,9 @@ Page {
 
                     setCropmarkersFullImage()
                     setTransformationMarkersFullImage()
+
+                    // TODO: This is nasty, store state shared between cover and pages inside the app element
+                    app.imageSource = source
                 }
 
                 Item {
@@ -1642,8 +1645,10 @@ Page {
                         height: handleHeight
                         color: toolsDrawingColorFrame
                         opacity: opacityEdges
+
                         MouseArea {
                             id: dragArea1
+
                             preventStealing: true // Patch: crop by coordinates disables moving...
                             enabled: ( (buttonCrop.down) && (pickerTransformOrCropIndex === 0) && (idComboBoxCrop.currentIndex === 12) ) ? false : true
                             anchors.fill: parent
@@ -2321,10 +2326,22 @@ Page {
 
             Grid {
                 id: idGridCropPerspectivePicker
-                visible: (buttonCrop.down === true) ? true : false
-                x: Theme.paddingLarge
-                width: parent.width - 2* Theme.paddingLarge
+
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                    leftMargin: Theme.horizontalPageMargin
+                    rightMargin: Theme.horizontalPageMargin
+                }
+
                 columns: 3
+                opacity: toolbar.selectedButton === buttonCrop
+                visible: opacity > 0
+
+                Behavior on opacity {
+                    FadeAnimation { }
+                }                
+
                 IconButton {
                     id: idCropTransformPicker
                     enabled: ( idImageLoadedFreecrop.status !== Image.Null && finishedLoading === true ) ? true : false
@@ -5440,8 +5457,6 @@ Page {
 
     } // end SilicaFlickable
 
-
-
     Item {
         id: idZoomItem
         visible: ( zoomWindowVisible === true && (dragArea1.pressed || dragArea2.pressed || dragPerspective1.pressed || dragPerspective2.pressed || dragPerspective3.pressed || dragPerspective4.pressed || mouseCanvasArea.pressed) ) ? true : false
@@ -5502,8 +5517,6 @@ Page {
             opacity: opacityCut
         }
     }
-
-
 
     //*************************************** Important Functions ***************************************//
 

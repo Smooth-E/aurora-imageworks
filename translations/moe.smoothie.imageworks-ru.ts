@@ -291,6 +291,10 @@
         <source>Edit images and create new ones</source>
         <translation>Редактируйте изображения или создавайте новые</translation>
     </message>
+    <message>
+        <source>Currently editing</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>EffectsBench</name>

@@ -7,6 +7,8 @@ ApplicationWindow
 
     readonly property bool isLandscape: orientation & Orientation.LandscapeMask
     readonly property real coverTopPadding: isLandscape ? Theme.paddingLarge : Theme.paddingMedium
+
+    property string imageSource: ""
     
     allowedOrientations: Orientation.Portrait
     initialPage: Qt.resolvedUrl("pages/FirstPage.qml")
