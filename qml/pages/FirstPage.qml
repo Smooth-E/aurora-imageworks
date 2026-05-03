@@ -2211,18 +2211,13 @@ Page {
                 }
             } // end Image area
 
-            Item {
-                width: parent.width
-                height: 1
-            }
-
             Row {
                 id: toolbar
 
                 readonly property real itemWidth: width / 7
                 readonly property real itemHeight: Theme.itemSizeSmall
 
-                property var selectedButton
+                property var selectedButton: buttonFile
 
                 anchors {
                     left: parent.left
@@ -2231,13 +2226,15 @@ Page {
                     rightMargin: anchors.leftMargin
                 }
 
+                height: implicitHeight
+
                 ToolbarItem {
                     id: buttonCrop
 
                     width: toolbar.itemWidth
-                    height: toolbar.itemHeight
                     icon.source: "image://theme/icon-m-crop"
                     down: toolbar.selectedButton === buttonCrop
+                    label: qsTr("Crop")
 
                     onClicked: {
                         toolbar.selectedButton = buttonCrop
@@ -2251,10 +2248,10 @@ Page {
                     id: buttonPaint
 
                     width: toolbar.itemWidth
-                    height: toolbar.itemHeight
                     icon.source: "image://theme/icon-m-edit"
                     down: toolbar.selectedButton === buttonPaint
-                    
+                    label: qsTr("Draw")
+
                     onClicked: {
                         toolbar.selectedButton = buttonPaint
                         presetCroppingFree()
@@ -2265,10 +2262,10 @@ Page {
                     id: buttonShape
 
                     width: toolbar.itemWidth
-                    height: toolbar.itemHeight
                     down: toolbar.selectedButton === buttonShape
                     icon.source: "image://theme/icon-m-rotate"
-
+                    label: qsTr("Rotate")
+                    
                     onClicked: toolbar.selectedButton = buttonShape
                 }
 
@@ -2276,9 +2273,9 @@ Page {
                     id: buttonColors
 
                     width: toolbar.itemWidth
-                    height: toolbar.itemHeight
                     icon.source: "image://theme/icon-m-light-contrast"
                     down: toolbar.selectedButton === buttonColors
+                    label: qsTr("Adjust")
 
                     onClicked: toolbar.selectedButton = buttonColors
                 }
@@ -2287,9 +2284,9 @@ Page {
                     id: buttonScale
 
                     width: toolbar.itemWidth
-                    height: toolbar.itemHeight
                     icon.source: "image://theme/icon-m-scale"
                     down: toolbar.selectedButton === buttonScale
+                    label: qsTr("Resize")
 
                     onClicked: toolbar.selectedButton = buttonScale
                 }
@@ -2298,8 +2295,8 @@ Page {
                     id: buttonWorkbenches
 
                     width: toolbar.itemWidth
-                    height: toolbar.itemHeight
                     down: toolbar.selectedButton === buttonWorkbenches
+                    label: qsTr("Advanced")
                     
                     icon {
                         source: "../symbols/icon-m-effects.svg"
@@ -2314,18 +2311,13 @@ Page {
                     id: buttonFile
 
                     width: toolbar.itemWidth
-                    height: toolbar.itemHeight
                     down: toolbar.selectedButton === buttonFile
                     icon.source: "image://theme/icon-m-file-document"
+                    label: qsTr("File")
 
                     onClicked: toolbar.selectedButton = buttonFile
                 }
             } // end ToolsRow
-
-            Item {
-                width: parent.width
-                height: 1
-            }
 
             Grid {
                 id: idGridCropPerspectivePicker
