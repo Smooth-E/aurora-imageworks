@@ -1,4 +1,5 @@
 import QtQuick 2.6
+import QtGraphicalEffects 1.0
 import Sailfish.Silica 1.0
 import Sailfish.Pickers 1.0
 import Aurora.Controls 1.0
@@ -2350,113 +2351,191 @@ Page {
                 }
             } // end Image area
 
-            Row {
-                id: toolbar
+            SilicaFlickable {
+                id: toolbarFlickable
 
-                readonly property real itemWidth: width / 7
-                readonly property real itemHeight: Theme.itemSizeSmall
+                readonly property bool leftFade: contentX >= 0
+                readonly property bool rightFade: contentX + width < contentWidth
 
-                property var selectedButton: buttonFile
+                width: parent.width
+                height: toolbar.height
+                contentWidth: toolbar.width
+                leftMargin: Theme.horizontalPageMargin
+                rightMargin: Theme.horizontalPageMargin
 
-                anchors {
-                    left: parent.left
-                    right: parent.right
-                    leftMargin: Theme.horizontalPageMargin
-                    rightMargin: anchors.leftMargin
-                }
+                layer.enabled: true
+                layer.effect: OpacityMask {
+                    maskSource: LinearGradient {
+                        id: maskRectangle
 
-                height: implicitHeight
+                        property real leftFadeOpacity: toolbarFlickable.leftFade ? 0 : 1
+                        property real rightFadeOpacity: toolbarFlickable.rightFade ? 0 : 1
 
-                ToolbarItem {
-                    id: buttonCrop
+                        // Here we assume left and right margins are the same for the flickable
+                        readonly property real fraction: toolbarFlickable.leftMargin / toolbarFlickable.width
 
-                    width: toolbar.itemWidth
-                    icon.source: "image://theme/icon-m-crop"
-                    down: toolbar.selectedButton === buttonCrop
-                    label: qsTr("Crop")
+                        width: toolbarFlickable.width
+                        height: toolbarFlickable.height
+                        start: Qt.point(0, 0)
+                        end: Qt.point(width, 0)
 
-                    onClicked: {
-                        toolbar.selectedButton = buttonCrop
-                        idCropTransformPicker.icon.source = "../symbols/icon-m-cut.svg"
-                        pickerTransformOrCropIndex = 0
-                        presetCroppingFree() // Patch: reset cropping markers to free when returning to cropping tool
+                        gradient: Gradient {
+                            GradientStop {
+                                position: 0.0
+                                color: Qt.rgba(1.0, 1.0, 1.0, maskRectangle.leftFadeOpacity)
+                            }
+
+                            GradientStop {
+                                position: maskRectangle.fraction
+                                color: "white"
+                            }
+
+                            GradientStop {
+                                position: 1.0 - maskRectangle.fraction
+                                color: "white"
+                            }
+
+                            GradientStop {
+                                position: 1.0
+                                color: Qt.rgba(1.0, 1.0, 1.0, maskRectangle.rightFadeOpacity)
+                            }
+                        }
+
+                        Behavior on leftFadeOpacity {
+                            NumberAnimation {
+                                duration: 100
+                            }
+                        }
+
+                        Behavior on rightFadeOpacity {
+                            NumberAnimation {
+                                duration: 100
+                            }
+                        }
                     }
                 }
 
-                ToolbarItem {
-                    id: buttonPaint
+                Row {
+                    id: toolbar
 
-                    width: toolbar.itemWidth
-                    icon.source: "image://theme/icon-m-edit"
-                    down: toolbar.selectedButton === buttonPaint
-                    label: qsTr("Draw")
-
-                    onClicked: {
-                        toolbar.selectedButton = buttonPaint
-                        presetCroppingFree()
-                    }
-                }
-
-                ToolbarItem {
-                    id: buttonShape
-
-                    width: toolbar.itemWidth
-                    down: toolbar.selectedButton === buttonShape
-                    icon.source: "image://theme/icon-m-rotate"
-                    label: qsTr("Rotate")
+                    readonly property real itemWidth: {
+                        var maxWidth = 0
                     
-                    onClicked: toolbar.selectedButton = buttonShape
-                }
+                        for (var i = 0; i < children.length; i++) {
+                            maxWidth = Math.max(maxWidth, children[i].implicitWidth)
+                        }
 
-                ToolbarItem {
-                    id: buttonColors
-
-                    width: toolbar.itemWidth
-                    icon.source: "image://theme/icon-m-light-contrast"
-                    down: toolbar.selectedButton === buttonColors
-                    label: qsTr("Adjust")
-
-                    onClicked: toolbar.selectedButton = buttonColors
-                }
-
-                ToolbarItem {
-                    id: buttonScale
-
-                    width: toolbar.itemWidth
-                    icon.source: "image://theme/icon-m-scale"
-                    down: toolbar.selectedButton === buttonScale
-                    label: qsTr("Resize")
-
-                    onClicked: toolbar.selectedButton = buttonScale
-                }
-
-                ToolbarItem {
-                    id: buttonWorkbenches
-
-                    width: toolbar.itemWidth
-                    down: toolbar.selectedButton === buttonWorkbenches
-                    label: qsTr("Advanced")
-                    
-                    icon {
-                        source: "../symbols/icon-m-effects.svg"
-                        width: Theme.iconSizeMedium
-                        height: Theme.iconSizeMedium
+                        return Math.max(toolbarFlickable.width / children.length, maxWidth)
                     }
 
-                    onClicked: toolbar.selectedButton = buttonWorkbenches
+                    readonly property real itemHeight: {
+                        var maxHeight = 0
+
+                        for (var i = 0; i < children.length; i++) {
+                            maxHeight = Math.max(maxHeight, children[i].implicitHeight)
+                        }
+
+                        return maxHeight
+                    }
+
+                    property var selectedButton: buttonFile
+
+                    height: implicitHeight
+                    width: implicitWidth
+
+                    ToolbarItem {
+                        id: buttonCrop
+
+                        width: toolbar.itemWidth
+                        icon.source: "image://theme/icon-m-crop"
+                        down: toolbar.selectedButton === buttonCrop
+                        label: qsTr("Crop")
+
+                        onClicked: {
+                            toolbar.selectedButton = buttonCrop
+                            idCropTransformPicker.icon.source = "../symbols/icon-m-cut.svg"
+                            pickerTransformOrCropIndex = 0
+                            
+                            // Patch: reset cropping markers to free when returning to cropping tool
+                            presetCroppingFree()
+                        }
+                    }
+
+                    ToolbarItem {
+                        id: buttonPaint
+
+                        width: toolbar.itemWidth
+                        icon.source: "image://theme/icon-m-edit"
+                        down: toolbar.selectedButton === buttonPaint
+                        label: qsTr("Draw")
+
+                        onClicked: {
+                            toolbar.selectedButton = buttonPaint
+                            presetCroppingFree()
+                        }
+                    }
+
+                    ToolbarItem {
+                        id: buttonShape
+
+                        width: toolbar.itemWidth
+                        down: toolbar.selectedButton === buttonShape
+                        icon.source: "image://theme/icon-m-rotate"
+                        label: qsTr("Rotate")
+                        
+                        onClicked: toolbar.selectedButton = buttonShape
+                    }
+
+                    ToolbarItem {
+                        id: buttonColors
+
+                        width: toolbar.itemWidth
+                        icon.source: "image://theme/icon-m-light-contrast"
+                        down: toolbar.selectedButton === buttonColors
+                        label: qsTr("Adjust")
+
+                        onClicked: toolbar.selectedButton = buttonColors
+                    }
+
+                    ToolbarItem {
+                        id: buttonScale
+
+                        width: toolbar.itemWidth
+                        icon.source: "image://theme/icon-m-scale"
+                        down: toolbar.selectedButton === buttonScale
+                        label: qsTr("Resize")
+
+                        onClicked: toolbar.selectedButton = buttonScale
+                    }
+
+                    ToolbarItem {
+                        id: buttonWorkbenches
+
+                        width: toolbar.itemWidth
+                        down: toolbar.selectedButton === buttonWorkbenches
+                        label: qsTr("Advanced")
+                        
+                        icon {
+                            source: "../symbols/icon-m-effects.svg"
+                            width: Theme.iconSizeMedium
+                            height: Theme.iconSizeMedium
+                        }
+
+                        onClicked: toolbar.selectedButton = buttonWorkbenches
+                    }
+
+                    ToolbarItem {
+                        id: buttonFile
+
+                        width: toolbar.itemWidth
+                        down: toolbar.selectedButton === buttonFile
+                        icon.source: "image://theme/icon-m-file-document"
+                        label: qsTr("File")
+
+                        onClicked: toolbar.selectedButton = buttonFile
+                    }
                 }
-
-                ToolbarItem {
-                    id: buttonFile
-
-                    width: toolbar.itemWidth
-                    down: toolbar.selectedButton === buttonFile
-                    icon.source: "image://theme/icon-m-file-document"
-                    label: qsTr("File")
-
-                    onClicked: toolbar.selectedButton = buttonFile
-                }
-            } // end ToolsRow
+            } // end toolbarFlickable
 
             Grid {
                 id: idGridCropPerspectivePicker
@@ -2469,12 +2548,7 @@ Page {
                 }
 
                 columns: 3
-                opacity: toolbar.selectedButton === buttonCrop
-                visible: opacity > 0
-
-                Behavior on opacity {
-                    FadeAnimation { }
-                }                
+                visible: toolbar.selectedButton === buttonCrop
 
                 IconButton {
                     id: idCropTransformPicker

@@ -10,7 +10,7 @@ Item {
 
     signal clicked(var mouse)
 
-    implicitWidth: Theme.itemSizeSmall
+    implicitWidth: textMetrics.width + Theme.paddingSmall
     implicitHeight: column.height
 
     Column {
@@ -63,5 +63,12 @@ Item {
         anchors.fill: parent
 
         onClicked: root.clicked(mouse)
+    }
+
+    TextMetrics {
+        id: textMetrics
+
+        font: tag.font
+        text: tag.text.split(" ")[0]
     }
 }
