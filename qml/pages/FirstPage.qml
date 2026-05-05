@@ -2354,7 +2354,7 @@ Page {
             Toolbar {
                 id: toolbar
 
-                property var selectedButton: buttonFile
+                property var selectedButton: buttonCrop
 
                 width: parent.width
                 

@@ -4,6 +4,8 @@ import Sailfish.Silica 1.0
 Item {
     id: root
 
+    readonly property bool highlighted: down || mouseArea.pressed
+
     property alias label: tag.text
     property alias icon: button.icon
     property bool down
@@ -25,7 +27,7 @@ Item {
             anchors.horizontalCenter: parent.horizontalCenter
             height: Theme.itemSizeSmall
             width: height
-            down: root.down || mouseArea.pressed
+            down: root.highlighted
         }
 
         Item {
@@ -38,7 +40,7 @@ Item {
 
             width: parent.width
             height: implicitHeight
-            color: root.down ? Theme.highlightColor : Theme.primaryColor
+            color: root.highlighted ? Theme.highlightColor : Theme.primaryColor
             font.pixelSize: Theme.fontSizeSmall
             horizontalAlignment: Text.AlignHCenter
             wrapMode: Text.WordWrap
