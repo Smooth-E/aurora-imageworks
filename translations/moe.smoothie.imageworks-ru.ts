@@ -126,107 +126,135 @@
 <context>
     <name>CollageBench</name>
     <message>
-        <source>Collage bench</source>
-        <translation>Коллаж</translation>
-    </message>
-    <message>
-        <source>layout generator:</source>
-        <translation>расположение:</translation>
-    </message>
-    <message>
-        <source>auto-rows</source>
-        <translation>авто-ряды</translation>
-    </message>
-    <message>
-        <source>auto-columns</source>
-        <translation>авто-столбцы</translation>
-    </message>
-    <message>
-        <source>mosaic</source>
-        <translation>мозаика</translation>
-    </message>
-    <message>
-        <source>photowall</source>
-        <translation>стена с постерами</translation>
-    </message>
-    <message>
-        <source>scattered</source>
-        <translation>разбросанные</translation>
-    </message>
-    <message>
-        <source>background:</source>
-        <translation>фон:</translation>
-    </message>
-    <message>
-        <source>blurry image</source>
-        <translation>размытое изображение</translation>
-    </message>
-    <message>
-        <source>current color</source>
-        <translation>текущий цвет</translation>
-    </message>
-    <message>
-        <source>black</source>
-        <translation>черный</translation>
-    </message>
-    <message>
-        <source>white</source>
-        <translation>белый</translation>
-    </message>
-    <message>
-        <source>transparent</source>
-        <translation>прозрачный</translation>
-    </message>
-    <message>
-        <source>frames:</source>
-        <translation>рамки:</translation>
-    </message>
-    <message>
-        <source>none</source>
-        <translation>нет</translation>
-    </message>
-    <message>
-        <source>ratio:</source>
-        <translation>соотношение сторон:</translation>
-    </message>
-    <message>
-        <source>3 : 2</source>
-        <translation>3 : 2</translation>
-    </message>
-    <message>
-        <source>1 : 1</source>
-        <translation>1 : 1</translation>
-    </message>
-    <message>
-        <source>2 : 3</source>
-        <translation>2 : 3</translation>
-    </message>
-    <message>
-        <source>height</source>
-        <translation>высота</translation>
-    </message>
-    <message>
-        <source>width</source>
-        <translation>ширина</translation>
-    </message>
-    <message>
-        <source>columns</source>
-        <translation>столбцы</translation>
-    </message>
-    <message>
-        <source>spacing</source>
-        <translation>промежутки</translation>
-    </message>
-    <message>
-        <source>frame width</source>
-        <translation>ширина рамки</translation>
-    </message>
-    <message>
         <source>Combine %n images</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Collage bench</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Output limited to %1px. %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>layout generator:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>auto-rows</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>auto-columns</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>mosaic</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>photowall</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>scattered</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>background:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>blurry image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>current color</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>black</source>
+        <translation type="unfinished">черный</translation>
+    </message>
+    <message>
+        <source>white</source>
+        <translation type="unfinished">белый</translation>
+    </message>
+    <message>
+        <source>transparent</source>
+        <translation type="unfinished">прозрачный</translation>
+    </message>
+    <message>
+        <source>frames:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>none</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ratio:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>3 : 2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>1 : 1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>2 : 3</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Height: 1/%1 of width</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Columns: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Spacing: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Frame width: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>1. Start by adding images</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Press the button above and select several images to start creating.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>2. Adjust the parameters</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use menus and sliders below to adjust your collage&apos;s parameters. Don&apos;t forget to tap the &quot;Refresh&quot; button after making changes.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>3. Save your work</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>When you are done, tap the check-mark button above to replace your image with the new collage.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Applying changes...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Creating a collage</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

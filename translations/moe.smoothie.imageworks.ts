@@ -126,7 +126,27 @@
 <context>
     <name>CollageBench</name>
     <message>
+        <source>Combine %n images</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Collage bench</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Output limited to %1px. %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>layout generator:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>auto-rows</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>auto-columns</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -134,23 +154,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>columns</source>
+        <source>photowall</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>spacing</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>transparent</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>black</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>white</source>
+        <source>scattered</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -162,19 +170,31 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>width</source>
+        <source>current color</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>height</source>
+        <source>black</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>photowall</source>
+        <source>white</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>2 : 3</source>
+        <source>transparent</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>frames:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>none</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ratio:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -186,47 +206,55 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>frame width</source>
+        <source>2 : 3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>none</source>
+        <source>Height: 1/%1 of width</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>frames:</source>
+        <source>Columns: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>current color</source>
+        <source>Spacing: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>layout generator:</source>
+        <source>Frame width: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>ratio:</source>
+        <source>1. Start by adding images</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>auto-columns</source>
+        <source>Press the button above and select several images to start creating.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>auto-rows</source>
+        <source>2. Adjust the parameters</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>scattered</source>
+        <source>Use menus and sliders below to adjust your collage&apos;s parameters. Don&apos;t forget to tap the &quot;Refresh&quot; button after making changes.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Combine %n images</source>
+        <source>3. Save your work</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Output limited to %1px. %2</source>
+        <source>When you are done, tap the check-mark button above to replace your image with the new collage.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Applying changes...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Creating a collage</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

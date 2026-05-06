@@ -4,6 +4,8 @@ import Sailfish.Pickers 1.0
 import Aurora.Controls 1.0
 import io.thp.pyotherside 1.5
 
+import "../components"
+
 Page {
     id: page
 
@@ -72,6 +74,7 @@ Page {
 
     Python {
         id: py
+
         Component.onCompleted: {
             addImportPath(Qt.resolvedUrl('../py'))
             importModule('graphx', function () { })
@@ -176,18 +179,126 @@ Page {
     } // end Python
 
     AppBar {
-        readonly property string subheader: qsTr("Combine %n images", selectedFilesCounter)
+        id: appBar
 
-        headerText: qsTr("Collage bench")
+        readonly property string subheader: qsTr("Combine %1 images").arg(selectedFilesCounter)
+
+        headerText: qsTr("Collage")
         subHeaderText: warningLargeSize
                        ? qsTr("Output limited to %1px. %2").arg(warningInputMaxWidth).arg(subheader)
                        : subheader 
+
+        AppBarSpacer { }
+
+        AppBarButton {
+            icon.source: "image://theme/icon-splus-add"
+            enabled: !page.blockApply
+
+            onClicked: pageStack.push(multiImagePickerDialog)
+        }
+
+        AppBarButton {
+            icon.source: "image://theme/icon-splus-sync"
+            enabled: page.allSelectedPaths && !page.blockApply
+
+            onClicked: {
+                if (allSelectedPaths !== "") {
+                    blockApply = true
+                    py.createImageMosaic("preview")
+                }
+            }
+        }
+
+        AppBarButton {
+            icon.source: "image://theme/icon-splus-accept"
+            enabled: page.allSelectedPaths && !page.blockApply
+
+            onClicked: py.createImageMosaic("original")
+        }
+    }
+
+    SilicaFlickable {
+        id: tutorial
+
+        anchors {
+            fill: parent
+            topMargin: appBar.height
+        }
+
+        topMargin: Theme.paddingLarge
+        bottomMargin: topMargin
+        contentHeight: tutorialColumn.height
+        opacity: !page.allSelectedPaths && !page.blockApply ? 1 : 0
+        visible: opacity > 0
+
+        Behavior on opacity {
+            FadeAnimation { }
+        }
+
+        Column {
+            id: tutorialColumn
+
+            width: parent.width
+
+            Label {
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                    leftMargin: Theme.horizontalPageMargin
+                    rightMargin: anchors.leftMargin
+                }
+
+                text: qsTr("Creating a collage")
+                font.pixelSize: Theme.fontSizeHuge
+                color: Theme.highlightColor
+                horizontalAlignment: Text.AlignHCenter
+                wrapMode: Text.WordWrap
+            }
+
+            Item {
+                width: 1
+                height: Theme.paddingLarge
+            }
+
+            TutorialSection {
+                title: qsTr("1. Start by adding images")
+                summary: qsTr("Press the button above and select several images to start creating.")
+            }
+
+            TutorialSection {
+                title: qsTr("2. Adjust the parameters")
+                summary: qsTr("Use menus and sliders below to adjust your collage's parameters. Don't forget to tap the \"Refresh\" button after making changes.")
+            }
+
+            TutorialSection {
+                title: qsTr("3. Save your work")
+                summary: qsTr("When you are done, tap the check-mark button above to replace your image with the new collage.")
+            }
+        }
+    }
+
+    BusyLabel {
+        running: page.blockApply
+        text: qsTr("Applying changes...")
     }
 
     SilicaFlickable {
         id: listView
-        anchors.fill: parent
+
+        anchors {
+            fill: parent
+            topMargin: appBar.height
+        }
+
         contentHeight: columnMoods.height
+        topMargin: Theme.paddingLarge
+        bottomMargin: topMargin
+        opacity: page.allSelectedPaths && !page.blockApply ? 1 : 0
+        visible: opacity > 0
+
+        Behavior on opacity {
+            FadeAnimation { }
+        }
 
         VerticalScrollDecorator { }
 
@@ -196,101 +307,33 @@ Page {
 
             width: page.width
 
-            Row {
-                width: parent.width
-
-                IconButton {
-                    enabled: (blockApply === false)
-                    width: parent.width / 6
-                    height: Theme.itemSizeSmall
-                    icon.source: "image://theme/icon-m-add?"
-                    onClicked: {
-                        pageStack.push(multiImagePickerDialog)
-                    }
-                }
-
-                Item {
-                    width: parent.width / 6 * 1.5
-                    height: Theme.itemSizeSmall
-                }
-
-                IconButton {
-                    id: idReshuffleButton
-                    enabled: (allSelectedPaths!=="" && blockApply === false)
-                    width: parent.width / 6
-                    height: Theme.itemSizeSmall
-                    icon.source: "image://theme/icon-m-sync?"
-                    icon.scale: 0.85
-                    onClicked: {
-                        if (allSelectedPaths !== "") {
-                            blockApply = true
-                            py.createImageMosaic("preview")
-                        }
-                    }
-                    BusyIndicator {
-                        id: idNewPreviewButtonRunningIndicator
-                        running: (blockApply === true)
-                        anchors.verticalCenter: parent.verticalCenter
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        size: BusyIndicatorSize.Medium
-                    }
-                }
-
-                Item {
-                    width: parent.width / 6 * 1.5
-                    height: Theme.itemSizeSmall
-                }
-
-                IconButton {
-                    enabled: (allSelectedPaths!=="" && blockApply === false)
-                    width: parent.width / 6
-                    height: Theme.itemSizeSmall
-                    icon.source: "../symbols/icon-m-apply.svg"
-                    icon.width: Theme.iconSizeMedium
-                    icon.height: Theme.iconSizeMedium
-                    onClicked: {
-                        py.createImageMosaic("original")
-                    }
-                    /*
-                    BusyIndicator {
-                        id: idNewPreviewButtonRunningIndicator
-                        running: (blockApply === true)
-                        anchors.verticalCenter: parent.verticalCenter
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        size: BusyIndicatorSize.Medium
-                    }
-                    */
-                }
-            }
-
-            Rectangle {
-                width: parent.width
-                height: Theme.paddingLarge * 1.5
-                color: "transparent"
-            }
-
             Image {
                 id: idPreviewImage
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.leftMargin: Theme.paddingLarge + Theme.paddingSmall
-                anchors.rightMargin: Theme.paddingLarge + Theme.paddingSmall
+
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                    leftMargin: Theme.paddingLarge + Theme.paddingSmall
+                    rightMargin: Theme.paddingLarge + Theme.paddingSmall
+                }
+                
                 fillMode: Image.PreserveAspectFit
                 source: ""
                 cache: false
             }
 
-            Rectangle {
-                width: parent.width
-                height: Theme.paddingLarge * 1.5
-                color: "transparent"
+            Item {
+                width: 1
+                height: Theme.paddingLarge
             }
 
             ComboBox {
                 id: idComboBoxPresets
+
                 enabled: (blockApply === false)
                 width: parent.width
                 label: qsTr("layout generator:") + " "
+                
                 menu: ContextMenu {
                     MenuItem {
                         text: qsTr("auto-rows")
@@ -313,6 +356,7 @@ Page {
                         font.pixelSize: Theme.fontSizeExtraSmall
                     }
                 }
+                
                 onValueChanged: {
                     if (currentIndex === 0) {
                         currentCollageType = "lines"
@@ -334,9 +378,11 @@ Page {
 
             ComboBox {
                 id: idComboBoxBackColor
+                
                 enabled: (blockApply === false)
                 width: parent.width
                 label: qsTr("background:") + " "
+                
                 menu: ContextMenu {
                     MenuItem {
                         text: qsTr("blurry image")
@@ -363,9 +409,11 @@ Page {
 
             ComboBox {
                 id: idComboBoxFrameColor
+                
                 enabled: (blockApply === false)
                 width: parent.width
                 label: qsTr("frames:") + " "
+                
                 menu: ContextMenu {
                     MenuItem {
                         text: qsTr("none")
@@ -388,10 +436,12 @@ Page {
 
             ComboBox {
                 id: idComboBoxAspect
+                
                 visible: (currentCollageType === "polaroids")
                 enabled: (blockApply === false)
                 width: parent.width
                 label: qsTr("ratio:") + " "
+                
                 menu: ContextMenu {
                     MenuItem {
                         text: qsTr("3 : 2")
@@ -408,14 +458,9 @@ Page {
                 }
             }
 
-            Rectangle {
-                width: parent.width
-                height: Theme.paddingMedium
-                color: "transparent"
-            }
-
             Slider {
                 id: idSliderHeight
+
                 visible: (currentCollageType === "lines")
                 enabled: (blockApply === false)
                 width: parent.width
@@ -427,20 +472,17 @@ Page {
                 value: 3
                 stepSize: 1
                 smooth: true
-                Label {
-                    text: qsTr("height") + " = 1/" + idSliderHeight.value + " " + qsTr("width")
-                    font.pixelSize: Theme.fontSizeExtraSmall
-                    anchors {
-                        bottom: parent.bottom
-                        bottomMargin: -Theme.paddingSmall
-                        horizontalCenter: parent.horizontalCenter
-                    }
-                }
+                label: qsTr("Height: 1/%1 of width").arg(idSliderHeight.value)
             }
 
             Slider {
                 id: idSliderColumns
-                visible: (currentCollageType === "mosaic" || currentCollageType === "polaroids" || currentCollageType === "columns" || currentCollageType === "scattered" )
+                
+                visible: currentCollageType === "mosaic" 
+                         || currentCollageType === "polaroids" 
+                         || currentCollageType === "columns" 
+                         || currentCollageType === "scattered"
+                
                 enabled: (blockApply === false)
                 width: parent.width
                 height: Theme.itemSizeSmall * 1.1
@@ -451,19 +493,12 @@ Page {
                 value: 3
                 stepSize: 1
                 smooth: true
-                Label {
-                    text: qsTr("columns") + " " + idSliderColumns.value
-                    font.pixelSize: Theme.fontSizeExtraSmall
-                    anchors {
-                        bottom: parent.bottom
-                        bottomMargin: -Theme.paddingSmall
-                        horizontalCenter: parent.horizontalCenter
-                    }
-                }
+                label: qsTr("Columns: %1").arg(idSliderColumns.value)
             }
 
             Slider {
                 id: idSliderSpacing
+                
                 enabled: (blockApply === false)
                 width: parent.width
                 height: Theme.itemSizeSmall * 1.1
@@ -474,19 +509,12 @@ Page {
                 value: Theme.paddingSmall
                 stepSize: Theme.paddingSmall / 2
                 smooth: true
-                Label {
-                    text: qsTr("spacing") + " " + idSliderSpacing.value
-                    font.pixelSize: Theme.fontSizeExtraSmall
-                    anchors {
-                        bottom: parent.bottom
-                        bottomMargin: -Theme.paddingSmall
-                        horizontalCenter: parent.horizontalCenter
-                    }
-                }
+                label: qsTr("Spacing: %1").arg(idSliderSpacing.value)
             }
 
             Slider {
                 id: idSliderFrameWidth
+                
                 enabled: (blockApply === false)
                 visible: (idComboBoxFrameColor.currentIndex !== 0)
                 width: parent.width
@@ -498,27 +526,8 @@ Page {
                 value: Theme.paddingSmall
                 stepSize: Theme.paddingSmall / 2
                 smooth: true
-                Label {
-                    text: qsTr("frame width") + " " + idSliderFrameWidth.value
-                    font.pixelSize: Theme.fontSizeExtraSmall
-                    anchors {
-                        bottom: parent.bottom
-                        bottomMargin: -Theme.paddingSmall
-                        horizontalCenter: parent.horizontalCenter
-                    }
-                }
+                label: qsTr("Frame width: %1").arg(idSliderFrameWidth.value)
             }
-
-            Rectangle {
-                width: parent.width
-                height: Theme.paddingLarge * 1.5
-                color: "transparent"
-            }
-
         } // end Column
     } // end Silica Flickable
-
-    function dummyFunction () {
-        console.log("ToDo")
-    }
 }
