@@ -12,19 +12,23 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Feature-rich image editing application for Aurora OS based on Python Pillow library. Originally made for Sailfish OS, then ported to Aurora OS by Smooth-E.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>View source code on GitHub</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Support port maintainer through Boosty</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Imageworks is free software, distributed under the terms of GNU GPL v3.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>View source</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Donate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Feature-rich image editing application for Aurora OS based on Python Pillow library.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Originally made for Sailfish OS, then ported to Aurora OS by Smooth-E.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

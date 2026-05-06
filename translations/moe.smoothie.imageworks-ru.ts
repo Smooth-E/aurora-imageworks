@@ -12,20 +12,24 @@
         <translation>Imageworks</translation>
     </message>
     <message>
-        <source>Feature-rich image editing application for Aurora OS based on Python Pillow library. Originally made for Sailfish OS, then ported to Aurora OS by Smooth-E.</source>
-        <translation>Мощный редактор изображений на основе библиотеки Pillow для Python. Приложение было изначально разработано для Sailfish OS, и затем портировано Smooth-E на ОС Аврора.</translation>
-    </message>
-    <message>
-        <source>View source code on GitHub</source>
-        <translation>Перейти к исходному коду на GitHub</translation>
-    </message>
-    <message>
-        <source>Support port maintainer through Boosty</source>
-        <translation>Поддержать разработчика порта на Boosty</translation>
-    </message>
-    <message>
         <source>Imageworks is free software, distributed under the terms of GNU GPL v3.</source>
         <translation>Imageworks - свободное программное обеспечение, распространяемое под лицензией GNU GPL v3.</translation>
+    </message>
+    <message>
+        <source>View source</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Donate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Feature-rich image editing application for Aurora OS based on Python Pillow library.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Originally made for Sailfish OS, then ported to Aurora OS by Smooth-E.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -72,7 +76,7 @@
     </message>
     <message>
         <source>original</source>
-        <translation>оригинальный</translation>
+        <translation>ориг.</translation>
     </message>
     <message>
         <source>replace</source>
@@ -84,7 +88,7 @@
     </message>
     <message>
         <source>load</source>
-        <translation>загрузить</translation>
+        <translation>выбор</translation>
     </message>
     <message>
         <source>Gray</source>
@@ -92,15 +96,15 @@
     </message>
     <message>
         <source>use</source>
-        <translation>использовать</translation>
+        <translation>исп.</translation>
     </message>
     <message>
         <source>normal</source>
-        <translation>нормальный</translation>
+        <translation>норм.</translation>
     </message>
     <message>
         <source>invert</source>
-        <translation>инвертировать</translation>
+        <translation>инверт.</translation>
     </message>
     <message>
         <source>alpha</source>
@@ -1532,7 +1536,7 @@
     </message>
     <message>
         <source>Original Folder</source>
-        <translation>Оригинальная папка</translation>
+        <translation>Исходная папка</translation>
     </message>
     <message>
         <source>Pages Contained</source>

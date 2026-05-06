@@ -1633,18 +1633,21 @@ Page {
                 width: parent.width
 
                 Button {
+                    icon.source: "image://theme/icon-splus-image"
                     text: qsTr("Open from gallery")
 
                     onClicked: page.openFromGallery()
                 }
 
                 Button {
+                    icon.source: "image://theme/icon-splus-file-folder"
                     text: qsTr("Open from files")
 
                     onClicked: page.openFromFiles()
                 }
 
                 Button {
+                    icon.source: "image://theme/icon-splus-new"
                     text: qsTr("Create new image")
 
                     onClicked: page.openNewImagePage()
@@ -3875,7 +3878,7 @@ Page {
                         font.pixelSize: Theme.fontSizeExtraSmall
                     }
                 }
-                
+
                 IconButton {
                     enabled: ( idImageLoadedFreecrop.status !== Image.Null && finishedLoading === true && templock === -1 ) ? true : false
                     width: parent.width / itemsPerRow

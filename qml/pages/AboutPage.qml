@@ -33,7 +33,7 @@ Page {
             }
 
             height: childrenRect.height
-            spacing: Theme.paddingMedium
+            spacing: Theme.paddingLarge
 
             Image {
                 id: icon
@@ -67,9 +67,16 @@ Page {
 
             Label {
                 width: parent.width
-                text: qsTr("Feature-rich image editing application for Aurora OS based on Python Pillow library. Originally made for Sailfish OS, then ported to Aurora OS by Smooth-E.")
+                text: qsTr("Feature-rich image editing application for Aurora OS based on Python Pillow library.")
                 horizontalAlignment: Text.AlignHCenter
-                color: Theme.colorSecondary
+                wrapMode: Text.WordWrap
+            }
+
+            Label {
+                width: parent.width
+                text: qsTr("Originally made for Sailfish OS, then ported to Aurora OS by Smooth-E.")
+                horizontalAlignment: Text.AlignHCenter
+                color: Theme.secondaryColor
                 wrapMode: Text.WordWrap
             }
 
@@ -90,12 +97,12 @@ Page {
                       + "\nCopyright © 2026 Smooth-E"
             }
 
-            ButtonLayout {
+            Row {
                 width: parent.width
 
                 Button {
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    text: qsTr("View source code on GitHub")
+                    width: (parent.width - Theme.paddingLarge) / 2
+                    text: qsTr("View source")
 
                     onClicked: {
                         if (mouse.button === Qt.LeftButton) {
@@ -104,9 +111,14 @@ Page {
                     }
                 }
 
+                Item {
+                    width: Theme.paddingLarge
+                    height: 1
+                }
+
                 Button {
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    text: qsTr("Support port maintainer through Boosty")
+                    width: (parent.width - Theme.paddingLarge) / 2
+                    text: qsTr("Donate")
 
                     onClicked: {
                         if (mouse.button === Qt.LeftButton) {
