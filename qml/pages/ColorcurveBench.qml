@@ -621,8 +621,7 @@ Page {
             }
 
             Row {
-                //x: Theme.paddingLarge
-                width: parent.width //- Theme.paddingLarge
+                width: parent.width
 
                 Label {
                     width: parent.width / 7

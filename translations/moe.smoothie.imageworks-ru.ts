@@ -17,19 +17,19 @@
     </message>
     <message>
         <source>View source</source>
-        <translation type="unfinished"></translation>
+        <translation>Исходный код</translation>
     </message>
     <message>
         <source>Donate</source>
-        <translation type="unfinished"></translation>
+        <translation>Поддержать</translation>
     </message>
     <message>
         <source>Feature-rich image editing application for Aurora OS based on Python Pillow library.</source>
-        <translation type="unfinished"></translation>
+        <translation>Мощный графический редактор для ОС Аврора на основе Python-библиотеки Pillow.</translation>
     </message>
     <message>
         <source>Originally made for Sailfish OS, then ported to Aurora OS by Smooth-E.</source>
-        <translation type="unfinished"></translation>
+        <translation>Изначально созданный для Sailfish OS, Imageworks портирован на ОС Аврора Smooth-E.</translation>
     </message>
 </context>
 <context>
@@ -124,142 +124,142 @@
     </message>
     <message>
         <source>Replace, invert and saturate</source>
-        <translation type="unfinished"></translation>
+        <translation>Заменяйте, инвертируйте и изменяйте</translation>
     </message>
 </context>
 <context>
     <name>CollageBench</name>
     <message>
         <source>Output limited to %1px. %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Ограничено до %1 пикс. %2</translation>
     </message>
     <message>
         <source>layout generator:</source>
-        <translation type="unfinished"></translation>
+        <translation>расстановка:</translation>
     </message>
     <message>
         <source>auto-rows</source>
-        <translation type="unfinished"></translation>
+        <translation>авто-ряды</translation>
     </message>
     <message>
         <source>auto-columns</source>
-        <translation type="unfinished"></translation>
+        <translation>авто-столбцы</translation>
     </message>
     <message>
         <source>mosaic</source>
-        <translation type="unfinished"></translation>
+        <translation>мозаика</translation>
     </message>
     <message>
         <source>photowall</source>
-        <translation type="unfinished"></translation>
+        <translation>фото-стена</translation>
     </message>
     <message>
         <source>scattered</source>
-        <translation type="unfinished"></translation>
+        <translation>в разброс</translation>
     </message>
     <message>
         <source>background:</source>
-        <translation type="unfinished"></translation>
+        <translation>фон:</translation>
     </message>
     <message>
         <source>blurry image</source>
-        <translation type="unfinished"></translation>
+        <translation>размытое изображение</translation>
     </message>
     <message>
         <source>current color</source>
-        <translation type="unfinished"></translation>
+        <translation>текущий цвет</translation>
     </message>
     <message>
         <source>black</source>
-        <translation type="unfinished">черный</translation>
+        <translation>черный</translation>
     </message>
     <message>
         <source>white</source>
-        <translation type="unfinished">белый</translation>
+        <translation>белый</translation>
     </message>
     <message>
         <source>transparent</source>
-        <translation type="unfinished">прозрачный</translation>
+        <translation>прозрачный</translation>
     </message>
     <message>
         <source>frames:</source>
-        <translation type="unfinished"></translation>
+        <translation>рамки:</translation>
     </message>
     <message>
         <source>none</source>
-        <translation type="unfinished"></translation>
+        <translation>нет</translation>
     </message>
     <message>
         <source>ratio:</source>
-        <translation type="unfinished"></translation>
+        <translation>соотношение:</translation>
     </message>
     <message>
         <source>3 : 2</source>
-        <translation type="unfinished"></translation>
+        <translation>3 : 2</translation>
     </message>
     <message>
         <source>1 : 1</source>
-        <translation type="unfinished"></translation>
+        <translation>1 : 1</translation>
     </message>
     <message>
         <source>2 : 3</source>
-        <translation type="unfinished"></translation>
+        <translation>2 : 3</translation>
     </message>
     <message>
         <source>Height: 1/%1 of width</source>
-        <translation type="unfinished"></translation>
+        <translation>Высота: 1/%1 ширины</translation>
     </message>
     <message>
         <source>Columns: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Столбцы: %1</translation>
     </message>
     <message>
         <source>Spacing: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Промежутки: %1</translation>
     </message>
     <message>
         <source>Frame width: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Ширина рамки: %1</translation>
     </message>
     <message>
         <source>1. Start by adding images</source>
-        <translation type="unfinished"></translation>
+        <translation>1. Добавьте изображения</translation>
     </message>
     <message>
         <source>Press the button above and select several images to start creating.</source>
-        <translation type="unfinished"></translation>
+        <translation>Нажмите на кнопку выше и выберите несколько изображение, чтобы начать.</translation>
     </message>
     <message>
         <source>2. Adjust the parameters</source>
-        <translation type="unfinished"></translation>
+        <translation>2. Настройте параметры</translation>
     </message>
     <message>
         <source>Use menus and sliders below to adjust your collage&apos;s parameters. Don&apos;t forget to tap the &quot;Refresh&quot; button after making changes.</source>
-        <translation type="unfinished"></translation>
+        <translation>Используйте выпадающие меню и слайдеры, чтобы настроить ваш коллаж. Чтобы увидеть изменения, нажимайте на кнопку обновления.</translation>
     </message>
     <message>
         <source>3. Save your work</source>
-        <translation type="unfinished"></translation>
+        <translation>3. Сохраните вашу работу</translation>
     </message>
     <message>
         <source>When you are done, tap the check-mark button above to replace your image with the new collage.</source>
-        <translation type="unfinished"></translation>
+        <translation>Когда закончите, нажмите на галочку вверху, чтобы заменить текущее изображение на ваш новый коллаж.</translation>
     </message>
     <message>
         <source>Creating a collage</source>
-        <translation type="unfinished"></translation>
+        <translation>Создайте коллаж</translation>
     </message>
     <message>
         <source>Combine %1 images</source>
-        <translation type="unfinished"></translation>
+        <translation>Совместить %1 изображений</translation>
     </message>
     <message>
         <source>Collage</source>
-        <translation type="unfinished"></translation>
+        <translation>Коллаж</translation>
     </message>
     <message>
         <source>Applying changes</source>
-        <translation type="unfinished"></translation>
+        <translation>Применение изменений</translation>
     </message>
 </context>
 <context>
@@ -274,11 +274,11 @@
     </message>
     <message>
         <source>Red</source>
-        <translation>Красный</translation>
+        <translation>Красн.</translation>
     </message>
     <message>
         <source>Green</source>
-        <translation>Зеленый</translation>
+        <translation>Зелен.</translation>
     </message>
     <message>
         <source>Blue</source>
@@ -298,34 +298,34 @@
     </message>
     <message>
         <source>min</source>
-        <translation>минимум</translation>
+        <translation>мин</translation>
     </message>
     <message>
         <source>max</source>
-        <translation>максимум</translation>
+        <translation>макс</translation>
     </message>
     <message>
         <source>Color curve bench</source>
-        <translation type="unfinished"></translation>
+        <translation>Настройка цвета</translation>
     </message>
     <message>
         <source>View histogram or adjust curves</source>
-        <translation type="unfinished"></translation>
+        <translation>Посмотрите гистограмму или настройте кривые</translation>
     </message>
 </context>
 <context>
     <name>ConfirmDeletionPage</name>
     <message>
         <source>Confirm deletion</source>
-        <translation type="unfinished"></translation>
+        <translation>Подтвердить удаление</translation>
     </message>
     <message>
         <source>Are you sure you want to delete the file and all related temporary files?</source>
-        <translation type="unfinished"></translation>
+        <translation>Вы уверены, что хотите удалить файл и все сопутствующие временные файлы?</translation>
     </message>
     <message>
         <source>The original file to be deleted is located here:</source>
-        <translation type="unfinished"></translation>
+        <translation>Оригинальный файл, который будет удален, находится тут:</translation>
     </message>
 </context>
 <context>
@@ -340,7 +340,7 @@
     </message>
     <message>
         <source>Currently editing</source>
-        <translation type="unfinished"></translation>
+        <translation>Редактирование</translation>
     </message>
 </context>
 <context>
@@ -547,15 +547,15 @@
     </message>
     <message>
         <source>Apply effects</source>
-        <translation type="unfinished"></translation>
+        <translation>Применяйте эффекты</translation>
     </message>
     <message>
         <source>Applying changes</source>
-        <translation type="unfinished"></translation>
+        <translation>Применение изменений</translation>
     </message>
     <message>
         <source>Effect</source>
-        <translation type="unfinished"></translation>
+        <translation>Эффект</translation>
     </message>
 </context>
 <context>
@@ -806,310 +806,310 @@
     </message>
     <message>
         <source>Apply color filters</source>
-        <translation type="unfinished"></translation>
+        <translation>Применяйте цветовые фильтры</translation>
     </message>
 </context>
 <context>
     <name>FirstPage</name>
     <message>
         <source>Select image</source>
-        <translation type="unfinished"></translation>
+        <translation>Выбрать изображение</translation>
     </message>
     <message>
         <source>Select font</source>
-        <translation type="unfinished"></translation>
+        <translation>Выбрать шрифт</translation>
     </message>
     <message>
         <source>python3-pillow is not installed</source>
-        <translation type="unfinished"></translation>
+        <translation>python3-pillow не установлен</translation>
     </message>
     <message>
         <source>some functions require python3-pillow 7+</source>
-        <translation type="unfinished"></translation>
+        <translation>некоторые функции требуют python3-pillow 7+</translation>
     </message>
     <message>
         <source>Restore original?</source>
-        <translation type="unfinished"></translation>
+        <translation>Восстановить оригинал?</translation>
     </message>
     <message>
         <source>stretch to edges</source>
-        <translation type="unfinished"></translation>
+        <translation>Растянуть к углам</translation>
     </message>
     <message>
         <source>fold from edges</source>
-        <translation type="unfinished"></translation>
+        <translation>Сложить от углов</translation>
     </message>
     <message>
         <source>free crop</source>
-        <translation type="unfinished"></translation>
+        <translation>Свободная обрезка</translation>
     </message>
     <message>
         <source>original</source>
-        <translation type="unfinished"></translation>
+        <translation>Как оригинал</translation>
     </message>
     <message>
         <source>manual</source>
-        <translation type="unfinished"></translation>
+        <translation>Ручное</translation>
     </message>
     <message>
         <source>DIN-landscape</source>
-        <translation type="unfinished"></translation>
+        <translation>DIN альбомная</translation>
     </message>
     <message>
         <source>DIN-portrait</source>
-        <translation type="unfinished"></translation>
+        <translation>DIN портретная</translation>
     </message>
     <message>
         <source>4:3</source>
-        <translation type="unfinished">4k {4:3?}</translation>
+        <translation>4:3</translation>
     </message>
     <message>
         <source>16:10</source>
-        <translation type="unfinished">4k {16:10?}</translation>
+        <translation>16:10?</translation>
     </message>
     <message>
         <source>16:9</source>
-        <translation type="unfinished">4k {16:9?}</translation>
+        <translation>16:9</translation>
     </message>
     <message>
         <source>21:9</source>
-        <translation type="unfinished">4k {21:9?}</translation>
+        <translation>21:9</translation>
     </message>
     <message>
         <source>1:1</source>
-        <translation type="unfinished">4k {1:1?}</translation>
+        <translation>1:1</translation>
     </message>
     <message>
         <source>3:4</source>
-        <translation type="unfinished">4k {3:4?}</translation>
+        <translation>3:4</translation>
     </message>
     <message>
         <source>1:2</source>
-        <translation type="unfinished">4k {1:2?}</translation>
+        <translation>1:2</translation>
     </message>
     <message>
         <source>pixels</source>
-        <translation type="unfinished"></translation>
+        <translation>пиксели</translation>
     </message>
     <message>
         <source>point 1x</source>
-        <translation type="unfinished"></translation>
+        <translation>X1</translation>
     </message>
     <message>
         <source>point 2x</source>
-        <translation type="unfinished"></translation>
+        <translation>X2</translation>
     </message>
     <message>
         <source>point 1y</source>
-        <translation type="unfinished"></translation>
+        <translation>Y1</translation>
     </message>
     <message>
         <source>point 2y</source>
-        <translation type="unfinished"></translation>
+        <translation>Y2</translation>
     </message>
     <message>
         <source>width, preserve ratio</source>
-        <translation type="unfinished"></translation>
+        <translation>ширина, сохранить соотн.</translation>
     </message>
     <message>
         <source>height, preserve ratio</source>
-        <translation type="unfinished"></translation>
+        <translation>высота, сохранить соотн.</translation>
     </message>
     <message>
         <source>width  x  height</source>
-        <translation type="unfinished"></translation>
+        <translation>ширина x высота</translation>
     </message>
     <message>
         <source>screen ratio</source>
-        <translation type="unfinished"></translation>
+        <translation>соотн. экрана</translation>
     </message>
     <message>
         <source>padding with</source>
-        <translation type="unfinished"></translation>
+        <translation>заполнить</translation>
     </message>
     <message>
         <source>color</source>
-        <translation type="unfinished">цвет</translation>
+        <translation>цвет</translation>
     </message>
     <message>
         <source>blur</source>
-        <translation type="unfinished">размытие</translation>
+        <translation>размытием</translation>
     </message>
     <message>
         <source>left</source>
-        <translation type="unfinished"></translation>
+        <translation>влево</translation>
     </message>
     <message>
         <source>right</source>
-        <translation type="unfinished"></translation>
+        <translation>вправо</translation>
     </message>
     <message>
         <source>flip</source>
-        <translation type="unfinished"></translation>
+        <translation>перевер.</translation>
     </message>
     <message>
         <source>mirror</source>
-        <translation type="unfinished"></translation>
+        <translation>отразить</translation>
     </message>
     <message>
         <source>brightness</source>
-        <translation type="unfinished"></translation>
+        <translation>яркость</translation>
     </message>
     <message>
         <source>contrast</source>
-        <translation type="unfinished"></translation>
+        <translation>контраст</translation>
     </message>
     <message>
         <source>sharpness</source>
-        <translation type="unfinished"></translation>
+        <translation>резкость</translation>
     </message>
     <message>
         <source>hue</source>
-        <translation type="unfinished"></translation>
+        <translation>HUE</translation>
     </message>
     <message>
         <source>red</source>
-        <translation type="unfinished">красный</translation>
+        <translation>красный</translation>
     </message>
     <message>
         <source>yellow</source>
-        <translation type="unfinished"></translation>
+        <translation>желт.</translation>
     </message>
     <message>
         <source>green</source>
-        <translation type="unfinished">зеленый</translation>
+        <translation>зелен.</translation>
     </message>
     <message>
         <source>blue</source>
-        <translation type="unfinished">синий</translation>
+        <translation>син.</translation>
     </message>
     <message>
         <source>violet</source>
-        <translation type="unfinished"></translation>
+        <translation>фиол.</translation>
     </message>
     <message>
         <source>pixel</source>
-        <translation type="unfinished"></translation>
+        <translation>пиксели</translation>
     </message>
     <message>
         <source>channel</source>
-        <translation type="unfinished"></translation>
+        <translation>каналы</translation>
     </message>
     <message>
         <source>filter</source>
-        <translation type="unfinished"></translation>
+        <translation>фильтр</translation>
     </message>
     <message>
         <source>effect</source>
-        <translation type="unfinished"></translation>
+        <translation>эффект</translation>
     </message>
     <message>
         <source>collage</source>
-        <translation type="unfinished"></translation>
+        <translation>коллаж</translation>
     </message>
     <message>
         <source>delete</source>
-        <translation type="unfinished"></translation>
+        <translation>удалить</translation>
     </message>
     <message>
         <source>rename</source>
-        <translation type="unfinished"></translation>
+        <translation>имя</translation>
     </message>
     <message>
         <source>meta</source>
-        <translation type="unfinished"></translation>
+        <translation>мета</translation>
     </message>
     <message>
         <source>new</source>
-        <translation type="unfinished">новый</translation>
+        <translation>новый</translation>
     </message>
     <message>
         <source>free</source>
-        <translation type="unfinished"></translation>
+        <translation>кисть</translation>
     </message>
     <message>
         <source>area</source>
-        <translation type="unfinished"></translation>
+        <translation>область</translation>
     </message>
     <message>
         <source>frame</source>
-        <translation type="unfinished">рамка</translation>
+        <translation>рамка</translation>
     </message>
     <message>
         <source>spray</source>
-        <translation type="unfinished"></translation>
+        <translation>спрей</translation>
     </message>
     <message>
         <source>copy</source>
-        <translation type="unfinished"></translation>
+        <translation>копир.</translation>
     </message>
     <message>
         <source>paste</source>
-        <translation type="unfinished"></translation>
+        <translation>вставить</translation>
     </message>
     <message>
         <source>line</source>
-        <translation type="unfinished"></translation>
+        <translation>линия</translation>
     </message>
     <message>
         <source>point</source>
-        <translation type="unfinished"></translation>
+        <translation>точка</translation>
     </message>
     <message>
         <source>symbol</source>
-        <translation type="unfinished"></translation>
+        <translation>символ</translation>
     </message>
     <message>
         <source>label</source>
-        <translation type="unfinished"></translation>
+        <translation>текст</translation>
     </message>
     <message>
         <source>100%</source>
-        <translation type="unfinished">4k {100%?}</translation>
+        <translation>100%</translation>
     </message>
     <message>
         <source>fill</source>
-        <translation type="unfinished"></translation>
+        <translation>залить</translation>
     </message>
     <message>
         <source>keep</source>
-        <translation type="unfinished">оставить</translation>
+        <translation>оставить</translation>
     </message>
     <message>
         <source>remove</source>
-        <translation type="unfinished"></translation>
+        <translation>удалить</translation>
     </message>
     <message>
         <source>size</source>
-        <translation type="unfinished">размер</translation>
+        <translation>размер</translation>
     </message>
     <message>
         <source>dots</source>
-        <translation type="unfinished"></translation>
+        <translation>точки</translation>
     </message>
     <message>
         <source>°</source>
-        <translation type="unfinished"></translation>
+        <translation>°</translation>
     </message>
     <message>
         <source>angle</source>
-        <translation type="unfinished"></translation>
+        <translation>угол</translation>
     </message>
     <message>
         <source>font</source>
-        <translation type="unfinished"></translation>
+        <translation>шрифт</translation>
     </message>
     <message>
         <source>Sailfish</source>
-        <translation type="unfinished"></translation>
+        <translation>Sailfish</translation>
     </message>
     <message>
         <source>load custom font</source>
-        <translation type="unfinished"></translation>
+        <translation>кастомный шрифт</translation>
     </message>
     <message>
         <source>(custom)</source>
-        <translation type="unfinished"></translation>
+        <translation>(свой)</translation>
     </message>
     <message>
         <source>Angelface</source>
@@ -1213,91 +1213,91 @@
     </message>
     <message>
         <source>transparent</source>
-        <translation type="unfinished">прозрачный</translation>
+        <translation>прозрачный</translation>
     </message>
     <message>
         <source>clipboard color</source>
-        <translation type="unfinished"></translation>
+        <translation>цвет из б. обмена</translation>
     </message>
     <message>
         <source>black</source>
-        <translation type="unfinished">черный</translation>
+        <translation>черный</translation>
     </message>
     <message>
         <source>white</source>
-        <translation type="unfinished">белый</translation>
+        <translation>белый</translation>
     </message>
     <message>
         <source>cursor</source>
-        <translation type="unfinished"></translation>
+        <translation>курсор</translation>
     </message>
     <message>
         <source>visibility</source>
-        <translation type="unfinished"></translation>
+        <translation>видимость</translation>
     </message>
     <message>
         <source>average</source>
-        <translation type="unfinished"></translation>
+        <translation>среднее</translation>
     </message>
     <message>
         <source>Imageworks</source>
-        <translation type="unfinished">Imageworks</translation>
+        <translation>Imageworks</translation>
     </message>
     <message>
         <source>Open from files</source>
-        <translation type="unfinished"></translation>
+        <translation>Открыть из файлов</translation>
     </message>
     <message>
         <source>Open from gallery</source>
-        <translation type="unfinished"></translation>
+        <translation>Открыть из галереи</translation>
     </message>
     <message>
         <source>About Imageworks</source>
-        <translation type="unfinished">О приложении</translation>
+        <translation>О приложении</translation>
     </message>
     <message>
         <source>Crop</source>
-        <translation type="unfinished"></translation>
+        <translation>Кадр.</translation>
     </message>
     <message>
         <source>Draw</source>
-        <translation type="unfinished"></translation>
+        <translation>Рисование</translation>
     </message>
     <message>
         <source>Rotate</source>
-        <translation type="unfinished"></translation>
+        <translation>Вращение</translation>
     </message>
     <message>
         <source>Adjust</source>
-        <translation type="unfinished"></translation>
+        <translation>Уровни</translation>
     </message>
     <message>
         <source>Resize</source>
-        <translation type="unfinished"></translation>
+        <translation>Размер</translation>
     </message>
     <message>
         <source>Advanced</source>
-        <translation type="unfinished"></translation>
+        <translation>Тулбокс</translation>
     </message>
     <message>
         <source>File</source>
-        <translation type="unfinished">Файл</translation>
+        <translation>Файл</translation>
     </message>
     <message>
         <source>Welcome to Imageworks!</source>
-        <translation type="unfinished">Добро пожаловать в Imageworks!</translation>
+        <translation>Добро пожаловать в Imageworks!</translation>
     </message>
     <message>
         <source>Create new image</source>
-        <translation type="unfinished"></translation>
+        <translation>Новое изображение</translation>
     </message>
     <message>
         <source>Applying changes</source>
-        <translation type="unfinished"></translation>
+        <translation>Применение изменений</translation>
     </message>
     <message>
         <source>Open an exisiting image or create a new one to start editing</source>
-        <translation type="unfinished"></translation>
+        <translation>Откройте существующее изображение или создайте новое, чтобы начать</translation>
     </message>
 </context>
 <context>
@@ -1348,11 +1348,11 @@
     </message>
     <message>
         <source>File information</source>
-        <translation type="unfinished"></translation>
+        <translation>Информация о файле</translation>
     </message>
     <message>
         <source>EXIF tags</source>
-        <translation type="unfinished"></translation>
+        <translation>Теги EXIF</translation>
     </message>
 </context>
 <context>
@@ -1375,23 +1375,23 @@
     </message>
     <message>
         <source>Create image</source>
-        <translation type="unfinished"></translation>
+        <translation>Создать изображение</translation>
     </message>
     <message>
         <source>from</source>
-        <translation type="unfinished"></translation>
+        <translation>буфер</translation>
     </message>
     <message>
         <source>clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>обмена</translation>
     </message>
     <message>
         <source>screen</source>
-        <translation type="unfinished"></translation>
+        <translation>разрешение</translation>
     </message>
     <message>
         <source>resolution</source>
-        <translation type="unfinished"></translation>
+        <translation>экрана</translation>
     </message>
     <message>
         <source>DIN A4</source>
@@ -1427,7 +1427,7 @@
     </message>
     <message>
         <source>4k</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">100% {4k?}</translation>
     </message>
 </context>
 <context>
@@ -1494,7 +1494,7 @@
     </message>
     <message>
         <source>Find and replace</source>
-        <translation type="unfinished"></translation>
+        <translation>Находите и заменяйте</translation>
     </message>
 </context>
 <context>
@@ -1517,7 +1517,7 @@
     </message>
     <message>
         <source>Rename as...</source>
-        <translation type="unfinished"></translation>
+        <translation>Переименовать как...</translation>
     </message>
 </context>
 <context>
@@ -1560,7 +1560,7 @@
     </message>
     <message>
         <source>Save as...</source>
-        <translation type="unfinished"></translation>
+        <translation>Сохранить как...</translation>
     </message>
 </context>
 </TS>

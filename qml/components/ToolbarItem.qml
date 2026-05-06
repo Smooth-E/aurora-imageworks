@@ -12,7 +12,7 @@ Item {
 
     signal clicked(var mouse)
 
-    implicitWidth: textMetrics.width + Theme.paddingSmall
+    implicitWidth: textMetrics.width + Theme.paddingMedium * 2
     implicitHeight: column.height
 
     Column {
