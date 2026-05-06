@@ -242,10 +242,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Applying changes...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Creating a collage</source>
         <translation type="unfinished"></translation>
     </message>
@@ -255,6 +251,10 @@
     </message>
     <message>
         <source>Collage</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Applying changes</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -306,6 +306,21 @@
     </message>
     <message>
         <source>View histogram or adjust curves</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ConfirmDeletionPage</name>
+    <message>
+        <source>Confirm deletion</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are you sure you want to delete the file and all related temporary files?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The original file to be deleted is located here:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -531,7 +546,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Applying changed</source>
+        <source>Applying changes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Effect</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -985,10 +1004,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Delete file?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>delete</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1327,6 +1342,14 @@
         <source>Palette</source>
         <translation>Палитра</translation>
     </message>
+    <message>
+        <source>File information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>EXIF tags</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>NewPage</name>
@@ -1347,59 +1370,59 @@
         <translation>Пресеты</translation>
     </message>
     <message>
+        <source>Create image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>from</source>
-        <translation>из</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>clipboard</source>
-        <translation>буфер обмена</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>screen</source>
-        <translation>экран</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>resolution</source>
-        <translation>разрешение</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>DIN A4</source>
-        <translation>DIN A4</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>72 dpi</source>
-        <translation>72 dpi</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>150 dpi</source>
-        <translation>150 dpi</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>300 dpi</source>
-        <translation>300 dpi</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>XGA</source>
-        <translation>XGA</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>WXGA</source>
-        <translation>WXGA</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>WXGA+</source>
-        <translation>WXGA+</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Full HD</source>
-        <translation>Full HD</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>4k</source>
-        <translation>4k</translation>
-    </message>
-    <message>
-        <source>Create image</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

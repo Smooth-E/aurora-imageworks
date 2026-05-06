@@ -390,8 +390,7 @@ Page {
         }
 
         contentHeight: columnMoods.height
-        topMargin: Theme.paddingLarge
-        bottomMargin: topMargin
+        bottomMargin: Theme.paddingLarge
         opacity: page.blockerApply || page.processing ? 0 : 1
         visible: opacity > 0
 

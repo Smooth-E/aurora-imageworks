@@ -242,10 +242,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Applying changes...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Creating a collage</source>
         <translation type="unfinished"></translation>
     </message>
@@ -255,6 +251,10 @@
     </message>
     <message>
         <source>Collage</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Applying changes</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -306,6 +306,21 @@
     </message>
     <message>
         <source>View histogram or adjust curves</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ConfirmDeletionPage</name>
+    <message>
+        <source>Confirm deletion</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are you sure you want to delete the file and all related temporary files?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The original file to be deleted is located here:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -531,7 +546,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Applying changed</source>
+        <source>Applying changes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Effect</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -989,10 +1008,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Delete file?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>delete</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1331,6 +1346,14 @@
         <source>File contains no EXIF tags.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>File information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>EXIF tags</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>NewPage</name>
@@ -1347,15 +1370,19 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>clipboard</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Presets</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Create image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>from</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>clipboard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1400,10 +1427,6 @@
     </message>
     <message>
         <source>4k</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Create image</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

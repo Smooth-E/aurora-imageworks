@@ -3853,22 +3853,29 @@ Page {
                 columns: itemsPerRow
 
                 IconButton {
-                    enabled: ( idImageLoadedFreecrop.status !== Image.Null && finishedLoading === true && templock === -1 ) ? true : false
+                    enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading === true && templock === -1
                     width: parent.width / itemsPerRow
                     height: Theme.itemSizeSmall
-                    icon.source: "image://theme/icon-m-delete?"
-                    onClicked: remorse.execute( qsTr("Delete file?"),  py.deleteOriginalFunction )
+                    icon.source: "image://theme/icon-m-delete"
+
+                    onClicked: {
+                        pageStack.push("ConfirmDeletionPage.qml", { "callback": py.deleteOriginalFunction, 
+                                                                    "filePath": idImageLoadedFreecrop.source })
+                    }
+                    
                     Label {
-                        horizontalAlignment: Text.AlignHCenter
-                        text: qsTr("delete")
-                        font.pixelSize: Theme.fontSizeExtraSmall
                         anchors {
                             top: parent.bottom
                             topMargin: -Theme.paddingSmall
                             horizontalCenter: parent.horizontalCenter
                         }
+
+                        horizontalAlignment: Text.AlignHCenter
+                        text: qsTr("delete")
+                        font.pixelSize: Theme.fontSizeExtraSmall
                     }
                 }
+                
                 IconButton {
                     enabled: ( idImageLoadedFreecrop.status !== Image.Null && finishedLoading === true && templock === -1 ) ? true : false
                     width: parent.width / itemsPerRow

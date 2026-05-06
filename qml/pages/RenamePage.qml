@@ -75,6 +75,17 @@ Page {
         id: appBar
 
         headerText: qsTr("Rename as...")
+
+        AppBarSpacer { }
+
+        AppBarButton {
+            icon.source: "image://theme/icon-splus-accept"
+
+            onClicked: {
+                py.renameOriginalFunction()
+                pageStack.pop()
+            }
+        }
     }
 
     SilicaFlickable {
@@ -96,52 +107,65 @@ Page {
 
             Row {
                 width: parent.width
+
                 TextField {
                     id: idFilenameNew
-                    width: parent.width / 6 * 3.75
-                    anchors.top: parent.top
-                    anchors.topMargin: Theme.paddingMedium
-                    y: Theme.paddingSmall
+                    
+                    anchors {
+                        top: parent.top
+                        topMargin: Theme.paddingMedium
+                    }
+
+                    width: parent.width - idComboBoxFileExtension.width
                     inputMethodHints: Qt.ImhNoPredictiveText
-                    text: (origImageFileName !== undefined) ? oldFileName : "none"
+                    text: origImageFileName !== undefined ? oldFileName : "none"
+                    
+                    validator: RegExpValidator { 
+                        // negative list
+                        regExp: /^[^<>'\"/;*:`#?]*$/ 
+                    }
+                    
                     EnterKey.onClicked: idFilenameNew.focus = false
-                    validator: RegExpValidator { regExp: /^[^<>'\"/;*:`#?]*$/ } // negative list
                 }
+
                 ComboBox {
                     id: idComboBoxFileExtension
-                    width: parent.width / 6 * 1.25
+
+                    readonly property string extension: origImageFileName !== undefined ? ("." + oldFileType) : "???"
+
+                    width: extensionMetrics.width + Theme.paddingLarge * 3
+
                     menu: ContextMenu {
                         MenuItem {
-                            text: (origImageFileName !== undefined) ? ("." + oldFileType) : "???"
-                            font.pixelSize: Theme.fontSizeExtraSmall
+                            text: idComboBoxFileExtension.extension
                         }
                     }
-                }
-                IconButton {
-                    visible: (idFilenameNew.text.length > 0) ? true : false
-                    width: parent.width / 6
-                    height: Theme.itemSizeSmall
-                    icon.source: "../symbols/icon-m-apply.svg"
-                    icon.width: Theme.iconSizeMedium
-                    icon.height: Theme.iconSizeMedium
-                    onClicked: {
-                        py.renameOriginalFunction()
-                        pageStack.pop()
+
+                    TextMetrics {
+                        id: extensionMetrics
+
+                        text: idComboBoxFileExtension.extension
                     }
                 }
             } // end row save filename
 
             Label {
-                leftPadding: Theme.paddingLarge
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                    leftMargin: Theme.horizontalPageMargin
+                    rightMargin: Theme.horizontalPageMargin
+                }
+
+                wrapMode: Text.WordWrap
+                color: Theme.secondaryColor
                 font.pixelSize: Theme.fontSizeSmall
+
                 text: qsTr("Path") + ": " + origImageFolderPath + "\n"
                         + qsTr("Width") + ": " + imageWidthSave + "\n"
                         + qsTr("Height") + ": " + imageHeightSave + "\n"
                         + qsTr("Size") + ": " + estimatedFileSize + " kb"
-                color: Theme.highlightColor
             }
-
-
         } // end Column
     } // end Silica Flickable
 }

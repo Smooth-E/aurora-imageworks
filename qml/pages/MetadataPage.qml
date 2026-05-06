@@ -102,6 +102,11 @@ Page {
 
             width: parent.width
 
+            SectionHeader {
+                text: qsTr("File information")
+                horizontalAlignment: Text.AlignLeft
+            }
+
             Label {
                 x: Theme.paddingLarge
                 width: parent.width - 2*Theme.paddingLarge
@@ -118,7 +123,8 @@ Page {
             }
 
             SectionHeader {
-                text: "EXIF tags"
+                text: qsTr("EXIF tags")
+                horizontalAlignment: Text.AlignLeft
             }
 
             Label {
