@@ -31,6 +31,7 @@ Page {
     property var cubeFileName : ""
     property bool blockerApply : false
     property var ratioWidthOriginal2Base
+    property bool processing
 
     allowedOrientations: Orientation.All
 
@@ -50,7 +51,7 @@ Page {
                 idPreviewImage.source = "" // Patch: make sure not to get old content ever
                 idPreviewImage.source = encodeURI( previewPath )
                 idOriginalOverlayImage.source = previewBaseImagePath
-                idNewPreviewButtonRunningIndicator.running = false
+                page.processing = false
                 blockerApply = false
                 idPreviewImage.visible = true
                 ratioWidthOriginal2Base = inputImageWidth / previewBaseImageWidth
@@ -106,7 +107,7 @@ Page {
         // Functions affecting preview image
 
         function createPreviewBaseImage () {
-            idNewPreviewButtonRunningIndicator.running = true
+            page.processing = true
             blockerApply = true
             call("graphx.createPreviewBaseImage", [ inputPathPy, previewBaseImagePath, previewBaseImageWidth ])
         }
@@ -228,117 +229,131 @@ Page {
             var radiusMask = idFxUnsharpRadiusMask.value // 3 //2
             var percentMask = idFxUnsharpPercentMask.value // 150 //150
             var thresholdMask = idFxUnsharpThresholdMask.value // 4 //3
-            call("graphx.unsharpmaskFunction", [ targetImage, previewBaseImagePath, previewImageEffectPath, radiusMask, percentMask, thresholdMask ])
+
+            call("graphx.unsharpmaskFunction", [ targetImage, previewBaseImagePath, previewImageEffectPath, radiusMask, 
+                                                 percentMask, thresholdMask ])
         }
+
         function findedgesFunction() {
             var targetImage = "preview"
             var previewImageEffectPath = tempImageFolderPath + "preview" + "-" + currentEffectName + ".tmp.png"
             var fileTargetType = inputPathPy.slice(inputPathPy.length - 4)
-            call("graphx.findedgesFunction", [ targetImage, previewBaseImagePath, previewImageEffectPath, fileTargetType ])
+
+            const args = [ targetImage, previewBaseImagePath, previewImageEffectPath, fileTargetType ]
+            call("graphx.findedgesFunction", args)
         }
+        
         function contourFunction() {
             var targetImage = "preview"
             var previewImageEffectPath = tempImageFolderPath + "preview" + "-" + currentEffectName + ".tmp.png"
             call("graphx.contourFunction", [ targetImage, previewBaseImagePath, previewImageEffectPath ])
         }
+        
         function embossFunction() {
             var targetImage = "preview"
             var previewImageEffectPath = tempImageFolderPath + "preview" + "-" + currentEffectName + ".tmp.png"
             call("graphx.embossFunction", [ targetImage, previewBaseImagePath, previewImageEffectPath ])
         }
 
-
-
         function addFrameFunction() {
             var targetImage = "preview"
             var previewImageEffectPath = tempImageFolderPath + "preview" + "-" + currentEffectName + ".tmp.png"
             var addFrameValue = Math.round( idFxSliderAddFrame.value / ratioWidthOriginal2Base)
-            call("graphx.addFrameFunction", [ targetImage, previewBaseImagePath, previewImageEffectPath, addFrameValue, paintToolColor ])
+            
+            const args = [ targetImage, previewBaseImagePath, previewImageEffectPath, addFrameValue, paintToolColor ]
+            call("graphx.addFrameFunction", args)
         }
+
         function tintWithColorFunction() {
             var targetImage = "preview"
             var previewImageEffectPath = tempImageFolderPath + "preview" + "-" + currentEffectName + ".tmp.png"
             var factorBrightnessTint = 1.2
-            call("graphx.tintWithColorFunction", [ targetImage, inputPathPy, outputPathPy, paintToolColor, factorBrightnessTint ])
+
+            const args = [ targetImage, inputPathPy, outputPathPy, paintToolColor, factorBrightnessTint ]
+            call("graphx.tintWithColorFunction", args)
         }
+
         function quantizeFunction() {
             var targetImage = "preview"
             var previewImageEffectPath = tempImageFolderPath + "preview" + "-" + currentEffectName + ".tmp.png"
             var colorsAmount = idFxSliderQuantize.value
             call("graphx.quantizeFunction", [ targetImage, previewBaseImagePath, previewImageEffectPath, colorsAmount ])
         }
+
         function colorToAlphaFunction() {
             var targetImage = "preview"
             var previewImageEffectPath = tempImageFolderPath + "preview" + "-" + currentEffectName + ".tmp.png"
             var targetColorTolerance = idFxSliderAlphaTolerance.value //"30"
-            if (idComboBoxAlphaColor.currentIndex === 0) {
-                var targetColor2Alpha = "white"
-            }
-            else {
-                targetColor2Alpha = "black"
-            }
-            call("graphx.colorToAlphaFunction", [ targetImage, previewBaseImagePath, previewImageEffectPath, targetColor2Alpha, targetColorTolerance ])
+            var targetColor2Alpha = idComboBoxAlphaColor.currentIndex === 0 ? "white" : "black"
+
+            call("graphx.colorToAlphaFunction", [ targetImage, previewBaseImagePath, previewImageEffectPath, 
+                                                  targetColor2Alpha, targetColorTolerance ])
         }
+
         function addAlphaFunction() {
             var targetImage = "preview"
             var previewImageEffectPath = tempImageFolderPath + "preview" + "-" + currentEffectName + ".tmp.png"
             var percentAlpha = idFxSliderOpacity.value
             call("graphx.addAlphaFunction", [ targetImage, previewBaseImagePath, previewImageEffectPath, percentAlpha ])
         }
+
         function extractColorFunction() {
             var targetImage = "preview"
             var previewImageEffectPath = tempImageFolderPath + "preview" + "-" + currentEffectName + ".tmp.png"
-            if (idComboBoxColorExtract.currentIndex === 0) {
-                var colorExtractARGB = "R"
-            }
-            else if (idComboBoxColorExtract.currentIndex === 1) {
-                colorExtractARGB = "G"
-            }
-            else {
-                colorExtractARGB = "B"
-            }
-            call("graphx.extractColorFunction", [ targetImage, previewBaseImagePath, previewImageEffectPath, colorExtractARGB ])
+            var colorExtractARGB = idComboBoxColorExtract.currentIndex === 0 
+                                   ? "R"
+                                   : idComboBoxColorExtract.currentIndex === 1 
+                                     ? "G" 
+                                     : "B"
+            
+            const args = [ targetImage, previewBaseImagePath, previewImageEffectPath, colorExtractARGB ]
+            call("graphx.extractColorFunction", args)
         }
+
         function extractChannelFunction() {
             var targetImage = "preview"
             var previewImageEffectPath = tempImageFolderPath + "preview" + "-" + currentEffectName + ".tmp.png"
-            if (idComboBoxChannelExtract.currentIndex === 0) {
-                var channelExtractARGB = "R"
-            }
-            else if (idComboBoxChannelExtract.currentIndex === 1) {
-                channelExtractARGB = "G"
-            }
-            else if (idComboBoxChannelExtract.currentIndex === 2) {
-                channelExtractARGB = "B"
-            }
-            else {
-                channelExtractARGB = "A"
-            }
-            call("graphx.extractChannelFunction", [ targetImage, previewBaseImagePath, previewImageEffectPath, channelExtractARGB ])
+            var channelExtractARGB = idComboBoxChannelExtract.currentIndex === 0
+                                     ? "R"
+                                     : idComboBoxChannelExtract.currentIndex === 1
+                                       ? "G"
+                                       : idComboBoxChannelExtract.currentIndex === 2
+                                         ? "B"
+                                         : "A"
+            
+            const args = [ targetImage, previewBaseImagePath, previewImageEffectPath, channelExtractARGB ]
+            call("graphx.extractChannelFunction", args)
         }
+
         function brightspotFilterFunction() {
             var targetImage = "preview"
             var previewImageEffectPath = tempImageFolderPath + "preview" + "-" + currentEffectName + ".tmp.png"
-            if (currentEffectName === "fxMinFilter") {
-                var spotType = "min"
-            }
-            else if (currentEffectName === "fxMaxFilter") {
-                spotType = "max"
-            }
-            else if (currentEffectName === "fxMedFilter") {
-                spotType = "med"
-            }
+
+            var spotType = currentEffectName === "fxMinFilter"
+                           ? "min"
+                           : currentEffectName === "fxMaxFilter"
+                             ? "max"
+                             : currentEffectName === "fxMedFilter"
+                               ? "med"
+                               : undefined
+            
             var brightspotSize = Math.round( idFxSliderBrightspotSize.value / ratioWidthOriginal2Base)
+
             // check that it stays an odd number, even numbers do not work in PILLOW
             if (brightspotSize % 2 === 0 ) {
                 brightspotSize = brightspotSize + 1
             }
-            call("graphx.brightspotFilterFunction", [ targetImage, previewBaseImagePath, previewImageEffectPath, spotType, brightspotSize ])
+
+            const args = [ targetImage, previewBaseImagePath, previewImageEffectPath, spotType, brightspotSize ]
+            call("graphx.brightspotFilterFunction", args)
         }
+
         function fishEyeFunction() {
             var targetImage = "preview"
             var previewImageEffectPath = tempImageFolderPath + "preview" + "-" + currentEffectName + ".tmp.png"
-            call("graphx.fishEyeFunction", [ targetImage, previewBaseImagePath, previewImageEffectPath, paintToolColor ])
+            
+            const args = [ targetImage, previewBaseImagePath, previewImageEffectPath, paintToolColor ]
+            call("graphx.fishEyeFunction", args)
         }
 
         onError: console.log('python error: ' + traceback);
@@ -350,6 +365,20 @@ Page {
 
         headerText: qsTr("Effects bench")
         subHeaderText: qsTr("Apply effects")
+
+        AppBarSpacer { }
+
+        AppBarButton {
+            icon.source: "image://theme/icon-splus-accept"
+            enabled: !page.blockerApply && idComboBoxPresets.currentIndex !== 0 && !page.processing
+
+            onClicked: py.filtersEffectsMiddleStepFunction()
+        }
+    }
+
+    BusyLabel {
+        text: qsTr("Applying changes")
+        running: page.blockerApply || page.processing
     }
 
     SilicaFlickable {
@@ -361,6 +390,14 @@ Page {
         }
 
         contentHeight: columnMoods.height
+        topMargin: Theme.paddingLarge
+        bottomMargin: topMargin
+        opacity: page.blockerApply || page.processing ? 0 : 1
+        visible: opacity > 0
+
+        Behavior on opacity {
+            FadeAnimation { }
+        }
 
         VerticalScrollDecorator { }
 
@@ -369,169 +406,146 @@ Page {
 
             width: page.width
 
-            Row {
-                width: parent.width
-                Rectangle {
-                    width: Theme.paddingMedium
-                    height: 1
-                    color: "transparent"
-                }
+            ComboBox {
+                id: idComboBoxPresets
+                
+                label: qsTr("Effect")
 
-                ComboBox {
-                    id: idComboBoxPresets
-                    
-                    x: Theme.paddingMedium
-                    width: parent.width / 6 * 5 - Theme.paddingMedium
-                    
-                    menu: ContextMenu {
-                        MenuItem {
-                            text: qsTr("original")
-                        }
-                        MenuItem {
-                            text: qsTr("auto contrast")
-                        }
-                        MenuItem {
-                            text: qsTr("stretch contrast")
-                        }
-                        MenuItem {
-                            text: qsTr("dithering")
-                        }
-                        MenuItem {
-                            text: qsTr("coal drawing")
-                        }
-                        MenuItem {
-                            text: qsTr("grayscale")
-                        }
-                        MenuItem {
-                            text: qsTr("invert colors")
-                        }
-                        MenuItem {
-                            text: qsTr("equalize colors")
-                        }
-                        MenuItem {
-                            text: qsTr("solarize")
-                        }
-                        MenuItem {
-                            text: qsTr("brush art")
-                        }
-                        MenuItem {
-                            text: qsTr("posterize")
-                        }
-                        MenuItem {
-                            text: qsTr("blur image")
-                        }
-                        MenuItem {
-                            text: qsTr("smooth surface")
-                        }
-                        MenuItem {
-                            text: qsTr("central focus")
-                        }
-                        MenuItem {
-                            text: qsTr("miniature world")
-                        }
-                        MenuItem {
-                            text: qsTr("enhance edges")
-                        }
-                        MenuItem {
-                            text: qsTr("digital unsharp masking")
-                        }
-                        MenuItem {
-                            text: qsTr("find edges")
-                        }
-                        MenuItem {
-                            text: qsTr("find contour")
-                        }
-                        MenuItem {
-                            text: qsTr("emboss")
-                        }
-                        MenuItem {
-                            text: qsTr("add current colored frame")
-                        }
-                        MenuItem {
-                            text: qsTr("tint with current color")
-                        }
-                        MenuItem {
-                            text: qsTr("reduce colors")
-                        }
-                        MenuItem {
-                            text: qsTr("change opacity")
-                        }
-                        MenuItem {
-                            text: qsTr("create alpha from")
-                        }
-                        MenuItem {
-                            text: qsTr("extract color")
-                        }
-                        MenuItem {
-                            text: qsTr("extract channel")
-                        }
-
-                        MenuItem {
-                            text: qsTr("minFilter (bright spots darker)")
-                        }
-                        MenuItem {
-                            text: qsTr("maxFilter (dark spots brighter)")
-                        }
-                        MenuItem {
-                            text: qsTr("mediumFilter")
-                        }
-                        MenuItem {
-                            text: qsTr("fishEye")
-                        }
+                menu: ContextMenu {
+                    MenuItem {
+                        text: qsTr("original")
+                    }
+                    MenuItem {
+                        text: qsTr("auto contrast")
+                    }
+                    MenuItem {
+                        text: qsTr("stretch contrast")
+                    }
+                    MenuItem {
+                        text: qsTr("dithering")
+                    }
+                    MenuItem {
+                        text: qsTr("coal drawing")
+                    }
+                    MenuItem {
+                        text: qsTr("grayscale")
+                    }
+                    MenuItem {
+                        text: qsTr("invert colors")
+                    }
+                    MenuItem {
+                        text: qsTr("equalize colors")
+                    }
+                    MenuItem {
+                        text: qsTr("solarize")
+                    }
+                    MenuItem {
+                        text: qsTr("brush art")
+                    }
+                    MenuItem {
+                        text: qsTr("posterize")
+                    }
+                    MenuItem {
+                        text: qsTr("blur image")
+                    }
+                    MenuItem {
+                        text: qsTr("smooth surface")
+                    }
+                    MenuItem {
+                        text: qsTr("central focus")
+                    }
+                    MenuItem {
+                        text: qsTr("miniature world")
+                    }
+                    MenuItem {
+                        text: qsTr("enhance edges")
+                    }
+                    MenuItem {
+                        text: qsTr("digital unsharp masking")
+                    }
+                    MenuItem {
+                        text: qsTr("find edges")
+                    }
+                    MenuItem {
+                        text: qsTr("find contour")
+                    }
+                    MenuItem {
+                        text: qsTr("emboss")
+                    }
+                    MenuItem {
+                        text: qsTr("add current colored frame")
+                    }
+                    MenuItem {
+                        text: qsTr("tint with current color")
+                    }
+                    MenuItem {
+                        text: qsTr("reduce colors")
+                    }
+                    MenuItem {
+                        text: qsTr("change opacity")
+                    }
+                    MenuItem {
+                        text: qsTr("create alpha from")
+                    }
+                    MenuItem {
+                        text: qsTr("extract color")
+                    }
+                    MenuItem {
+                        text: qsTr("extract channel")
                     }
 
-                    onCurrentIndexChanged: {
-                        blockerApply = true
-                        previewImageEffectPicker()
+                    MenuItem {
+                        text: qsTr("minFilter (bright spots darker)")
+                    }
+                    MenuItem {
+                        text: qsTr("maxFilter (dark spots brighter)")
+                    }
+                    MenuItem {
+                        text: qsTr("mediumFilter")
+                    }
+                    MenuItem {
+                        text: qsTr("fishEye")
                     }
                 }
 
-                IconButton {
-                    visible: true
-                    enabled: ( blockerApply !== true && idComboBoxPresets.currentIndex !== 0 )
-                    width: parent.width / 6
-                    height: Theme.itemSizeSmall
-                    icon.source: "../symbols/icon-m-apply.svg"
-                    icon.width: Theme.iconSizeMedium
-                    icon.height: Theme.iconSizeMedium
-                    onClicked: {
-                        py.filtersEffectsMiddleStepFunction()
-                    }
-                    BusyIndicator {
-                        id: idNewPreviewButtonRunningIndicator
-                        anchors.verticalCenter: parent.verticalCenter
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        size: BusyIndicatorSize.Medium
-                    }
+                onCurrentIndexChanged: {
+                    blockerApply = true
+                    previewImageEffectPicker()
                 }
             }
 
-            Rectangle {
-                width: parent.width
-                height: Theme.paddingLarge * 1.5
-                color: "transparent"
+            Item {
+                width: 1
+                height: Theme.paddingLarge
             }
 
             Image {
                 id: idPreviewImage
-                visible: false
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.leftMargin: Theme.paddingLarge + Theme.paddingMedium + Theme.paddingSmall
-                anchors.rightMargin: Theme.paddingLarge + Theme.paddingMedium + Theme.paddingSmall
+                
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                    leftMargin: Theme.paddingLarge + Theme.paddingMedium + Theme.paddingSmall
+                    rightMargin: Theme.paddingLarge + Theme.paddingMedium + Theme.paddingSmall
+                }
+
                 fillMode: Image.PreserveAspectFit
                 source: ""
                 cache: false
+                visible: false
 
                 Item {
                     id: idOriginalImageArea
+                    
                     anchors.left: parent.left
                     anchors.top: parent.top
                     anchors.bottom: parent.bottom
                     width: parent.width / 2
                     clip: true
+                    
                     Image {
                         id: idOriginalOverlayImage
+                    
                         source: ""
                         cache: false
                     }
@@ -539,33 +553,40 @@ Page {
 
                 Item {
                     id: idHandlesPreviewOriginal
+                    
                     anchors.fill: parent
+                    
                     Rectangle {
                         id: rectDrag1
-                        x: parent.width/2 - handleWidth/2
-                        y: parent.height/2 - handleWidth/2
+                        
+                        x: parent.width / 2 - handleWidth / 2
+                        y: parent.height / 2 - handleWidth / 2
                         radius: handleWidth
                         width: handleWidth
                         height: handleWidth
                         color: toolsDrawingColorFrame
                         opacity: opacityEdges
+
                         MouseArea {
                             id: dragArea1
+
                             preventStealing: true
                             anchors.centerIn: parent
                             width: parent.width * 3
                             height: parent.height * 3
-                            drag.target: parent
-                            drag.axis: Drag.XAxis
-                            drag.minimumX: 0 - handleWidth/2
-                            drag.maximumX: idHandlesPreviewOriginal.width - handleWidth/2
-                            onPositionChanged: {
-                                idOriginalImageArea.width = (rectDrag1.x + handleWidth/2)
+
+                            drag {
+                                target: parent
+                                axis: Drag.XAxis
+                                minimumX: 0 - handleWidth / 2
+                                maximumX: idHandlesPreviewOriginal.width - handleWidth / 2
                             }
+
+                            onPositionChanged: idOriginalImageArea.width = (rectDrag1.x + handleWidth/2)
                         }
                         Rectangle {
                             id: idVerticalLine
-                            //opacity: opacityEdges
+                            
                             color: toolsDrawingColorFrame
                             anchors.horizontalCenter: parent.horizontalCenter
                             anchors.verticalCenter: parent.verticalCenter
@@ -1045,12 +1066,12 @@ Page {
     } // end Silica Flickable
 
     function previewImageEffectPicker () {
-        idNewPreviewButtonRunningIndicator.running = true
+        page.processing = true
         if (idComboBoxPresets.currentIndex === 0) {
             currentEffectName = "original"
             idPreviewImage.source = ""
             idPreviewImage.source = previewBaseImagePath
-            idNewPreviewButtonRunningIndicator.running = false
+            page.processing = false
         }
         else if (idComboBoxPresets.currentIndex === 1) {
             currentEffectName = "fxAutoContrast"

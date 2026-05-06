@@ -279,7 +279,7 @@ Page {
 
     BusyLabel {
         running: page.blockApply
-        text: qsTr("Applying changes...")
+        text: qsTr("Applying changes")
     }
 
     SilicaFlickable {

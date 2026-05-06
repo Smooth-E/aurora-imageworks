@@ -126,14 +126,6 @@
 <context>
     <name>CollageBench</name>
     <message>
-        <source>Combine %n images</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Collage bench</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Output limited to %1px. %2</source>
         <translation type="unfinished"></translation>
     </message>
@@ -255,6 +247,14 @@
     </message>
     <message>
         <source>Creating a collage</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Combine %1 images</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Collage</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -528,6 +528,10 @@
     </message>
     <message>
         <source>Apply effects</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Applying changed</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
