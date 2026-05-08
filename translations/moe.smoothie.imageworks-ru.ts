@@ -28,8 +28,8 @@
         <translation>Мощный графический редактор для ОС Аврора на основе Python-библиотеки Pillow.</translation>
     </message>
     <message>
-        <source>Originally made for Sailfish OS, then ported to Aurora OS by Smooth-E.</source>
-        <translation>Изначально созданный для Sailfish OS, Imageworks портирован на ОС Аврора Smooth-E.</translation>
+        <source>Imageworks was originally developed for Sailfish OS and then ported to Aurora OS by Smooth-E.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1523,44 +1523,56 @@
 <context>
     <name>SavePage</name>
     <message>
-        <source>overwrite...</source>
-        <translation>заменить...</translation>
+        <source>Save as...</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>.pdf</source>
-        <translation>.pdf</translation>
+        <source>Applying changes</source>
+        <translation type="unfinished">Применение изменений</translation>
+    </message>
+    <message>
+        <source>overwrite...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Save location</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Documents</source>
-        <translation>Документы</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Original Folder</source>
-        <translation>Исходная папка</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Pages Contained</source>
-        <translation>Страницы в выходном документе</translation>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add page</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Clear</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Width</source>
-        <translation>Ширина</translation>
+        <translation type="unfinished">Ширина</translation>
     </message>
     <message>
         <source>Height</source>
-        <translation>Высота</translation>
+        <translation type="unfinished">Высота</translation>
     </message>
     <message>
         <source>Size</source>
-        <translation>Размер</translation>
+        <translation type="unfinished">Размер</translation>
     </message>
     <message>
         <source>Filetype does not support transparency.</source>
-        <translation>Формат файла не поддерживает прозрачность.</translation>
-    </message>
-    <message>
-        <source>Save as...</source>
-        <translation>Сохранить как...</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

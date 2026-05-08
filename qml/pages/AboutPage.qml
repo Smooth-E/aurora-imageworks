@@ -74,7 +74,7 @@ Page {
 
             Label {
                 width: parent.width
-                text: qsTr("Originally made for Sailfish OS, then ported to Aurora OS by Smooth-E.")
+                text: qsTr("Imageworks was originally developed for Sailfish OS and then ported to Aurora OS by Smooth-E.")
                 horizontalAlignment: Text.AlignHCenter
                 color: Theme.secondaryColor
                 wrapMode: Text.WordWrap

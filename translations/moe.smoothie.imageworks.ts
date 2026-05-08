@@ -28,7 +28,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Originally made for Sailfish OS, then ported to Aurora OS by Smooth-E.</source>
+        <source>Imageworks was originally developed for Sailfish OS and then ported to Aurora OS by Smooth-E.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1527,11 +1527,39 @@
 <context>
     <name>SavePage</name>
     <message>
+        <source>Save as...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Applying changes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>overwrite...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Save location</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Documents</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Original Folder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>.pdf</source>
+        <source>Pages Contained</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add page</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Clear</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1547,23 +1575,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Documents</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Pages Contained</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>overwrite...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Filetype does not support transparency.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Save as...</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

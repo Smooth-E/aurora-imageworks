@@ -2404,7 +2404,7 @@ Page {
                     icon.source: "image://theme/icon-m-rotate"
                     label: qsTr("Rotate")
                     
-                    onClicked: toolbar.selectedButton = buttonShape
+                    onClicked: console.log("selecting button shape"), toolbar.selectedButton = buttonShape
                 }
 
                 ToolbarItem {
