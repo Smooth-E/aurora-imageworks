@@ -1232,10 +1232,6 @@
         <translation>курсор</translation>
     </message>
     <message>
-        <source>visibility</source>
-        <translation>видимость</translation>
-    </message>
-    <message>
         <source>average</source>
         <translation>среднее</translation>
     </message>
@@ -1298,6 +1294,10 @@
     <message>
         <source>Open an exisiting image or create a new one to start editing</source>
         <translation>Откройте существующее изображение или создайте новое, чтобы начать</translation>
+    </message>
+    <message>
+        <source>visibility %1%</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

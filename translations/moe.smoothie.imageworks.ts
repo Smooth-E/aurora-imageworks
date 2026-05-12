@@ -1236,10 +1236,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>visibility</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>average</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1301,6 +1297,10 @@
     </message>
     <message>
         <source>Open an exisiting image or create a new one to start editing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>visibility %1%</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
