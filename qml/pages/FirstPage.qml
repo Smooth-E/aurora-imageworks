@@ -6077,8 +6077,8 @@ Page {
         id: idZoomItem
 
         anchors {
-            top: parent.top
-            topMargin: Theme.paddingMedium
+            bottom: parent.bottom
+            bottomMargin: Theme.paddingMedium
         }
 
         visible: zoomWindowVisible === true 
@@ -6431,9 +6431,9 @@ Page {
             if (idImageLoadedFreecrop.sourceSize.width > idImageLoadedFreecrop.width) {
                 const partial = idImageLoadedFreecrop.width / 2 - handleWidth / 2
 
-                if (activeHandleName.x >= (partial + zoomItemCenterTolerance / 2) ) {
+                if (activeHandleName.x >= (partial + zoomItemCenterTolerance / 2)) {
                     idZoomItem.reanchorToLeft()
-                } else if (activeHandleName.x <= (partial - zoomItemCenterTolerance/2) ) {
+                } else if (activeHandleName.x <= (partial - zoomItemCenterTolerance / 2) ) {
                     idZoomItem.reanchorToRight()
                 }
 
@@ -6465,16 +6465,15 @@ Page {
                 const halfSize = idImageLoadedFreecrop.sourceSize.width / 2
                 if (activeHandleName.mouseX >= halfSize + zoomItemCenterTolerance / 2) {
                     idZoomItem.reanchorToLeft()
-                }
-                else if (activeHandleName.mouseX <= halfSize - zoomItemCenterTolerance / 2) {
+                } else if (activeHandleName.mouseX <= halfSize - zoomItemCenterTolerance / 2) {
                     idZoomItem.reanchorToRight()
                 }
 
                 scaleDisplayFactorCrop = 1
             }
 
-            idZoomImagePart.x = -(mouseCanvasArea.mouseX) * scaleDisplayFactorCrop + idZoomItem.width / 2
-            idZoomImagePart.y = - (mouseCanvasArea.mouseY) * scaleDisplayFactorCrop + idZoomItem.height / 2
+            idZoomImagePart.x = -mouseCanvasArea.mouseX * scaleDisplayFactorCrop + idZoomItem.width / 2
+            idZoomImagePart.y = - mouseCanvasArea.mouseY * scaleDisplayFactorCrop + idZoomItem.height / 2
         }
     }
 
