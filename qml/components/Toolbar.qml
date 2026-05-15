@@ -14,7 +14,7 @@ SilicaFlickable {
     default property alias toolbarChildren: toolbar.children
 
     implicitHeight: toolbar.height
-    contentWidth: toolbar.width
+    contentWidth: toolbar.width + leftMargin + rightMargin
     leftMargin: Theme.horizontalPageMargin
     rightMargin: Theme.horizontalPageMargin
 
