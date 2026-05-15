@@ -136,9 +136,17 @@ build_pyotherside()
 install_pillow() {
     echo Upgrading pip and installing Pillow...
 
+    if [[ "$arch" = "armv7l" ]]; then
+        sb2 -t $target -R zypper install -y \
+            libjpeg-devel zlib-devel libtiff-devel freetype-devel \
+            lcms2-devel libwebp-devel openjpeg-devel  || exit 1
+    fi
+
     cd vendor/$arch/
 
-    local python_env="PYTHONHOME=. PYTHONPATH=./lib/python$cpython_version:./lib/python$cpython_version/lib-dynload"
+    local python_env="PYTHONHOME=$(pwd)"
+    python_env="$python_env PYTHONPATH=$(pwd)/lib/python$cpython_version:$(pwd)/lib/python$cpython_version/lib-dynload"
+
     sb2 -t $target bash -c "$python_env ./bin/python3 -m pip install --upgrade pip"
     sb2 -t $target bash -c "$python_env ./bin/python3 -m pip install Pillow"
 
