@@ -31,6 +31,10 @@
         <source>Imageworks was originally developed for Sailfish OS and then ported to Aurora OS by Smooth-E.</source>
         <translation>Imageworks основывается на приложении для Sailfish OS и был портирован на ОС Аврора Smooth-E.</translation>
     </message>
+    <message>
+        <source>Version info copied to clipboard</source>
+        <translation>Имя версии скопировано</translation>
+    </message>
 </context>
 <context>
     <name>ChannelBench</name>

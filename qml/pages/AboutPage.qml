@@ -10,6 +10,17 @@ Page {
         id: appBar
 
         headerText: qsTr("About")
+
+        AppBarSpacer { }
+
+        AppBarButton {
+            text: "v1.3.0"
+
+            onClicked: {
+                Clipboard.text = text
+                Notices.show(qsTr("Version info copied to clipboard"), Notice.Short, Notice.Bottom)
+            }
+        }
     }
 
     SilicaFlickable {

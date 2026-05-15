@@ -12,8 +12,15 @@
 # * date Author's Name <author's email> version-release
 # - Summary of changes
 
+* Sat May 16 2026 Smooth-E <smoothie@disroot.org> 1.3.0
+- Первый релиз для ОС Аврора
+- Некоторые страницы теперь используют Aurora Controls
+- Приложение полностью переведено на русский язык
+- Новая иконка
+- Панель инструментов адаптирована под разные размеры экранов
+- Внутренние оптимизации и улучшения
+
 * Sun Mar 28 2021 mark washeim <blueprint@poetaster.de> 0.6.4
 - Modified pro to install python dependancies
 - added PIL directories to project/lib
 - modified python program to load libs.
-
