@@ -562,7 +562,7 @@
     </message>
     <message>
         <source>Some changes take longer to process.
-Do not close Imageworks while this operation is running.</source>
+Do not close Imageworks while this operation is in progress.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
