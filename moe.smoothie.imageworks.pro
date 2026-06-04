@@ -18,7 +18,7 @@ DISTFILES += \
     rpm/moe.smoothie.imageworks.spec \
     translations/*.ts \
     moe.smoothie.imageworks.desktop \
-    rpm/moe.smoothie.imageworks.changes
+    rpm/moe.smoothie.imageworks.changes \
 
 AURORAAPP_ICONS = 86x86 108x108 128x128 172x172
 

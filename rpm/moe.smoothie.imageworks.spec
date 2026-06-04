@@ -10,7 +10,7 @@ Name:       moe.smoothie.imageworks
 
 Summary:    Imageworks image editor
 Version:    1.3.0
-Release:    1
+Release:    2
 Group:      Qt/Qt
 License:    GPLv3
 URL:        https://github.com/poetaster/harbour-simplecrop
