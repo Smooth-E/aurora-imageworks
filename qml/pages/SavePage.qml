@@ -7,8 +7,7 @@ import io.thp.pyotherside 1.5
 Page {
     id: page
 
-    readonly property bool multiPagePdfCreation: idComboBoxFileExtension.currentIndex === 5
-    readonly property bool canSave: !processing && multiPagePdfCreation === pageNumberMultiPDF > 0
+    readonly property bool canSave: !processing && fileExtensionCombo.multiPagePdfCreation === pageNumberMultiPDF > 0
 
     // values transmitted from FirstPage.qml
     property var homeDirectory
@@ -43,16 +42,16 @@ Page {
         oldFileType = origImageFileNameArray[origImageFileNameArray.length - 1]
 
         if (oldFileType.indexOf('jpg') !== -1 || oldFileType.indexOf('jpeg') !== -1) {
-            idComboBoxFileExtension.currentIndex = 0
+            fileExtensionCombo.currentIndex = 0
         } else if (oldFileType.indexOf('png') !== -1) {
-            idComboBoxFileExtension.currentIndex = 1
+            fileExtensionCombo.currentIndex = 1
         } else if (oldFileType.indexOf('gif') !== -1) {
-            idComboBoxFileExtension.currentIndex = 2
+            fileExtensionCombo.currentIndex = 2
         } else if (oldFileType.indexOf('bmp') !== -1) {
-            idComboBoxFileExtension.currentIndex = 3
+            fileExtensionCombo.currentIndex = 3
         } else {
             // suggested file format if none of the above
-            idComboBoxFileExtension.currentIndex = 0
+            fileExtensionCombo.currentIndex = 0
         }
 
         py.getImageSizeFunction()
@@ -66,7 +65,7 @@ Page {
             addImportPath(Qt.resolvedUrl('../py'))
             importModule('graphx', function () {})
 
-            setHandler('tempFilesDeleted', function(i) { console.log("temp files deleted: " + i) })
+            setHandler('tempFilesDeleted', function(i) { console.log("temp files deleted:", i) })
 
             setHandler('estimatedFileSize', function(estimatedSize) {
                 estimatedFileSize = Math.round(parseInt(estimatedSize) / 10) / 100
@@ -89,26 +88,11 @@ Page {
         function saveFunction() {
             page.processing = true
 
-            var folderSavePath
-            if (idComboBoxTargetFolder.currentIndex === 0) {
-                if (page.multiPagePdfCreation || idComboBoxFileExtension.currentIndex === 4) {
-                    folderSavePath = homeDirectory + "/Documents/"
-                } else {
-                    folderSavePath = origImageFolderPath
-                }
-            } else if (idComboBoxTargetFolder.currentIndex === 1) {
-                folderSavePath = homeDirectory + "/Pictures" + "/Imageworks/"
-            } else if (idComboBoxTargetFolder.currentIndex === 2) {
-                folderSavePath = homeDirectory + "/Pictures/"
-            } else if (idComboBoxTargetFolder.currentIndex === 3) {
-                folderSavePath = homeDirectory + "/Downloads/"
-            } else if (idComboBoxTargetFolder.currentIndex === 4) {
-                folderSavePath = homeDirectory + "/"
-            }
+            var folderSavePath = targetFolderCombo.path
 
-            savePath = folderSavePath + idFilenameNew.text.toString() + idComboBoxFileExtension.value.toString()
+            savePath = folderSavePath + idFilenameNew.text.toString() + fileExtensionCombo.value
             inputPathPy = ( "/" + inputPathPy.replace(/^(file:\/{3})|(qrc:\/{2})|(http:\/{2})/,"") )
-            var fileTargetType = idComboBoxFileExtension.value.toString()
+            var fileTargetType = fileExtensionCombo.value
             var pdfResolution = 300
 
             const args = [ inputPathPy, savePath, tempImageFolderPath, pdfResolution, fileTargetType ]
@@ -127,7 +111,7 @@ Page {
             multiPdfPageNamesList = multiPdfPageNamesList + pageNumberMultiPDF 
                                     + "-" + idFilenameNew.text.toString() + "\n"
 
-            inputPathPy = ( inputPathPy.replace(/^(file:\/{3})|(qrc:\/{2})|(http:\/{2})/,"") )
+            inputPathPy = inputPathPy.replace(/^(file:\/{3})|(qrc:\/{2})|(http:\/{2})/,"")
 
             call("graphx.gatherMultiPagePdfFunction", [ inputPathPy, pageNumberMultiPDF, multiPdfPageNamesList ])
         }
@@ -141,24 +125,8 @@ Page {
         }
 
         function createMultiPagePDFFunction() {
-            var folderSavePath
-            if (idComboBoxTargetFolder.currentIndex === 0) {
-                if (page.multiPagePdfCreation || idComboBoxFileExtension.currentIndex === 4) {
-                    folderSavePath = homeDirectory + "/Documents/"
-                } else {
-                    folderSavePath = origImageFolderPath
-                }
-            } else if (idComboBoxTargetFolder.currentIndex === 1) {
-                folderSavePath = homeDirectory + "/Pictures" + "/Imageworks/"
-            } else if (idComboBoxTargetFolder.currentIndex === 2) {
-                folderSavePath = homeDirectory + "/Pictures/"
-            } else if (idComboBoxTargetFolder.currentIndex === 3) {
-                folderSavePath = homeDirectory + "/Downloads/"
-            } else if (idComboBoxTargetFolder.currentIndex === 4) {
-                folderSavePath = homeDirectory + "/"
-            }
-
-            savePath = folderSavePath + idFilenameMultiPDF.text.toString() + ".pdf"
+            const folderSavePath = targetFolderCombo.path
+            savePath = folderSavePath + multiPagePdfFilename.text + ".pdf"
             call("graphx.createMultiPagePDFFunction", [ savePath, tempImageFolderPath ])
         }
 
@@ -178,7 +146,7 @@ Page {
             enabled: page.canSave
 
             onClicked: {
-                if (page.multiPagePdfCreation) {
+                if (fileExtensionCombo.multiPagePdfCreation) {
                     py.createMultiPagePDFFunction()
                 } else {
                     py.saveFunction()
@@ -221,9 +189,9 @@ Page {
                 TextField {
                     id: idFilenameNew
 
-                    label: validatorNameOverwrite ? qsTr("overwrite...") : ""
-                    enabled: !page.multiPagePdfCreation
-                    width: parent.width - idComboBoxFileExtension.width
+                    label: page.validatorNameOverwrite ? qsTr("overwrite...") : ""
+                    enabled: !fileExtensionCombo.multiPagePdfCreation
+                    width: parent.width - fileExtensionCombo.width
                     anchors.top: parent.top
                     anchors.topMargin: Theme.paddingMedium
                     y: Theme.paddingSmall
@@ -241,7 +209,11 @@ Page {
                 }
 
                 ComboBox {
-                    id: idComboBoxFileExtension
+                    id: fileExtensionCombo
+
+                    readonly property bool multiPagePdfCreation: currentIndex === 5
+                    readonly property bool isDocument: currentIndex === 4 || currentIndex === 5
+                    readonly property bool supportsTransparency: currentIndex === 1 || multiPagePdfCreation
 
                     width: {
                         var maxWidth = 0
@@ -256,27 +228,21 @@ Page {
                     menu: ContextMenu {
                         MenuItem {
                             text: ".jpg"
-                            font.pixelSize: Theme.fontSizeExtraSmall
                         }
                         MenuItem {
                             text: ".png"
-                            font.pixelSize: Theme.fontSizeExtraSmall
                         }
                         MenuItem {
                             text: ".gif"
-                            font.pixelSize: Theme.fontSizeExtraSmall
                         }
                         MenuItem {
                             text: ".bmp"
-                            font.pixelSize: Theme.fontSizeExtraSmall
                         }
                         MenuItem {
                             text: ".pdf"
-                            font.pixelSize: Theme.fontSizeExtraSmall
                         }
                         MenuItem {
                             text: "PDF+"
-                            font.pixelSize: Theme.fontSizeExtraSmall
                         }
                     }
 
@@ -287,14 +253,14 @@ Page {
             } // end row save filename
 
             Row {
-                visible: page.multiPagePdfCreation
+                visible: fileExtensionCombo.multiPagePdfCreation
                 width: parent.width
                 
                 TextField {
-                    id: idFilenameMultiPDF
+                    id: multiPagePdfFilename
                     
                     enabled: pageNumberMultiPDF > 0
-                    width: parent.width - idComboBoxFileExtensionMultiPDF.width
+                    width: parent.width - multiPdfExtensionCombo.width
                     anchors.top: parent.top
                     anchors.topMargin: Theme.paddingMedium
                     y: Theme.paddingSmall
@@ -309,10 +275,10 @@ Page {
                 }
 
                 ComboBox {
-                    id: idComboBoxFileExtensionMultiPDF
+                    id: multiPdfExtensionCombo
                     
                     enabled: false
-                    width: idComboBoxFileExtension.width
+                    width: fileExtensionCombo.width
 
                     menu: ContextMenu {
                         MenuItem {
@@ -324,35 +290,44 @@ Page {
             } // end row save filename
 
             ComboBox {
-                id: idComboBoxTargetFolder
+                id: targetFolderCombo
                 
+                readonly property string path: currentItem.path
+
                 width: parent.width
                 label: qsTr("Save location")
                 
                 menu: ContextMenu {
-                    id: idCropShape
-                    
                     MenuItem {
-                        text: page.multiPagePdfCreation || idComboBoxFileExtension.currentIndex === 4 
-                              ? qsTr("Documents") 
-                              : qsTr("Original Folder")
-                        font.pixelSize: Theme.fontSizeExtraSmall
+                        readonly property string path: fileExtensionCombo.isDocument 
+                                                       ? page.homeDirectory + "/Documents/"
+                                                       : page.origImageFolderPath
+
+                        text: fileExtensionCombo.isDocument ? qsTr("Documents") : qsTr("Original Folder")
                     }
+
                     MenuItem {
+                        readonly property string path: page.homeDirectory + "/Pictures/Imageworks/"
+
                         text: "Pictures/Imageworks"
-                        font.pixelSize: Theme.fontSizeExtraSmall
                     }
+
                     MenuItem {
+                        readonly property string path: page.homeDirectory + "/Pictures/"
+
                         text: "Pictures"
-                        font.pixelSize: Theme.fontSizeExtraSmall
                     }
+
                     MenuItem {
+                        readonly property string path: page.homeDirectory + "/Downloads/"
+
                         text: "Downloads"
-                        font.pixelSize: Theme.fontSizeExtraSmall
                     }
+
                     MenuItem {
+                        readonly property string path: page.homeDirectory
+
                         text: "/home"
-                        font.pixelSize: Theme.fontSizeExtraSmall
                     }
                 }
 
@@ -360,7 +335,7 @@ Page {
             }
 
             SectionHeader {
-                visible: page.multiPagePdfCreation
+                visible: fileExtensionCombo.multiPagePdfCreation
                 text: "\n" + qsTr("Pages Contained")
                 horizontalAlignment: Text.AlignLeft
             }
@@ -371,7 +346,7 @@ Page {
             }
 
             ButtonLayout {
-                visible: page.multiPagePdfCreation
+                visible: fileExtensionCombo.multiPagePdfCreation
 
                 Button {
                     icon.source: "image://theme/icon-splus-add"
@@ -393,7 +368,7 @@ Page {
             Item {
                 width: 1
                 height: Theme.paddingMedium
-                visible: page.multiPagePdfCreation
+                visible: fileExtensionCombo.multiPagePdfCreation
             }
 
             Label {
@@ -404,7 +379,7 @@ Page {
                     rightMargin: anchors.leftMargin
                 }
 
-                visible: page.multiPagePdfCreation
+                visible: fileExtensionCombo.multiPagePdfCreation
                 font.pixelSize: Theme.fontSizeExtraSmall
                 text: multiPdfPageNamesList
                 wrapMode: Text.WordWrap
@@ -418,7 +393,7 @@ Page {
                     rightMargin: anchors.leftMargin
                 }
 
-                visible: !page.multiPagePdfCreation
+                visible: !fileExtensionCombo.multiPagePdfCreation
                 font.pixelSize: Theme.fontSizeExtraSmall
                 wrapMode: Text.WordWrap
                 
@@ -431,36 +406,21 @@ Page {
             Label {
                 id: idWarningTransparencySupport
                 
-                visible: idComboBoxFileExtension.currentIndex !== 1 && !page.multiPagePdfCreation
+                visible: !fileExtensionCombo.supportsTransparency
                 topPadding: Theme.iconSizeExtraSmall
                 leftPadding: Theme.paddingLarge * 1.2
-                width: parent.width - 2*Theme.paddingLarge
+                width: parent.width - 2 * Theme.paddingLarge
                 font.pixelSize: Theme.fontSizeExtraSmall
                 text: qsTr("Filetype does not support transparency.")
             }
-
         } // end Column
     } // end Silica Flickable
 
     function checkOverwriting() {
-        if (idComboBoxTargetFolder.currentIndex === 0) {
-            if (page.multiPagePdfCreation || idComboBoxFileExtension.currentIndex === 4) {
-                estimatedFolder = homeDirectory + "/Documents/"
-            } else {
-                estimatedFolder = origImageFolderPath
-            }
-        } else if (idComboBoxTargetFolder.currentIndex === 1) {
-            estimatedFolder = homeDirectory + "/Pictures" + "/Imageworks/"
-        } else if (idComboBoxTargetFolder.currentIndex === 2) {
-            estimatedFolder = homeDirectory + "/Pictures/"
-        } else if (idComboBoxTargetFolder.currentIndex === 3) {
-            estimatedFolder = homeDirectory + "/Downloads/"
-        } else if (idComboBoxTargetFolder.currentIndex === 4) {
-            estimatedFolder = homeDirectory + "/"
-        }
+        page.estimatedFolder = targetFolderCombo.path
 
-        validatorNameOverwrite = estimatedFolder === origImageFolderPath 
+        page.validatorNameOverwrite = page.estimatedFolder === origImageFolderPath 
                                  && oldFileName === idFilenameNew.text 
-                                 && "." + oldFileType === idComboBoxFileExtension.value.toString()
+                                 && "." + oldFileType === fileExtensionCombo.value
     }
 }
