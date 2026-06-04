@@ -4,6 +4,8 @@ import Sailfish.Pickers 1.0
 import Aurora.Controls 1.0
 import io.thp.pyotherside 1.5
 
+import "../components"
+
 Page {
     id: page
 
@@ -376,8 +378,7 @@ Page {
         }
     }
 
-    BusyLabel {
-        text: qsTr("Applying changes")
+    ExtendedBusyLabel {
         running: page.blockerApply || page.processing
     }
 

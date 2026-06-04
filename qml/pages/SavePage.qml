@@ -3,6 +3,7 @@ import Sailfish.Silica 1.0
 import Aurora.Controls 1.0
 import io.thp.pyotherside 1.5
 
+import "../components"
 
 Page {
     id: page
@@ -38,7 +39,7 @@ Page {
     Component.onCompleted: {
         // get infos from the original file
         origImageFileNameArray = origImageFileName.split(".")
-        oldFileName = (origImageFileNameArray.slice(0, origImageFileNameArray.length-1)).join(".")
+        oldFileName = origImageFileNameArray.slice(0, origImageFileNameArray.length - 1).join(".")
         oldFileType = origImageFileNameArray[origImageFileNameArray.length - 1]
 
         if (oldFileType.indexOf('jpg') !== -1 || oldFileType.indexOf('jpeg') !== -1) {
@@ -155,9 +156,8 @@ Page {
         }
     }
 
-    BusyLabel {
+    ExtendedBusyLabel {
         running: page.processing
-        text: qsTr("Applying changes")
     }
 
     SilicaFlickable {

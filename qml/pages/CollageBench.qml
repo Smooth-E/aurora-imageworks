@@ -277,9 +277,8 @@ Page {
         }
     }
 
-    BusyLabel {
+    ExtendedBusyLabel {
         running: page.blockApply
-        text: qsTr("Applying changes")
     }
 
     SilicaFlickable {

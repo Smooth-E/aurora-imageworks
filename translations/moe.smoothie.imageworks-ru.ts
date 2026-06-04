@@ -261,10 +261,6 @@
         <source>Collage</source>
         <translation>Коллаж</translation>
     </message>
-    <message>
-        <source>Applying changes</source>
-        <translation>Применение изменений</translation>
-    </message>
 </context>
 <context>
     <name>ColorcurveBench</name>
@@ -554,12 +550,20 @@
         <translation>Применяйте эффекты</translation>
     </message>
     <message>
-        <source>Applying changes</source>
-        <translation>Применение изменений</translation>
-    </message>
-    <message>
         <source>Effect</source>
         <translation>Эффект</translation>
+    </message>
+</context>
+<context>
+    <name>ExtendedBusyLabel</name>
+    <message>
+        <source>Applying changes</source>
+        <translation type="unfinished">Применение изменений</translation>
+    </message>
+    <message>
+        <source>Some changes take longer to process.
+Do not close Imageworks while this operation is running.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1292,10 +1296,6 @@
         <translation>Новое изображение</translation>
     </message>
     <message>
-        <source>Applying changes</source>
-        <translation>Применение изменений</translation>
-    </message>
-    <message>
         <source>Open an exisiting image or create a new one to start editing</source>
         <translation>Откройте существующее изображение или создайте новое, чтобы начать</translation>
     </message>
@@ -1529,10 +1529,6 @@
     <message>
         <source>Save as...</source>
         <translation>Сохранить как...</translation>
-    </message>
-    <message>
-        <source>Applying changes</source>
-        <translation>Применение изменений</translation>
     </message>
     <message>
         <source>overwrite...</source>

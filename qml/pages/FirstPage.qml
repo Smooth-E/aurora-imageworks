@@ -6067,8 +6067,7 @@ Page {
         } // end Column
     } // end SilicaFlickable
 
-    BusyLabel {
-        text: qsTr("Applying changes")
+    ExtendedBusyLabel {
         running: !page.finishedLoading
     }
 

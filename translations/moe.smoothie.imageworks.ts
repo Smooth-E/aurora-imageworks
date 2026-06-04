@@ -261,10 +261,6 @@
         <source>Collage</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>Applying changes</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>ColorcurveBench</name>
@@ -554,11 +550,19 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Effect</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ExtendedBusyLabel</name>
+    <message>
         <source>Applying changes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Effect</source>
+        <source>Some changes take longer to process.
+Do not close Imageworks while this operation is running.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1296,10 +1300,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Applying changes</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Open an exisiting image or create a new one to start editing</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1532,10 +1532,6 @@
     <name>SavePage</name>
     <message>
         <source>Save as...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Applying changes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
