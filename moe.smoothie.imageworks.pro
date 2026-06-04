@@ -5,23 +5,16 @@ CONFIG += auroraapp
 SOURCES += src/moe.smoothie.imageworks.cpp \
 
 DISTFILES += \
+    qml/components/*.qml \
+    qml/cover/*.qml \
+    qml/filters/*.png \
+    qml/fonts/*.ttf \
+    qml/js/*.js \
+    qml/pages/*.qml \
+    qml/py/*.py \
+    qml/symbols/*.png \
+    qml/symbols/*.svg \
     qml/moe.smoothie.imageworks.qml \
-    qml/cover/CoverPage.qml \
-    qml/pages/AboutPage.qml \
-    qml/pages/ChannelBench.qml \
-    qml/pages/CollageBench.qml \
-    qml/pages/ColorcurveBench.qml \
-    qml/pages/EffectsBench.qml \
-    qml/pages/FilterBench.qml \
-    qml/pages/FirstPage.qml \
-    qml/pages/InfoPage.qml \
-    qml/pages/MetadataPage.qml \
-    qml/pages/NewPage.qml \
-    qml/pages/PixelBench.qml \
-    qml/pages/RenamePage.qml \
-    qml/pages/SavePage.qml \
-    qml/pages/ViewPage.qml \
-    qml/pages/perspectivetransformhelper.js \
     rpm/moe.smoothie.imageworks.spec \
     translations/*.ts \
     moe.smoothie.imageworks.desktop \

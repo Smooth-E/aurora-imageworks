@@ -4,7 +4,7 @@ import Sailfish.Pickers 1.0
 import Aurora.Controls 1.0
 import io.thp.pyotherside 1.5
 
-import "catmullromcurve.js" as CurveC
+import "../js/catmullromcurve.js" as CurveC
 
 Page {
     id: page

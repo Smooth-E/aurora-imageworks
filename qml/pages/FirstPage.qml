@@ -6,8 +6,7 @@ import Aurora.Controls 1.0
 import io.thp.pyotherside 1.5
 
 import "../components"
-
-import "perspectivetransformhelper.js" as PerspT
+import "../js/perspectivetransformhelper.js" as PerspT
 
 Page {
     id: page
