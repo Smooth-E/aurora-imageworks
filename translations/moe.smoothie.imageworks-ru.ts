@@ -558,12 +558,13 @@
     <name>ExtendedBusyLabel</name>
     <message>
         <source>Applying changes</source>
-        <translation type="unfinished">Применение изменений</translation>
+        <translation>Применение изменений</translation>
     </message>
     <message>
         <source>Some changes take longer to process.
 Do not close Imageworks while this operation is in progress.</source>
-        <translation type="unfinished"></translation>
+        <translation>Для применения некоторых изменений нужно больше времени.
+Не закрывайте Imageworks до окончания загрузки.</translation>
     </message>
 </context>
 <context>
@@ -1217,7 +1218,7 @@ Do not close Imageworks while this operation is in progress.</source>
     </message>
     <message>
         <source>layer</source>
-        <translation type="unfinished"></translation>
+        <translation>слой</translation>
     </message>
     <message>
         <source>transparent</source>
