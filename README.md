@@ -4,6 +4,10 @@ Imageworks - наиболее продвинутый редактор фото �
 
 Imageworks основывается на одноименном приложении для Sailfish OS и использует библиотеку Python Pillow. 
 
+| Ссылки для скачивания |
+| --- |
+| 🛒 [Аврора Маркет](https://aurorarepos.ru/aurora-5/imageworks) <br> 😼 [Скачать RPM](https://github.com/Smooth-E/aurora-imageworks/releases/latest/) |
+
 ## Функционал
 
 - Кадрирование
@@ -69,5 +73,5 @@ Imageworks основывается на одноименном приложен
 ## Авторы
 
 2026 - Smooth-E <smoothie@disroot.org> - автор и мейнтенер порта Imageworks для ОС Аврора
-<br>2020 - Tobias Planitzer <tobias.planitzer@protonmail.com> - мейнтейнер [форка оригинального приложения](https://github.com/poetaster/harbour-simplecrop) для Sailfish OS
 <br>2021-2023 Mark Washeim <blueprint@poetaster.de> - автор оригинального приложения для Sailfish OS
+<br>2020 - Tobias Planitzer <tobias.planitzer@protonmail.com> - мейнтейнер [форка оригинального приложения](https://github.com/poetaster/harbour-simplecrop) для Sailfish OS
