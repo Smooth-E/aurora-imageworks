@@ -1364,9 +1364,9 @@ Do not close Imageworks while this operation is in progress.</source>
     </message>
 </context>
 <context>
-    <name>NewPage</name>
+    <name>NewImagePage</name>
     <message>
-        <source>color</source>
+        <source>Create image</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1378,7 +1378,11 @@ Do not close Imageworks while this operation is in progress.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Create image</source>
+        <source>color</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Resolution presets</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1387,10 +1391,6 @@ Do not close Imageworks while this operation is in progress.</source>
     </message>
     <message>
         <source>Screen resolution</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Resolution presets</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -1361,22 +1361,26 @@ Do not close Imageworks while this operation is in progress.</source>
     </message>
 </context>
 <context>
-    <name>NewPage</name>
+    <name>NewImagePage</name>
+    <message>
+        <source>Create image</source>
+        <translation type="unfinished">Создать изображение</translation>
+    </message>
     <message>
         <source>width</source>
-        <translation>ширина</translation>
+        <translation type="unfinished">ширина</translation>
     </message>
     <message>
         <source>height</source>
-        <translation>высота</translation>
+        <translation type="unfinished">высота</translation>
     </message>
     <message>
         <source>color</source>
-        <translation>цвет</translation>
+        <translation type="unfinished">цвет</translation>
     </message>
     <message>
-        <source>Create image</source>
-        <translation>Создать изображение</translation>
+        <source>Resolution presets</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>From clipboard</source>
@@ -1384,10 +1388,6 @@ Do not close Imageworks while this operation is in progress.</source>
     </message>
     <message>
         <source>Screen resolution</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Resolution presets</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
