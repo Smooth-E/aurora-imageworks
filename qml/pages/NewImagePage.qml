@@ -21,6 +21,8 @@ Page {
     property var newImageSizeY
     property var paintToolColor : "white"
 
+    property bool _busy
+
     Component.onCompleted: {
         newImageSizeY = page.width.toString()
         newImageSizeX = page.height.toString()
@@ -38,12 +40,7 @@ Page {
         Component.onCompleted: {
             addImportPath(Qt.resolvedUrl('../python'))
             importModule('new_image', function() { })
-
-            setHandler('fileIsSaved', function() {
-                idNewImageButtonRunningIndicator.running = false
-                idNewImageButton.enabled = true
-                pageStack.pop()
-            });
+            setHandler('fileIsSaved', function() { pageStack.pop() });
         }
 
         onError: console.log('python error: ' + traceback);
@@ -54,6 +51,22 @@ Page {
         id: appBar
 
         headerText: qsTr("Create image")
+
+        AppBarSpacer { }
+
+        AppBarButton {
+            enabled: !page._busy
+            icon.source: "image://theme/icon-splus-accept"
+
+            onClicked: {
+                page._busy = true
+                py.createNewImageFunction()
+            }
+        }
+    }
+
+    ExtendedBusyLabel {
+        running: page._busy
     }
 
     SilicaFlickable {
@@ -65,6 +78,11 @@ Page {
         }
 
         contentHeight: columnSaveAs.height
+        opacity: page._busy ? 0 : 1
+
+        Behavior on opacity { 
+            FadeAnimation { }
+        }
         
         VerticalScrollDecorator { }
 
@@ -148,27 +166,6 @@ Page {
                         }
                     }
                 }
-
-                IconButton {
-                    id: idNewImageButton
-                    visible: ( idNewImageWidth.text.length > 0 && idNewImageHeight.text.length > 0 ) ? true : false
-                    width: parent.width / 6
-                    height: Theme.itemSizeSmall
-                    icon.source: "../symbols/icon-m-apply.svg"
-                    icon.width: Theme.iconSizeMedium
-                    icon.height: Theme.iconSizeMedium
-                    onClicked: {
-                        idNewImageButtonRunningIndicator.running = true
-                        idNewImageButton.enabled = false
-                        py.createNewImageFunction()
-                    }
-                    BusyIndicator {
-                        id: idNewImageButtonRunningIndicator
-                        anchors.verticalCenter: parent.verticalCenter
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        size: BusyIndicatorSize.Medium
-                    }
-                }
             } // end row save filename
 
             Item {
@@ -178,7 +175,7 @@ Page {
 
             SectionHeader {
                 text: qsTr("Resolution presets")
-                horizontalAlignment: Text.AlignHCenter
+                horizontalAlignment: Text.AlignLeft
             }
 
             EvenGrid {
