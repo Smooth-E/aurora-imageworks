@@ -1375,10 +1375,6 @@ Do not close Imageworks while this operation is in progress.</source>
         <translation>цвет</translation>
     </message>
     <message>
-        <source>Presets</source>
-        <translation>Пресеты</translation>
-    </message>
-    <message>
         <source>Create image</source>
         <translation>Создать изображение</translation>
     </message>
@@ -1388,6 +1384,10 @@ Do not close Imageworks while this operation is in progress.</source>
     </message>
     <message>
         <source>Screen resolution</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Resolution presets</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

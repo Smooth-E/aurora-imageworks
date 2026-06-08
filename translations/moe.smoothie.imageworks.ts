@@ -1378,10 +1378,6 @@ Do not close Imageworks while this operation is in progress.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Presets</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Create image</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1391,6 +1387,10 @@ Do not close Imageworks while this operation is in progress.</source>
     </message>
     <message>
         <source>Screen resolution</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Resolution presets</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
