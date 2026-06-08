@@ -1383,56 +1383,12 @@ Do not close Imageworks while this operation is in progress.</source>
         <translation>Создать изображение</translation>
     </message>
     <message>
-        <source>from</source>
-        <translation>буфер</translation>
-    </message>
-    <message>
-        <source>clipboard</source>
-        <translation>обмена</translation>
-    </message>
-    <message>
-        <source>screen</source>
-        <translation>разрешение</translation>
-    </message>
-    <message>
-        <source>resolution</source>
-        <translation>экрана</translation>
-    </message>
-    <message>
-        <source>DIN A4</source>
+        <source>From clipboard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>72 dpi</source>
+        <source>Screen resolution</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>150 dpi</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>300 dpi</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>XGA</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>WXGA</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>WXGA+</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Full HD</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>4k</source>
-        <translation type="unfinished">100% {4k?}</translation>
     </message>
 </context>
 <context>
