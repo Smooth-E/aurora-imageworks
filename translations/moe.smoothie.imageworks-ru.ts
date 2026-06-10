@@ -1367,18 +1367,6 @@ Do not close Imageworks while this operation is in progress.</source>
         <translation type="unfinished">Создать изображение</translation>
     </message>
     <message>
-        <source>width</source>
-        <translation type="unfinished">ширина</translation>
-    </message>
-    <message>
-        <source>height</source>
-        <translation type="unfinished">высота</translation>
-    </message>
-    <message>
-        <source>color</source>
-        <translation type="unfinished">цвет</translation>
-    </message>
-    <message>
         <source>Resolution presets</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1388,6 +1376,26 @@ Do not close Imageworks while this operation is in progress.</source>
     </message>
     <message>
         <source>Screen resolution</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New image settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Width</source>
+        <translation type="unfinished">Ширина</translation>
+    </message>
+    <message>
+        <source>Height</source>
+        <translation type="unfinished">Высота</translation>
+    </message>
+    <message>
+        <source>Fill color</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select base color for the new image</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
