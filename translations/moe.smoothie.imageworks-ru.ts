@@ -344,6 +344,69 @@
     </message>
 </context>
 <context>
+    <name>CropTab</name>
+    <message>
+        <source>Cropping mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cropping</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Skewing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Aspect ratio</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Free crop</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Original</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Manual</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>DIN landscape</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>DIN portrait</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Square</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pixels</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Mode</source>
+        <translation type="unfinished">Режим</translation>
+    </message>
+    <message>
+        <source>Stretch to edges</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Fold from edges</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Apply</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>EffectsBench</name>
     <message>
         <source>Effects bench</source>
@@ -841,22 +904,6 @@ Do not close Imageworks while this operation is in progress.</source>
         <translation>Восстановить оригинал?</translation>
     </message>
     <message>
-        <source>stretch to edges</source>
-        <translation>Растянуть к углам</translation>
-    </message>
-    <message>
-        <source>fold from edges</source>
-        <translation>Сложить от углов</translation>
-    </message>
-    <message>
-        <source>free crop</source>
-        <translation>Свободная обрезка</translation>
-    </message>
-    <message>
-        <source>original</source>
-        <translation>Как оригинал</translation>
-    </message>
-    <message>
         <source>manual</source>
         <translation>Ручное</translation>
     </message>
@@ -895,26 +942,6 @@ Do not close Imageworks while this operation is in progress.</source>
     <message>
         <source>1:2</source>
         <translation>1:2</translation>
-    </message>
-    <message>
-        <source>pixels</source>
-        <translation>пиксели</translation>
-    </message>
-    <message>
-        <source>point 1x</source>
-        <translation>X1</translation>
-    </message>
-    <message>
-        <source>point 2x</source>
-        <translation>X2</translation>
-    </message>
-    <message>
-        <source>point 1y</source>
-        <translation>Y1</translation>
-    </message>
-    <message>
-        <source>point 2y</source>
-        <translation>Y2</translation>
     </message>
     <message>
         <source>width, preserve ratio</source>
