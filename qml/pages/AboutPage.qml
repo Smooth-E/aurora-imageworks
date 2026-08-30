@@ -14,7 +14,7 @@ Page {
         AppBarSpacer { }
 
         AppBarButton {
-            text: "v1.3.0"
+            text: "v1.3.1"
 
             onClicked: {
                 Clipboard.text = text

@@ -6,14 +6,16 @@ Name:       moe.smoothie.imageworks
 
 %define __requires_exclude (libpython3*|libpyside2*|libcrypt.*|libffi.*|python3dist|lib.*)
 %define __provides_exclude_from ^%{_datadir}/.*$
+
+%define _buildhost Aurora Build Engine
 # << macros
 
-Summary:    Imageworks image editor
-Version:    1.3.0
-Release:    2
-Group:      Qt/Qt
+Summary:    Imageworks
+Version:    1.3.1
+Release:    1
+Group:      Applications/Editors
 License:    GPLv3
-URL:        https://github.com/poetaster/harbour-simplecrop
+URL:        https://github.com/salty-smoothie/aurora-imageworks
 Source0:    %{name}-%{version}.tar.bz2
 Requires:   sailfishsilica-qt5 >= 0.10.9
 
@@ -24,7 +26,7 @@ BuildRequires:  pkgconfig(Qt5Quick)
 BuildRequires:  desktop-file-utils
 
 %description
-Image editing application for Sailfish OS.
+Экспериментальный редактор изображений для ОС Аврора
 
 
 %prep
