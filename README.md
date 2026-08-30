@@ -72,6 +72,9 @@ Imageworks основывается на одноименном приложен
 
 ## Авторы
 
-2026 - Smooth-E <smoothie@disroot.org> - автор и мейнтенер порта Imageworks для ОС Аврора
-<br>2021-2023 Mark Washeim <blueprint@poetaster.de> - автор оригинального приложения для Sailfish OS
-<br>2020 - Tobias Planitzer <tobias.planitzer@protonmail.com> - мейнтейнер [форка оригинального приложения](https://github.com/poetaster/harbour-simplecrop) для Sailfish OS
+- Copyright (C) 2026 Smooth-E <smoothie@disroot.org>
+  <br>Автор и мейнтенер порта Imageworks для ОС Аврора
+- Copyright (C) 2021-2023 Mark Washeim <blueprint@poetaster.de>
+  <br>Мейнтейнер [форка оригинального приложения](https://github.com/poetaster/harbour-simplecrop) для Sailfish OS
+- Copyright (C) 2020 Tobias Planitzer <tobias.planitzer@protonmail.com>
+  <br>Автор оригинального приложения для Sailfish OS
