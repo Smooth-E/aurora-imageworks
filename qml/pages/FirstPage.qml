@@ -2399,698 +2399,438 @@ Page {
                 }
             } // end Toolbar
 
-            CropTab {
+            Item {
+                id: tabContainer
+
                 width: parent.width
-            }
+                height: childrenRect.height
 
-            Grid {
-                id: idGridScale
-                visible: (buttonScale.down === true) ? true : false
-                x: Theme.paddingLarge
-                width: parent.width - 2* Theme.paddingLarge - spacing
-                columns: 2
-
-                Slider {
-                    enabled: ( idImageLoadedFreecrop.status !== Image.Null && finishedLoading === true ) ? true : false
-                    id: idSliderScale
-                    width: parent.width / itemsPerRow * (itemsPerRow-1)
-                    height: Theme.itemSizeSmall
-                    minimumValue: 0.1
-                    maximumValue: 5
-                    value: 1
-                    stepSize: 0.1
-                    leftMargin: Theme.paddingLarge
-                    rightMargin: Theme.paddingLarge
-                    smooth: true
-                    onValueChanged: {
-                        factorToScale = value
-                        toScaleWidth = Math.round(idImageLoadedFreecrop.sourceSize.width * factorToScale)
-                        toScaleHeight = Math.round(idImageLoadedFreecrop.sourceSize.height * factorToScale)
-                    }
-                    Label {
-                        text: parent.value + " x " + "[" + toScaleWidth + " x " + toScaleHeight + "]"
-                        font.pixelSize: Theme.fontSizeExtraSmall
-                        anchors {
-                            bottom: parent.bottom
-                            bottomMargin: -Theme.paddingSmall
-                            horizontalCenter: parent.horizontalCenter
-                        }
-                    }
-                }
-                IconButton {
-                    enabled: ( idImageLoadedFreecrop.status !== Image.Null && finishedLoading === true  && (toScaleWidth <= maxScalePixels) && (toScaleHeight <= maxScalePixels) ) ? true : false
-                    width: parent.width / itemsPerRow
-                    height: Theme.itemSizeSmall
-                    icon.source: "../symbols/icon-m-apply.svg"
-                    icon.width: Theme.iconSizeMedium
-                    icon.height: Theme.iconSizeMedium
-                    onClicked: {
-                        finishedLoading = false
-                        py.scaleFunction()
+                Behavior on height {
+                    NumberAnimation {
+                        duration: 300
                     }
                 }
 
-                Row {
-                    enabled: ( idImageLoadedFreecrop.status !== Image.Null && finishedLoading === true ) ? true : false
-                    width: parent.width / itemsPerRow * (itemsPerRow-1)
-                    height: Theme.itemSizeSmall * 1.1
-                    TextField {
-                        id: idScaleInputWidth
-                        width: parent.width / 4 + Theme.paddingLarge/2
-                        anchors.verticalCenter: parent.verticalCenter
-                        anchors.verticalCenterOffset: Theme.paddingLarge
-                        text: idImageLoadedFreecrop.sourceSize.width
-                        color: Theme.highlightColor
-                        inputMethodHints: Qt.ImhDigitsOnly
-                        font.pixelSize: Theme.fontSizeExtraSmall
-                        validator: IntValidator { bottom: 1; top: maxScalePixels }
-                        EnterKey.onClicked: idScaleInputWidth.focus = false
-                    }
-                    Label {
-                        width: parent.width / 4*3 - Theme.paddingLarge/2
-                        height: parent.height
-                        rightPadding: Theme.paddingLarge
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignRight
-                        font.pixelSize: Theme.fontSizeExtraSmall
-                        truncationMode: TruncationMode.Fade
-                        text: qsTr("width, preserve ratio")
-                    }
-                }
-                IconButton {
-                    enabled: ( (idScaleInputWidth.text !=="" ) && idImageLoadedFreecrop.status !== Image.Null && finishedLoading === true ) ? true : false
-                    width: parent.width / itemsPerRow
-                    height: Theme.itemSizeSmall * 1.1
-                    icon.source: "../symbols/icon-m-apply.svg"
-                    icon.width: Theme.iconSizeMedium
-                    icon.height: Theme.iconSizeMedium
-                    onClicked: {
-                        finishedLoading = false
-                        if (idScaleInputWidth.text < 1) {
-                            idScaleInputWidth.text = "1"
-                        }
-                        if (idScaleInputWidth.text === "") {
-                            idScaleInputWidth.text = idImageLoadedFreecrop.sourceSize.width
-                        }
-                        factorToScale = (idScaleInputWidth.text / idImageLoadedFreecrop.sourceSize.width)
-                        py.scaleFunction()
-                    }
+                CropTab {
+                    id: cropTab
                 }
 
-                Row {
-                    enabled: ( idImageLoadedFreecrop.status !== Image.Null && finishedLoading === true ) ? true : false
-                    width: parent.width / itemsPerRow * (itemsPerRow-1)
-                    height: Theme.itemSizeSmall * 1.1
-                    TextField {
-                        id: idScaleInputHeight
-                        width: parent.width / 4 + Theme.paddingLarge/2
-                        anchors.verticalCenter: parent.verticalCenter
-                        anchors.verticalCenterOffset: Theme.paddingLarge
-                        text: idImageLoadedFreecrop.sourceSize.height
-                        color: Theme.highlightColor
-                        inputMethodHints: Qt.ImhDigitsOnly
-                        font.pixelSize: Theme.fontSizeExtraSmall
-                        validator: IntValidator { bottom: 1; top: maxScalePixels }
-                        EnterKey.onClicked: idScaleInputHeight.focus = false
-                    }
-                    Label {
-                        width: parent.width / 4*3 - Theme.paddingLarge/2
-                        height: parent.height
-                        rightPadding: Theme.paddingLarge
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignRight
-                        font.pixelSize: Theme.fontSizeExtraSmall
-                        truncationMode: TruncationMode.Fade
-                        text: qsTr("height, preserve ratio")
-                    }
-                }
-                IconButton {
-                    enabled: ( (idScaleInputHeight.text !=="" ) && idImageLoadedFreecrop.status !== Image.Null && finishedLoading === true ) ? true : false
-                    width: parent.width / itemsPerRow
-                    height: Theme.itemSizeSmall * 1.1
-                    icon.source: "../symbols/icon-m-apply.svg"
-                    icon.width: Theme.iconSizeMedium
-                    icon.height: Theme.iconSizeMedium
-                    onClicked: {
-                        finishedLoading = false
-                        if (idScaleInputHeight.text < 1) {
-                            idScaleInputHeight.text = "1"
-                        }
-                        if (idScaleInputHeight.text === "") {
-                            idScaleInputHeight.text = idImageLoadedFreecrop.sourceSize.height
-                        }
-                        factorToScale = (idScaleInputHeight.text / idImageLoadedFreecrop.sourceSize.height)
-                        py.scaleFunction()
-                    }
-                }
+                Grid {
+                    id: idGridScale
+                    visible: (buttonScale.down === true) ? true : false
+                    x: Theme.paddingLarge
+                    width: parent.width - 2* Theme.paddingLarge - spacing
+                    columns: 2
 
-                Row {
-                    enabled: ( idImageLoadedFreecrop.status !== Image.Null && finishedLoading === true ) ? true : false
-                    width: parent.width / itemsPerRow * (itemsPerRow-1)
-                    height: Theme.itemSizeSmall * 1.1
-                    TextField {
-                        id: idScaleInputWidth2
-                        width: parent.width / 4
-                        anchors.verticalCenter: parent.verticalCenter
-                        anchors.verticalCenterOffset: Theme.paddingLarge
-                        text: idImageLoadedFreecrop.sourceSize.width
-                        color: Theme.highlightColor
-                        inputMethodHints: Qt.ImhDigitsOnly
-                        font.pixelSize: Theme.fontSizeExtraSmall
-                        validator: IntValidator { bottom: 1; top: maxScalePixels }
-                        EnterKey.onClicked: idScaleInputWidth2.focus = false
-                    }
-                    Label {
+                    Slider {
                         enabled: ( idImageLoadedFreecrop.status !== Image.Null && finishedLoading === true ) ? true : false
-                        width: Theme.paddingLarge/4
-                        anchors.verticalCenter: parent.verticalCenter
-                        color: Theme.highlightColor
-                        font.pixelSize: Theme.fontSizeExtraSmall
-                        opacity: ( idImageLoadedFreecrop.status !== Image.Null && finishedLoading === true ) ? 1 : 0.6
-                        text: "x"
-                    }
-                    TextField {
-                        id: idScaleInputHeight2
-                        width: parent.width / 4
-                        anchors.verticalCenter: parent.verticalCenter
-                        anchors.verticalCenterOffset: Theme.paddingLarge
-                        text: idImageLoadedFreecrop.sourceSize.height
-                        horizontalAlignment: Text.AlignRight
-                        color: Theme.highlightColor
-                        inputMethodHints: Qt.ImhDigitsOnly
-                        font.pixelSize: Theme.fontSizeExtraSmall
-                        validator: IntValidator { bottom: 1; top: maxScalePixels }
-                        EnterKey.onClicked: idScaleInputHeight2.focus = false
-                    }
-                    Label {
-                        width: parent.width / 2 - Theme.paddingLarge/4
-                        height: parent.height
-                        rightPadding: Theme.paddingLarge
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignRight
-                        font.pixelSize: Theme.fontSizeExtraSmall
-                        truncationMode: TruncationMode.Fade
-                        text: qsTr("width  x  height")
-                    }
-                }
-                IconButton {
-                    enabled: ( (idScaleInputWidth2.text !== "" && idScaleInputHeight2.text !== "" ) && idImageLoadedFreecrop.status !== Image.Null && finishedLoading === true ) ? true : false
-                    width: parent.width / itemsPerRow
-                    height: Theme.itemSizeSmall * 1.1
-                    icon.source: "../symbols/icon-m-apply.svg"
-                    icon.width: Theme.iconSizeMedium
-                    icon.height: Theme.iconSizeMedium
-                    onClicked: {
-                        finishedLoading = false
-                        if (idScaleInputWidth2.text < 1) {
-                            idScaleInputWidth2.text = "1"
-                        }
-                        if (idScaleInputWidth2.text === "") {
-                            idScaleInputWidth2.text = idImageLoadedFreecrop.sourceSize.width
-                        }
-
-                        if (idScaleInputHeight2.text < 1) {
-                            idScaleInputHeight2.text = "1"
-                        }
-                        if (idScaleInputHeight2.text === "") {
-                            idScaleInputHeight2.text = idImageLoadedFreecrop.sourceSize.height
-                        }
-                        freeScaleWidth = Math.round(idScaleInputWidth2.text, 0)
-                        freeScaleHeight = Math.round(idScaleInputHeight2.text, 0)
-                        py.freescaleFunction()
-                    }
-                }
-
-                Row {
-                    enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
-                    width: parent.width / itemsPerRow * (itemsPerRow - 1)
-                    height: Theme.itemSizeSmall * 1.1
-
-                    ComboBox {
-                        id: idComboBoxPadding
-
-                        width: parent.width / 6 * 3
-                        value: " "
-                        
-                        Label {
-                            id: idComboBoxPadingRatioText
-
-                            anchors {
-                                verticalCenter: parent.verticalCenter
-                                verticalCenterOffset: Theme.itemSizeSmall * 0.05
-                            }
-
-                            leftPadding: Theme.paddingLarge + Theme.paddingSmall/3*2
-                            font.pixelSize: Theme.fontSizeExtraSmall
-                            text: qsTr("screen ratio")
-                            color: Theme.highlightColor
-                            opacity: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
-                                     ? 1 
-                                     : Theme.opacityLow
-                        }
-
-                        menu: ContextMenu {
-                            MenuItem {
-                                text: qsTr("screen ratio")
-                                font.pixelSize: Theme.fontSizeExtraSmall
-                                
-                                onClicked: {
-                                    paddingRatio = page.width/page.height
-                                    idComboBoxPadingRatioText.text = text
-                                }
-                            }
-                            MenuItem {
-                                text: qsTr("manual")
-                                font.pixelSize: Theme.fontSizeExtraSmall
-                                
-                                onClicked: {
-                                    paddingRatio = idPaddingInputWidth.text / idPaddingInputHeight.text
-                                    idComboBoxPadingRatioText.text = text
-                                }
-                            }
-                            MenuItem {
-                                text: qsTr("DIN-landscape")
-                                font.pixelSize: Theme.fontSizeExtraSmall
-                                
-                                onClicked: {
-                                    paddingRatio = 1754 / 1240
-                                    idComboBoxPadingRatioText.text = text
-                                }
-                            }
-                            MenuItem {
-                                text: qsTr("DIN-portrait")
-                                font.pixelSize: Theme.fontSizeExtraSmall
-                             
-                                onClicked: {
-                                    paddingRatio = 1240/1754
-                                    idComboBoxPadingRatioText.text = text
-                                }
-                            }
-                            MenuItem {
-                                text: qsTr("4:3")
-                                font.pixelSize: Theme.fontSizeExtraSmall
-                             
-                                onClicked: {
-                                    paddingRatio = 4/3
-                                    idComboBoxPadingRatioText.text = text
-                                }
-                            }
-                            MenuItem {
-                                text: qsTr("16:10")
-                                font.pixelSize: Theme.fontSizeExtraSmall
-                             
-                                onClicked: {
-                                    paddingRatio = 16 / 10
-                                    idComboBoxPadingRatioText.text = text
-                                }
-                            }
-                            MenuItem {
-                                text: qsTr("16:9")
-                                font.pixelSize: Theme.fontSizeExtraSmall
-                             
-                                onClicked: {
-                                    paddingRatio = 16 / 9
-                                    idComboBoxPadingRatioText.text = text
-                                }
-                            }
-                            MenuItem {
-                                text: qsTr("21:9")
-                                font.pixelSize: Theme.fontSizeExtraSmall
-                                
-                                onClicked: {
-                                    paddingRatio = 21 / 9
-                                    idComboBoxPadingRatioText.text = text
-                                }
-                            }
-                            MenuItem {
-                                text: qsTr("1:1")
-                                font.pixelSize: Theme.fontSizeExtraSmall
-                                
-                                onClicked: {
-                                    paddingRatio = 1
-                                    idComboBoxPadingRatioText.text = text
-                                }
-                            }
-                            MenuItem {
-                                text: qsTr("3:4")
-                                font.pixelSize: Theme.fontSizeExtraSmall
-                                
-                                onClicked: {
-                                    paddingRatio = 3 / 4
-                                    idComboBoxPadingRatioText.text = text
-                                }
-                            }
-                            MenuItem {
-                                text: qsTr("1:2")
-                                font.pixelSize: Theme.fontSizeExtraSmall
-                                
-                                onClicked: {
-                                    paddingRatio = 1 / 2
-                                    idComboBoxPadingRatioText.text = text
-                                }
-                            }
-
-                        }
-                    }
-
-                    Label {
-                        width: parent.width / 6 * 2
-                        height: parent.height
-                        rightPadding: Theme.paddingLarge
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignHCenter
-                        font.pixelSize: Theme.fontSizeExtraSmall
-                        truncationMode: TruncationMode.Fade
-                        text: qsTr("padding with")
-                    }
-
-                    ComboBox {
-                        id: idComboBoxPaddingFill
-                    
-                        width: parent.width / 6 * 1
-                        value: " "
-                    
-                        Label {
-                            id: idComboBoxPadingRatioFillText
-                    
-                            anchors {
-                                right: parent.right
-                                rightMargin: Theme.paddingLarge
-                                verticalCenter: parent.verticalCenter
-                                verticalCenterOffset: Theme.itemSizeSmall * 0.05
-                            }
-                            
-                            font.pixelSize: Theme.fontSizeExtraSmall
-                            text: qsTr("color")
-                            color: Theme.highlightColor
-                            opacity: idImageLoadedFreecrop.status !== Image.Null && finishedLoading ? 1 : 0.4
-                        }
-
-                        menu: ContextMenu {
-                            MenuItem {
-                                text: qsTr("color")
-                                font.pixelSize: Theme.fontSizeExtraSmall
-                                
-                                onClicked: {
-                                    paddingFill = "color"
-                                    idComboBoxPadingRatioFillText.text = text
-                                }
-                            }
-                            MenuItem {
-                                text: qsTr("blur")
-                                font.pixelSize: Theme.fontSizeExtraSmall
-                                
-                                onClicked: {
-                                    paddingFill = "blur"
-                                    idComboBoxPadingRatioFillText.text = text
-                                }
-                            }
-                        }
-                    }
-
-                }
-
-                IconButton {
-                    enabled: idImageLoadedFreecrop.status !== Image.Null 
-                             && finishedLoading 
-                             && idPaddingInputHeight.text !== "" 
-                             && idPaddingInputWidth.text !== ""
-
-                    width: parent.width / itemsPerRow
-                    height: Theme.itemSizeSmall * 1.1
-                    
-                    icon {
-                        source: "../symbols/icon-m-apply.svg"
-                        width: Theme.iconSizeMedium
-                        height: Theme.iconSizeMedium
-                    }
-                    
-                    onClicked: {
-                        finishedLoading = false
-                        py.paddingImage()
-                    }
-                }
-
-                Row {
-                    enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
-                    visible: idComboBoxPadding.currentIndex === 1
-                    width: parent.width / itemsPerRow * (itemsPerRow-1)
-                    height: Theme.itemSizeSmall * 1.1
-
-                    TextField {
-                        id: idPaddingInputWidth
-                    
-                        anchors {
-                            verticalCenter: parent.verticalCenter
-                            verticalCenterOffset: Theme.paddingLarge
-                        }
-
-                        width: parent.width / 4
-                        text: "1"
-                        color: Theme.highlightColor
-                        inputMethodHints: Qt.ImhDigitsOnly
-                        font.pixelSize: Theme.fontSizeExtraSmall
-                        
-                        validator: IntValidator {
-                            bottom: 0
-                            top: 99 
-                        }
-
-                        EnterKey.onClicked: idPaddingInputWidth.focus = false
-                    }
-
-                    Label {
-                        enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
-                        width: Theme.paddingLarge/4
-                        anchors.verticalCenter: parent.verticalCenter
-                        color: Theme.highlightColor
-                        font.pixelSize: Theme.fontSizeExtraSmall
-                        opacity: idImageLoadedFreecrop.status !== Image.Null && finishedLoading ? 1 : 0.6
-                        text: ":"
-                    }
-
-                    TextField {
-                        id: idPaddingInputHeight
-                    
-                        anchors {
-                            verticalCenter: parent.verticalCenter
-                            verticalCenterOffset: Theme.paddingLarge
-                        }
-
-                        width: parent.width / 4
-                        text: "1"
-                        horizontalAlignment: Text.AlignRight
-                        color: Theme.highlightColor
-                        inputMethodHints: Qt.ImhDigitsOnly
-                        font.pixelSize: Theme.fontSizeExtraSmall
-                        
-                        validator: IntValidator { 
-                            bottom: 0
-                            top: 99 
-                        }
-
-                        EnterKey.onClicked: idPaddingInputHeight.focus = false
-                    }
-                }
-            } // end tools scale
-
-            Grid {
-                id: idGridShape
-
-                visible: buttonShape.down === true
-                x: Theme.paddingLarge
-                width: parent.width - 2 * Theme.paddingLarge
-                columns: 5
-
-                IconButton {
-                    enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
-                    width: parent.width/5
-                    height: Theme.itemSizeSmall
-                    icon.source: "image://theme/icon-m-rotate-left?"
-
-                    onClicked: {
-                        finishedLoading = false
-                        py.rotateLeftFunction()
-                    }
-
-                    Label {
-                        anchors {
-                            top: parent.bottom
-                            topMargin: -Theme.paddingSmall
-                            horizontalCenter: parent.horizontalCenter
-                        }
-
-                        text: qsTr("left")
-                        font.pixelSize: Theme.fontSizeExtraSmall
-                    }
-                }
-
-                IconButton {
-                    enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
-                    width: parent.width/5
-                    height: Theme.itemSizeSmall
-                    icon.source: "image://theme/icon-m-rotate-right?"
-
-                    onClicked: {
-                        finishedLoading = false
-                        py.rotateRightFunction()
-                    }
-
-                    Label {
-                        anchors {
-                            top: parent.bottom
-                            topMargin: -Theme.paddingSmall
-                            horizontalCenter: parent.horizontalCenter
-                        }
-
-                        text: qsTr("right")
-                        font.pixelSize: Theme.fontSizeExtraSmall
-                    }
-                }
-
-                IconButton {
-                    enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading 
-                    width: parent.width/5
-                    height: Theme.itemSizeSmall
-                    icon.source: "image://theme/icon-m-flip?"
-                    icon.rotation: 90
-
-                    onClicked: {
-                        finishedLoading = false
-                        py.mirrorVerticalFunction()
-                    }
-
-                    Label {
-                        anchors {
-                            top: parent.bottom
-                            topMargin: -Theme.paddingSmall * 0.9
-                            horizontalCenter: parent.horizontalCenter
-                        }
-
-                        text: qsTr("flip")
-                        font.pixelSize: Theme.fontSizeExtraSmall
-                    }
-                }
-
-                IconButton {
-                    enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
-                    width: parent.width/5
-                    height: Theme.itemSizeSmall
-                    icon.source: "image://theme/icon-m-flip?"
-
-                    onClicked: {
-                        finishedLoading = false
-                        py.mirrorHorizontalFunction()
-                    }
-                    
-                    Label {
-                        anchors {
-                            top: parent.bottom
-                            topMargin: -Theme.paddingSmall
-                            horizontalCenter: parent.horizontalCenter
-                        }
-
-                        text: qsTr("mirror")
-                        font.pixelSize: Theme.fontSizeExtraSmall
-                    }
-                }
-
-                IconButton {
-                    enabled: idRotateAngleManualInput.text !== "" 
-                             && idImageLoadedFreecrop.status !== Image.Null 
-                             && finishedLoading
-
-                    width: parent.width/5
-                    height: Theme.itemSizeSmall
-                    
-                    icon {
-                        source: "../symbols/icon-m-tilt.svg"
-                        width: Theme.iconSizeMedium
-                        height: Theme.iconSizeMedium
-                    }
-                    
-                    onClicked: {
-                        finishedLoading = false
-                        py.tiltAngleFunction()
-                    }
-                    
-                    TextField {
-                        id: idRotateAngleManualInput
-                    
-                        anchors {
-                            top: parent.bottom
-                            topMargin: -Theme.paddingMedium
-                            horizontalCenter: parent.horizontalCenter
-                        }
-
-                        enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
-                        width:  parent.width
-                        text: "0"
-                        horizontalAlignment: Text.AlignHCenter
-                        color: Theme.highlightColor
-                        inputMethodHints: Qt.ImhDigitsOnly
-                        font.pixelSize: Theme.fontSizeExtraSmall
-                        
-                        validator: IntValidator { 
-                            bottom: -360 
-                            top: 360 
-                        }
-
-                        EnterKey.onClicked: idRotateAngleManualInput.focus = false
-                    }
-                }
-            } // end tools shape
-
-            Grid {
-                id: idGridColors
-
-                visible: buttonColors.down
-                x: Theme.paddingLarge
-                width: parent.width - 2* Theme.paddingLarge
-                columns: 1
-
-                Row {
-                    width: parent.width
-                    
-                    ComboBox {
-                        id: idComboBoxEnhance
-                    
-                        enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading 
+                        id: idSliderScale
                         width: parent.width / itemsPerRow * (itemsPerRow-1)
+                        height: Theme.itemSizeSmall
+                        minimumValue: 0.1
+                        maximumValue: 5
+                        value: 1
+                        stepSize: 0.1
+                        leftMargin: Theme.paddingLarge
+                        rightMargin: Theme.paddingLarge
+                        smooth: true
+                        onValueChanged: {
+                            factorToScale = value
+                            toScaleWidth = Math.round(idImageLoadedFreecrop.sourceSize.width * factorToScale)
+                            toScaleHeight = Math.round(idImageLoadedFreecrop.sourceSize.height * factorToScale)
+                        }
+                        Label {
+                            text: parent.value + " x " + "[" + toScaleWidth + " x " + toScaleHeight + "]"
+                            font.pixelSize: Theme.fontSizeExtraSmall
+                            anchors {
+                                bottom: parent.bottom
+                                bottomMargin: -Theme.paddingSmall
+                                horizontalCenter: parent.horizontalCenter
+                            }
+                        }
+                    }
+                    IconButton {
+                        enabled: ( idImageLoadedFreecrop.status !== Image.Null && finishedLoading === true  && (toScaleWidth <= maxScalePixels) && (toScaleHeight <= maxScalePixels) ) ? true : false
+                        width: parent.width / itemsPerRow
+                        height: Theme.itemSizeSmall
+                        icon.source: "../symbols/icon-m-apply.svg"
+                        icon.width: Theme.iconSizeMedium
+                        icon.height: Theme.iconSizeMedium
+                        onClicked: {
+                            finishedLoading = false
+                            py.scaleFunction()
+                        }
+                    }
+
+                    Row {
+                        enabled: ( idImageLoadedFreecrop.status !== Image.Null && finishedLoading === true ) ? true : false
+                        width: parent.width / itemsPerRow * (itemsPerRow-1)
+                        height: Theme.itemSizeSmall * 1.1
+                        TextField {
+                            id: idScaleInputWidth
+                            width: parent.width / 4 + Theme.paddingLarge/2
+                            anchors.verticalCenter: parent.verticalCenter
+                            anchors.verticalCenterOffset: Theme.paddingLarge
+                            text: idImageLoadedFreecrop.sourceSize.width
+                            color: Theme.highlightColor
+                            inputMethodHints: Qt.ImhDigitsOnly
+                            font.pixelSize: Theme.fontSizeExtraSmall
+                            validator: IntValidator { bottom: 1; top: maxScalePixels }
+                            EnterKey.onClicked: idScaleInputWidth.focus = false
+                        }
+                        Label {
+                            width: parent.width / 4*3 - Theme.paddingLarge/2
+                            height: parent.height
+                            rightPadding: Theme.paddingLarge
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignRight
+                            font.pixelSize: Theme.fontSizeExtraSmall
+                            truncationMode: TruncationMode.Fade
+                            text: qsTr("width, preserve ratio")
+                        }
+                    }
+                    IconButton {
+                        enabled: ( (idScaleInputWidth.text !=="" ) && idImageLoadedFreecrop.status !== Image.Null && finishedLoading === true ) ? true : false
+                        width: parent.width / itemsPerRow
+                        height: Theme.itemSizeSmall * 1.1
+                        icon.source: "../symbols/icon-m-apply.svg"
+                        icon.width: Theme.iconSizeMedium
+                        icon.height: Theme.iconSizeMedium
+                        onClicked: {
+                            finishedLoading = false
+                            if (idScaleInputWidth.text < 1) {
+                                idScaleInputWidth.text = "1"
+                            }
+                            if (idScaleInputWidth.text === "") {
+                                idScaleInputWidth.text = idImageLoadedFreecrop.sourceSize.width
+                            }
+                            factorToScale = (idScaleInputWidth.text / idImageLoadedFreecrop.sourceSize.width)
+                            py.scaleFunction()
+                        }
+                    }
+
+                    Row {
+                        enabled: ( idImageLoadedFreecrop.status !== Image.Null && finishedLoading === true ) ? true : false
+                        width: parent.width / itemsPerRow * (itemsPerRow-1)
+                        height: Theme.itemSizeSmall * 1.1
+                        TextField {
+                            id: idScaleInputHeight
+                            width: parent.width / 4 + Theme.paddingLarge/2
+                            anchors.verticalCenter: parent.verticalCenter
+                            anchors.verticalCenterOffset: Theme.paddingLarge
+                            text: idImageLoadedFreecrop.sourceSize.height
+                            color: Theme.highlightColor
+                            inputMethodHints: Qt.ImhDigitsOnly
+                            font.pixelSize: Theme.fontSizeExtraSmall
+                            validator: IntValidator { bottom: 1; top: maxScalePixels }
+                            EnterKey.onClicked: idScaleInputHeight.focus = false
+                        }
+                        Label {
+                            width: parent.width / 4*3 - Theme.paddingLarge/2
+                            height: parent.height
+                            rightPadding: Theme.paddingLarge
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignRight
+                            font.pixelSize: Theme.fontSizeExtraSmall
+                            truncationMode: TruncationMode.Fade
+                            text: qsTr("height, preserve ratio")
+                        }
+                    }
+                    IconButton {
+                        enabled: ( (idScaleInputHeight.text !=="" ) && idImageLoadedFreecrop.status !== Image.Null && finishedLoading === true ) ? true : false
+                        width: parent.width / itemsPerRow
+                        height: Theme.itemSizeSmall * 1.1
+                        icon.source: "../symbols/icon-m-apply.svg"
+                        icon.width: Theme.iconSizeMedium
+                        icon.height: Theme.iconSizeMedium
+                        onClicked: {
+                            finishedLoading = false
+                            if (idScaleInputHeight.text < 1) {
+                                idScaleInputHeight.text = "1"
+                            }
+                            if (idScaleInputHeight.text === "") {
+                                idScaleInputHeight.text = idImageLoadedFreecrop.sourceSize.height
+                            }
+                            factorToScale = (idScaleInputHeight.text / idImageLoadedFreecrop.sourceSize.height)
+                            py.scaleFunction()
+                        }
+                    }
+
+                    Row {
+                        enabled: ( idImageLoadedFreecrop.status !== Image.Null && finishedLoading === true ) ? true : false
+                        width: parent.width / itemsPerRow * (itemsPerRow-1)
+                        height: Theme.itemSizeSmall * 1.1
+                        TextField {
+                            id: idScaleInputWidth2
+                            width: parent.width / 4
+                            anchors.verticalCenter: parent.verticalCenter
+                            anchors.verticalCenterOffset: Theme.paddingLarge
+                            text: idImageLoadedFreecrop.sourceSize.width
+                            color: Theme.highlightColor
+                            inputMethodHints: Qt.ImhDigitsOnly
+                            font.pixelSize: Theme.fontSizeExtraSmall
+                            validator: IntValidator { bottom: 1; top: maxScalePixels }
+                            EnterKey.onClicked: idScaleInputWidth2.focus = false
+                        }
+                        Label {
+                            enabled: ( idImageLoadedFreecrop.status !== Image.Null && finishedLoading === true ) ? true : false
+                            width: Theme.paddingLarge/4
+                            anchors.verticalCenter: parent.verticalCenter
+                            color: Theme.highlightColor
+                            font.pixelSize: Theme.fontSizeExtraSmall
+                            opacity: ( idImageLoadedFreecrop.status !== Image.Null && finishedLoading === true ) ? 1 : 0.6
+                            text: "x"
+                        }
+                        TextField {
+                            id: idScaleInputHeight2
+                            width: parent.width / 4
+                            anchors.verticalCenter: parent.verticalCenter
+                            anchors.verticalCenterOffset: Theme.paddingLarge
+                            text: idImageLoadedFreecrop.sourceSize.height
+                            horizontalAlignment: Text.AlignRight
+                            color: Theme.highlightColor
+                            inputMethodHints: Qt.ImhDigitsOnly
+                            font.pixelSize: Theme.fontSizeExtraSmall
+                            validator: IntValidator { bottom: 1; top: maxScalePixels }
+                            EnterKey.onClicked: idScaleInputHeight2.focus = false
+                        }
+                        Label {
+                            width: parent.width / 2 - Theme.paddingLarge/4
+                            height: parent.height
+                            rightPadding: Theme.paddingLarge
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignRight
+                            font.pixelSize: Theme.fontSizeExtraSmall
+                            truncationMode: TruncationMode.Fade
+                            text: qsTr("width  x  height")
+                        }
+                    }
+                    IconButton {
+                        enabled: ( (idScaleInputWidth2.text !== "" && idScaleInputHeight2.text !== "" ) && idImageLoadedFreecrop.status !== Image.Null && finishedLoading === true ) ? true : false
+                        width: parent.width / itemsPerRow
+                        height: Theme.itemSizeSmall * 1.1
+                        icon.source: "../symbols/icon-m-apply.svg"
+                        icon.width: Theme.iconSizeMedium
+                        icon.height: Theme.iconSizeMedium
+                        onClicked: {
+                            finishedLoading = false
+                            if (idScaleInputWidth2.text < 1) {
+                                idScaleInputWidth2.text = "1"
+                            }
+                            if (idScaleInputWidth2.text === "") {
+                                idScaleInputWidth2.text = idImageLoadedFreecrop.sourceSize.width
+                            }
+
+                            if (idScaleInputHeight2.text < 1) {
+                                idScaleInputHeight2.text = "1"
+                            }
+                            if (idScaleInputHeight2.text === "") {
+                                idScaleInputHeight2.text = idImageLoadedFreecrop.sourceSize.height
+                            }
+                            freeScaleWidth = Math.round(idScaleInputWidth2.text, 0)
+                            freeScaleHeight = Math.round(idScaleInputHeight2.text, 0)
+                            py.freescaleFunction()
+                        }
+                    }
+
+                    Row {
+                        enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
+                        width: parent.width / itemsPerRow * (itemsPerRow - 1)
+                        height: Theme.itemSizeSmall * 1.1
+
+                        ComboBox {
+                            id: idComboBoxPadding
+
+                            width: parent.width / 6 * 3
+                            value: " "
+                            
+                            Label {
+                                id: idComboBoxPadingRatioText
+
+                                anchors {
+                                    verticalCenter: parent.verticalCenter
+                                    verticalCenterOffset: Theme.itemSizeSmall * 0.05
+                                }
+
+                                leftPadding: Theme.paddingLarge + Theme.paddingSmall/3*2
+                                font.pixelSize: Theme.fontSizeExtraSmall
+                                text: qsTr("screen ratio")
+                                color: Theme.highlightColor
+                                opacity: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
+                                        ? 1 
+                                        : Theme.opacityLow
+                            }
+
+                            menu: ContextMenu {
+                                MenuItem {
+                                    text: qsTr("screen ratio")
+                                    font.pixelSize: Theme.fontSizeExtraSmall
+                                    
+                                    onClicked: {
+                                        paddingRatio = page.width/page.height
+                                        idComboBoxPadingRatioText.text = text
+                                    }
+                                }
+                                MenuItem {
+                                    text: qsTr("manual")
+                                    font.pixelSize: Theme.fontSizeExtraSmall
+                                    
+                                    onClicked: {
+                                        paddingRatio = idPaddingInputWidth.text / idPaddingInputHeight.text
+                                        idComboBoxPadingRatioText.text = text
+                                    }
+                                }
+                                MenuItem {
+                                    text: qsTr("DIN-landscape")
+                                    font.pixelSize: Theme.fontSizeExtraSmall
+                                    
+                                    onClicked: {
+                                        paddingRatio = 1754 / 1240
+                                        idComboBoxPadingRatioText.text = text
+                                    }
+                                }
+                                MenuItem {
+                                    text: qsTr("DIN-portrait")
+                                    font.pixelSize: Theme.fontSizeExtraSmall
+                                
+                                    onClicked: {
+                                        paddingRatio = 1240/1754
+                                        idComboBoxPadingRatioText.text = text
+                                    }
+                                }
+                                MenuItem {
+                                    text: qsTr("4:3")
+                                    font.pixelSize: Theme.fontSizeExtraSmall
+                                
+                                    onClicked: {
+                                        paddingRatio = 4/3
+                                        idComboBoxPadingRatioText.text = text
+                                    }
+                                }
+                                MenuItem {
+                                    text: qsTr("16:10")
+                                    font.pixelSize: Theme.fontSizeExtraSmall
+                                
+                                    onClicked: {
+                                        paddingRatio = 16 / 10
+                                        idComboBoxPadingRatioText.text = text
+                                    }
+                                }
+                                MenuItem {
+                                    text: qsTr("16:9")
+                                    font.pixelSize: Theme.fontSizeExtraSmall
+                                
+                                    onClicked: {
+                                        paddingRatio = 16 / 9
+                                        idComboBoxPadingRatioText.text = text
+                                    }
+                                }
+                                MenuItem {
+                                    text: qsTr("21:9")
+                                    font.pixelSize: Theme.fontSizeExtraSmall
+                                    
+                                    onClicked: {
+                                        paddingRatio = 21 / 9
+                                        idComboBoxPadingRatioText.text = text
+                                    }
+                                }
+                                MenuItem {
+                                    text: qsTr("1:1")
+                                    font.pixelSize: Theme.fontSizeExtraSmall
+                                    
+                                    onClicked: {
+                                        paddingRatio = 1
+                                        idComboBoxPadingRatioText.text = text
+                                    }
+                                }
+                                MenuItem {
+                                    text: qsTr("3:4")
+                                    font.pixelSize: Theme.fontSizeExtraSmall
+                                    
+                                    onClicked: {
+                                        paddingRatio = 3 / 4
+                                        idComboBoxPadingRatioText.text = text
+                                    }
+                                }
+                                MenuItem {
+                                    text: qsTr("1:2")
+                                    font.pixelSize: Theme.fontSizeExtraSmall
+                                    
+                                    onClicked: {
+                                        paddingRatio = 1 / 2
+                                        idComboBoxPadingRatioText.text = text
+                                    }
+                                }
+
+                            }
+                        }
+
+                        Label {
+                            width: parent.width / 6 * 2
+                            height: parent.height
+                            rightPadding: Theme.paddingLarge
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignHCenter
+                            font.pixelSize: Theme.fontSizeExtraSmall
+                            truncationMode: TruncationMode.Fade
+                            text: qsTr("padding with")
+                        }
+
+                        ComboBox {
+                            id: idComboBoxPaddingFill
                         
-                        menu: ContextMenu {
-                            MenuItem {
-                                text: qsTr("brightness")
+                            width: parent.width / 6 * 1
+                            value: " "
+                        
+                            Label {
+                                id: idComboBoxPadingRatioFillText
+                        
+                                anchors {
+                                    right: parent.right
+                                    rightMargin: Theme.paddingLarge
+                                    verticalCenter: parent.verticalCenter
+                                    verticalCenterOffset: Theme.itemSizeSmall * 0.05
+                                }
+                                
                                 font.pixelSize: Theme.fontSizeExtraSmall
-                            }
-                            MenuItem {
-                                text: qsTr("contrast")
-                                font.pixelSize: Theme.fontSizeExtraSmall
-                            }
-                            MenuItem {
                                 text: qsTr("color")
-                                font.pixelSize: Theme.fontSizeExtraSmall
+                                color: Theme.highlightColor
+                                opacity: idImageLoadedFreecrop.status !== Image.Null && finishedLoading ? 1 : 0.4
                             }
-                            MenuItem {
-                                text: qsTr("sharpness")
-                                font.pixelSize: Theme.fontSizeExtraSmall
-                            }
-                            MenuItem {
-                                text: qsTr("hue")
-                                font.pixelSize: Theme.fontSizeExtraSmall
+
+                            menu: ContextMenu {
+                                MenuItem {
+                                    text: qsTr("color")
+                                    font.pixelSize: Theme.fontSizeExtraSmall
+                                    
+                                    onClicked: {
+                                        paddingFill = "color"
+                                        idComboBoxPadingRatioFillText.text = text
+                                    }
+                                }
+                                MenuItem {
+                                    text: qsTr("blur")
+                                    font.pixelSize: Theme.fontSizeExtraSmall
+                                    
+                                    onClicked: {
+                                        paddingFill = "blur"
+                                        idComboBoxPadingRatioFillText.text = text
+                                    }
+                                }
                             }
                         }
-                        
-                        onCurrentIndexChanged: {
-                            idSliderEnhancementHue.value = 0
-                            idSliderEnhancement.value = 1
-                        }
+
                     }
 
                     IconButton {
-                        enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
+                        enabled: idImageLoadedFreecrop.status !== Image.Null 
+                                && finishedLoading 
+                                && idPaddingInputHeight.text !== "" 
+                                && idPaddingInputWidth.text !== ""
+
                         width: parent.width / itemsPerRow
-                        height: Theme.itemSizeSmall
+                        height: Theme.itemSizeSmall * 1.1
+                        
                         icon {
                             source: "../symbols/icon-m-apply.svg"
                             width: Theme.iconSizeMedium
@@ -3099,2430 +2839,769 @@ Page {
                         
                         onClicked: {
                             finishedLoading = false
+                            py.paddingImage()
+                        }
+                    }
+
+                    Row {
+                        enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
+                        visible: idComboBoxPadding.currentIndex === 1
+                        width: parent.width / itemsPerRow * (itemsPerRow-1)
+                        height: Theme.itemSizeSmall * 1.1
+
+                        TextField {
+                            id: idPaddingInputWidth
+                        
+                            anchors {
+                                verticalCenter: parent.verticalCenter
+                                verticalCenterOffset: Theme.paddingLarge
+                            }
+
+                            width: parent.width / 4
+                            text: "1"
+                            color: Theme.highlightColor
+                            inputMethodHints: Qt.ImhDigitsOnly
+                            font.pixelSize: Theme.fontSizeExtraSmall
+                            
+                            validator: IntValidator {
+                                bottom: 0
+                                top: 99 
+                            }
+
+                            EnterKey.onClicked: idPaddingInputWidth.focus = false
+                        }
+
+                        Label {
+                            enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
+                            width: Theme.paddingLarge/4
+                            anchors.verticalCenter: parent.verticalCenter
+                            color: Theme.highlightColor
+                            font.pixelSize: Theme.fontSizeExtraSmall
+                            opacity: idImageLoadedFreecrop.status !== Image.Null && finishedLoading ? 1 : 0.6
+                            text: ":"
+                        }
+
+                        TextField {
+                            id: idPaddingInputHeight
+                        
+                            anchors {
+                                verticalCenter: parent.verticalCenter
+                                verticalCenterOffset: Theme.paddingLarge
+                            }
+
+                            width: parent.width / 4
+                            text: "1"
+                            horizontalAlignment: Text.AlignRight
+                            color: Theme.highlightColor
+                            inputMethodHints: Qt.ImhDigitsOnly
+                            font.pixelSize: Theme.fontSizeExtraSmall
+                            
+                            validator: IntValidator { 
+                                bottom: 0
+                                top: 99 
+                            }
+
+                            EnterKey.onClicked: idPaddingInputHeight.focus = false
+                        }
+                    }
+                } // end tools scale
+
+                Grid {
+                    id: idGridShape
+
+                    visible: buttonShape.down === true
+                    x: Theme.paddingLarge
+                    width: parent.width - 2 * Theme.paddingLarge
+                    columns: 5
+
+                    IconButton {
+                        enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
+                        width: parent.width/5
+                        height: Theme.itemSizeSmall
+                        icon.source: "image://theme/icon-m-rotate-left?"
+
+                        onClicked: {
+                            finishedLoading = false
+                            py.rotateLeftFunction()
+                        }
+
+                        Label {
+                            anchors {
+                                top: parent.bottom
+                                topMargin: -Theme.paddingSmall
+                                horizontalCenter: parent.horizontalCenter
+                            }
+
+                            text: qsTr("left")
+                            font.pixelSize: Theme.fontSizeExtraSmall
+                        }
+                    }
+
+                    IconButton {
+                        enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
+                        width: parent.width/5
+                        height: Theme.itemSizeSmall
+                        icon.source: "image://theme/icon-m-rotate-right?"
+
+                        onClicked: {
+                            finishedLoading = false
+                            py.rotateRightFunction()
+                        }
+
+                        Label {
+                            anchors {
+                                top: parent.bottom
+                                topMargin: -Theme.paddingSmall
+                                horizontalCenter: parent.horizontalCenter
+                            }
+
+                            text: qsTr("right")
+                            font.pixelSize: Theme.fontSizeExtraSmall
+                        }
+                    }
+
+                    IconButton {
+                        enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading 
+                        width: parent.width/5
+                        height: Theme.itemSizeSmall
+                        icon.source: "image://theme/icon-m-flip?"
+                        icon.rotation: 90
+
+                        onClicked: {
+                            finishedLoading = false
+                            py.mirrorVerticalFunction()
+                        }
+
+                        Label {
+                            anchors {
+                                top: parent.bottom
+                                topMargin: -Theme.paddingSmall * 0.9
+                                horizontalCenter: parent.horizontalCenter
+                            }
+
+                            text: qsTr("flip")
+                            font.pixelSize: Theme.fontSizeExtraSmall
+                        }
+                    }
+
+                    IconButton {
+                        enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
+                        width: parent.width/5
+                        height: Theme.itemSizeSmall
+                        icon.source: "image://theme/icon-m-flip?"
+
+                        onClicked: {
+                            finishedLoading = false
+                            py.mirrorHorizontalFunction()
+                        }
+                        
+                        Label {
+                            anchors {
+                                top: parent.bottom
+                                topMargin: -Theme.paddingSmall
+                                horizontalCenter: parent.horizontalCenter
+                            }
+
+                            text: qsTr("mirror")
+                            font.pixelSize: Theme.fontSizeExtraSmall
+                        }
+                    }
+
+                    IconButton {
+                        enabled: idRotateAngleManualInput.text !== "" 
+                                && idImageLoadedFreecrop.status !== Image.Null 
+                                && finishedLoading
+
+                        width: parent.width/5
+                        height: Theme.itemSizeSmall
+                        
+                        icon {
+                            source: "../symbols/icon-m-tilt.svg"
+                            width: Theme.iconSizeMedium
+                            height: Theme.iconSizeMedium
+                        }
+                        
+                        onClicked: {
+                            finishedLoading = false
+                            py.tiltAngleFunction()
+                        }
+                        
+                        TextField {
+                            id: idRotateAngleManualInput
+                        
+                            anchors {
+                                top: parent.bottom
+                                topMargin: -Theme.paddingMedium
+                                horizontalCenter: parent.horizontalCenter
+                            }
+
+                            enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
+                            width:  parent.width
+                            text: "0"
+                            horizontalAlignment: Text.AlignHCenter
+                            color: Theme.highlightColor
+                            inputMethodHints: Qt.ImhDigitsOnly
+                            font.pixelSize: Theme.fontSizeExtraSmall
+                            
+                            validator: IntValidator { 
+                                bottom: -360 
+                                top: 360 
+                            }
+
+                            EnterKey.onClicked: idRotateAngleManualInput.focus = false
+                        }
+                    }
+                } // end tools shape
+
+                Grid {
+                    id: idGridColors
+
+                    visible: buttonColors.down
+                    x: Theme.paddingLarge
+                    width: parent.width - 2* Theme.paddingLarge
+                    columns: 1
+
+                    Row {
+                        width: parent.width
+                        
+                        ComboBox {
+                            id: idComboBoxEnhance
+                        
+                            enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading 
+                            width: parent.width / itemsPerRow * (itemsPerRow-1)
+                            
+                            menu: ContextMenu {
+                                MenuItem {
+                                    text: qsTr("brightness")
+                                    font.pixelSize: Theme.fontSizeExtraSmall
+                                }
+                                MenuItem {
+                                    text: qsTr("contrast")
+                                    font.pixelSize: Theme.fontSizeExtraSmall
+                                }
+                                MenuItem {
+                                    text: qsTr("color")
+                                    font.pixelSize: Theme.fontSizeExtraSmall
+                                }
+                                MenuItem {
+                                    text: qsTr("sharpness")
+                                    font.pixelSize: Theme.fontSizeExtraSmall
+                                }
+                                MenuItem {
+                                    text: qsTr("hue")
+                                    font.pixelSize: Theme.fontSizeExtraSmall
+                                }
+                            }
+                            
+                            onCurrentIndexChanged: {
+                                idSliderEnhancementHue.value = 0
+                                idSliderEnhancement.value = 1
+                            }
+                        }
+
+                        IconButton {
+                            enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
+                            width: parent.width / itemsPerRow
+                            height: Theme.itemSizeSmall
+                            icon {
+                                source: "../symbols/icon-m-apply.svg"
+                                width: Theme.iconSizeMedium
+                                height: Theme.iconSizeMedium
+                            }
+                            
+                            onClicked: {
+                                finishedLoading = false
+                                if (idComboBoxEnhance.currentIndex === 0) {
+                                    py.enhanceBrightnessFunction("current")
+                                }
+                                if (idComboBoxEnhance.currentIndex === 1) {
+                                    py.enhanceContrastFunction("current")
+                                }
+                                if (idComboBoxEnhance.currentIndex === 2) {
+                                    py.enhanceColorFunction("current")
+                                }
+                                if (idComboBoxEnhance.currentIndex === 3) {
+                                    py.enhanceSharpnessFunction("current")
+                                }
+                                if (idComboBoxEnhance.currentIndex === 4) {
+                                    py.enhanceHueFunction("current")
+                                }
+                            }
+                        }
+                    }
+
+                    Slider {
+                        id: idSliderEnhancement
+                        enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
+                        visible: (idComboBoxEnhance.currentIndex <= 3)
+                        width: parent.width
+                        height: Theme.itemSizeSmall * 1.1
+                        minimumValue: 0
+                        maximumValue: 2
+                        value: 1
+                        stepSize: 0.025
+                        leftMargin: Theme.paddingLarge
+                        rightMargin: Theme.paddingLarge
+                        smooth: true
+
+                        onReleased: {
+                            finishedLoading = false
                             if (idComboBoxEnhance.currentIndex === 0) {
-                                py.enhanceBrightnessFunction("current")
+                                py.enhanceBrightnessFunction("preview")
                             }
                             if (idComboBoxEnhance.currentIndex === 1) {
-                                py.enhanceContrastFunction("current")
+                                py.enhanceContrastFunction("preview")
                             }
                             if (idComboBoxEnhance.currentIndex === 2) {
-                                py.enhanceColorFunction("current")
+                                py.enhanceColorFunction("preview")
                             }
                             if (idComboBoxEnhance.currentIndex === 3) {
-                                py.enhanceSharpnessFunction("current")
-                            }
-                            if (idComboBoxEnhance.currentIndex === 4) {
-                                py.enhanceHueFunction("current")
+                                py.enhanceSharpnessFunction("preview")
                             }
                         }
-                    }
-                }
-
-                Slider {
-                    id: idSliderEnhancement
-                    enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
-                    visible: (idComboBoxEnhance.currentIndex <= 3)
-                    width: parent.width
-                    height: Theme.itemSizeSmall * 1.1
-                    minimumValue: 0
-                    maximumValue: 2
-                    value: 1
-                    stepSize: 0.025
-                    leftMargin: Theme.paddingLarge
-                    rightMargin: Theme.paddingLarge
-                    smooth: true
-
-                    onReleased: {
-                        finishedLoading = false
-                        if (idComboBoxEnhance.currentIndex === 0) {
-                            py.enhanceBrightnessFunction("preview")
-                        }
-                        if (idComboBoxEnhance.currentIndex === 1) {
-                            py.enhanceContrastFunction("preview")
-                        }
-                        if (idComboBoxEnhance.currentIndex === 2) {
-                            py.enhanceColorFunction("preview")
-                        }
-                        if (idComboBoxEnhance.currentIndex === 3) {
-                            py.enhanceSharpnessFunction("preview")
-                        }
-                    }
-                    
-                    Label {
-                        anchors {
-                            bottom: parent.bottom
-                            bottomMargin: -Theme.paddingSmall
-                            horizontalCenter: parent.horizontalCenter
-                        }
-                    
-                        horizontalAlignment: Text.AlignHCenter
-                        font.pixelSize: Theme.fontSizeExtraSmall
-                        text: idSliderEnhancement.value
-                    }
-                }
-
-                Slider {
-                    id: idSliderEnhancementHue
-
-                    enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
-                    visible: (idComboBoxEnhance.currentIndex > 3)
-                    width: parent.width
-                    height: Theme.itemSizeSmall * 1.1
-                    minimumValue: -180
-                    maximumValue: 180
-                    value: 0
-                    stepSize: 1
-                    leftMargin: Theme.paddingLarge
-                    rightMargin: Theme.paddingLarge
-                    smooth: true
-                    
-                    onReleased: {
-                        finishedLoading = false
-                        py.enhanceHueFunction("preview")
-                    }
-                    
-                    Grid {
-                        anchors {
-                            bottom: parent.bottom
-                            bottomMargin: -Theme.paddingSmall
-                            horizontalCenter: parent.horizontalCenter
-                        }
-                    
-                        width: parent.width
-                        columns: 7
-                    
+                        
                         Label {
-                            width: parent.width / 7
+                            anchors {
+                                bottom: parent.bottom
+                                bottomMargin: -Theme.paddingSmall
+                                horizontalCenter: parent.horizontalCenter
+                            }
+                        
                             horizontalAlignment: Text.AlignHCenter
                             font.pixelSize: Theme.fontSizeExtraSmall
-                            text: (idComboBoxEnhance.currentIndex === 4) ? qsTr("red") : ""
-                        }
-                    
-                        Label {
-                            width: parent.width / 7
-                            horizontalAlignment: Text.AlignHCenter
-                            font.pixelSize: Theme.fontSizeExtraSmall
-                            text: (idComboBoxEnhance.currentIndex === 4) ? qsTr("yellow") : ""
-                        }
-                    
-                        Label {
-                            width: parent.width / 7
-                            horizontalAlignment: Text.AlignHCenter
-                            font.pixelSize: Theme.fontSizeExtraSmall
-                            text: (idComboBoxEnhance.currentIndex === 4) ? qsTr("green") : ""
-                        }
-                    
-                        Label {
-                            width: parent.width / 7
-                            horizontalAlignment: Text.AlignHCenter
-                            font.pixelSize: Theme.fontSizeExtraSmall
-                            text: "[ " + (idSliderEnhancementHue.value) + " ]"
-                        }
-                    
-                        Label {
-                            width: parent.width / 7
-                            horizontalAlignment: Text.AlignHCenter
-                            font.pixelSize: Theme.fontSizeExtraSmall
-                            text: (idComboBoxEnhance.currentIndex === 4) ? qsTr("blue") : ""
-                        }
-                    
-                        Label {
-                            width: parent.width / 7
-                            horizontalAlignment: Text.AlignHCenter
-                            font.pixelSize: Theme.fontSizeExtraSmall
-                            text: (idComboBoxEnhance.currentIndex === 4) ? qsTr("violet") : ""
-                        }
-                    
-                        Label {
-                            width: parent.width / 7
-                            horizontalAlignment: Text.AlignHCenter
-                            font.pixelSize: Theme.fontSizeExtraSmall
-                            text: (idComboBoxEnhance.currentIndex === 4) ? qsTr("red") : ""
+                            text: idSliderEnhancement.value
                         }
                     }
-                }
-            } // end tools colors
 
-            Grid {
-                id: idGridWorkbenches
+                    Slider {
+                        id: idSliderEnhancementHue
 
-                visible: buttonWorkbenches.down
-                x: Theme.paddingLarge
-                width: parent.width - 2* Theme.paddingLarge - spacing
-                rowSpacing: Theme.itemSizeExtraSmall * 0.8
-                columns: itemsPerRow //Less
-
-                IconButton {
-                    id: idIconButtonReColorize
-                
-                    enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
-                    width: parent.width / itemsPerRow
-                    height: Theme.itemSizeSmall
-                    
-                    icon {
-                        source: "../symbols/icon-m-repixel.svg"
-                        width: Theme.iconSizeMedium
-                        height: Theme.iconSizeMedium
-                        rotation: 180
-                    }
-
-                    onClicked: {
-                        const path = idImageLoadedFreecrop.source.toString()
-                                     .replace(/^(file:\/{3})|(qrc:\/{2})|(http:\/{2})/,"")
-
-                        const args = {
-                            "inputPathPy": decodeURIComponent("/" + path),
-                            "outputPathPy": tempImageFolderPath + origImageFileName + ".tmp" + (undoNr+1) + ".png",
-                            "oldA_tmp": idSliderColorAlpha.value,
-                            "oldR_tmp": idSliderColorRed.value,
-                            "oldG_tmp": idSliderColorGreen.value,
-                            "oldB_tmp": idSliderColorBlue.value,
-                        }
-
-                        pageStack.push(Qt.resolvedUrl("PixelBench.qml"), args)
-                    }
-
-                    Label {
-                        id: idReColorizeLabel
-                    
-                        anchors {
-                            top: parent.bottom
-                            topMargin: -Theme.paddingSmall
-                            horizontalCenter: parent.horizontalCenter
-                        }
-                    
-                        font.pixelSize: Theme.fontSizeExtraSmall
-                        horizontalAlignment: Text.AlignHCenter
-                        text: qsTr("pixel")
-                    }
-                }
-
-                IconButton {
-                    id: idIconButtonReChannel
-                
-                    enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
-                    width: parent.width / itemsPerRow
-                    height: Theme.itemSizeSmall
-                    icon.source: "image://theme/icon-m-levels"
-                    
-                    onClicked: {
-                        const path = idImageLoadedFreecrop.source.toString()
-                                     .replace(/^(file:\/{3})|(qrc:\/{2})|(http:\/{2})/,"")
-
-                        const args = {
-                            "inputPathPy": decodeURIComponent("/" + path),
-                            "outputPathPy": tempImageFolderPath + origImageFileName + ".tmp" + (undoNr+1) + ".png",
-                        }
-
-                        pageStack.push(Qt.resolvedUrl("ChannelBench.qml"), args) 
-                    }
-
-                    Label {
-                        id: idReChannelLabel
-                    
-                        anchors {
-                            top: parent.bottom
-                            topMargin: -Theme.paddingSmall
-                            horizontalCenter: parent.horizontalCenter
-                        }
-                    
-                        font.pixelSize: Theme.fontSizeExtraSmall
-                        horizontalAlignment: Text.AlignHCenter
-                        text: qsTr("channel")
-                    }
-                }
-
-                IconButton {
-                    id: idIconButtonColorcurves
-                
-                    enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
-                    width: parent.width / itemsPerRow //Less
-                    height: Theme.itemSizeSmall
-                    
-                    icon {
-                        source: "../symbols/icon-m-colorcurve.svg"
-                        width: Theme.iconSizeMedium
-                        height: Theme.iconSizeMedium
-                    }
-                    
-                    onClicked: {
-                        const path = idImageLoadedFreecrop.source.toString()
-                                     .replace(/^(file:\/{3})|(qrc:\/{2})|(http:\/{2})/,"")
-
-                        const args = {
-                            "inputPathPy": decodeURIComponent("/" + path),
-                            "outputPathPy": tempImageFolderPath + origImageFileName + ".tmp" + (undoNr+1) + ".png",
-                            "tempImageFolderPath": tempImageFolderPath,
-                            "handleWidth": handleWidth,
-                            "handleHeight": handleHeight,
-                            "toolsDrawingColorFrame": toolsDrawingColorFrame,
-                            "opacityEdges": opacityEdges,
-                            "opticalDividersWidth": opticalDividersWidth
-                        }
-
-                        pageStack.push(Qt.resolvedUrl("ColorcurveBench.qml"), args) 
-                    }
-
-                    Label {
-                        id: idColorcurvesLabel
-                    
-                        anchors {
-                            top: parent.bottom
-                            topMargin: -Theme.paddingSmall
-                            horizontalCenter: parent.horizontalCenter
-                        }
-                    
-                        font.pixelSize: Theme.fontSizeExtraSmall
-                        horizontalAlignment: Text.AlignHCenter
-                        text: qsTr("color")
-                    }
-                }
-
-                IconButton {
-                    id: idIconButtonFilters
-
-                    enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
-                    width: parent.width / itemsPerRow
-                    height: Theme.itemSizeSmall
-
-                    icon {
-                        source : "../symbols/icon-m-filters.svg"
-                        width: Theme.iconSizeMedium
-                        height: Theme.iconSizeMedium
-                    }
-
-                    onClicked: {
-                        const ratio = idImageLoadedFreecrop.sourceSize.width / idImageLoadedFreecrop.sourceSize.height
-
-                        const uri = decodeURIComponent("/" + idImageLoadedFreecrop.source.toString()
-                                                             .replace(/^(file:\/{3})|(qrc:\/{2})|(http:\/{2})/,""))
-
-                        const args = {
-                            "previewImageRatio": ratio,
-                            "tempImageFolderPath": tempImageFolderPath,
-                            "filterSourceFolder": filterSourceFolder,
-                            "handleWidth": handleWidth,
-                            "opacityEdges": opacityEdges,
-                            "toolsDrawingColorFrame": toolsDrawingColorFrame,
-                            "inputPathPy": uri,
-                            "outputPathPy": tempImageFolderPath + origImageFileName + ".tmp" + (undoNr+1) + ".png",
-                            "previewBaseImagePath": previewBaseImagePath,
-                        }
-
-                        pageStack.push(Qt.resolvedUrl("FilterBench.qml"), args)
-                    }
-                    
-                    Label {
-                        id: idFiltersLabel
-
-                        anchors {
-                            top: parent.bottom
-                            topMargin: -Theme.paddingSmall
-                            horizontalCenter: parent.horizontalCenter
-                        }
-
-                        font.pixelSize: Theme.fontSizeExtraSmall
-                        horizontalAlignment: Text.AlignHCenter
-                        text: qsTr("filter")
-                    }
-                }
-
-                IconButton {
-                    id: idIconButtonFx
-                
-                    enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading === true
-                    width: parent.width / itemsPerRow //Less
-                    height: Theme.itemSizeSmall
-                    icon {
-                        source : "../symbols/icon-m-effect.svg"
-                        width: Theme.iconSizeMedium * 1.1
-                        height: Theme.iconSizeMedium * 1.1
-                    }
-                    
-                    onClicked: {
-                        const previewImageRatio = idImageLoadedFreecrop.sourceSize.width 
-                                                  / idImageLoadedFreecrop.sourceSize.height
-
-                        const sanitized = idImageLoadedFreecrop.source.toString()
-                                          .replace(/^(file:\/{3})|(qrc:\/{2})|(http:\/{2})/,"")
-
-                        const inputPathPy = decodeURIComponent("/" +  sanitized)
-
-                        const args = {
-                            "previewImageRatio": previewImageRatio,
-                            "inputImageWidth": idImageLoadedFreecrop.sourceSize.width,
-                            "tempImageFolderPath": tempImageFolderPath,
-                            "filterSourceFolder": filterSourceFolder,
-                            "symbolSourceFolder": symbolSourceFolder,
-                            "handleWidth": handleWidth,
-                            "opacityEdges": opacityEdges,
-                            "paintToolColor": paintToolColor,
-                            "toolsDrawingColorFrame": toolsDrawingColorFrame,
-                            "inputPathPy": inputPathPy,
-                            "outputPathPy": tempImageFolderPath + origImageFileName + ".tmp" + (undoNr+1) + ".png",
-                            "previewBaseImagePath": previewBaseImagePath,
-                        }
-
-                        pageStack.push(Qt.resolvedUrl("EffectsBench.qml"), args)
-                    }
-
-                    Label {
-                        id: idFxLabel
-                        
-                        anchors {
-                            top: parent.bottom
-                            topMargin: -Theme.paddingSmall
-                            horizontalCenter: parent.horizontalCenter
-                        }
-
-                        font.pixelSize: Theme.fontSizeExtraSmall
-                        horizontalAlignment: Text.AlignHCenter
-                        text: qsTr("effect")
-                    }
-                }
-
-                IconButton {
-                    id: idIconButtonCollage
-
-                    enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading === true
-                    width: parent.width / itemsPerRow //Less
-                    height: Theme.itemSizeSmall
-
-                    icon {
-                        source : "../symbols/icon-m-collage.svg"
-                        width: Theme.iconSizeMedium * 1.1
-                        height: Theme.iconSizeMedium * 1.1
-                    }
-                    
-                    onClicked: {
-                        const ratio = idImageLoadedFreecrop.sourceSize.width/idImageLoadedFreecrop.sourceSize.height
-
-                        const uri = decodeURIComponent("/" + idImageLoadedFreecrop.source.toString()
-                                                             .replace(/^(file:\/{3})|(qrc:\/{2})|(http:\/{2})/,""))
-
-                        const args = {
-                            "previewImageRatio": ratio,
-                            "inputImageWidth": idImageLoadedFreecrop.sourceSize.width,
-                            "tempImageFolderPath": tempImageFolderPath,
-                            "filterSourceFolder": filterSourceFolder,
-                            "symbolSourceFolder": symbolSourceFolder,
-                            "handleWidth": handleWidth,
-                            "opacityEdges": opacityEdges,
-                            "paintToolColor": paintToolColor,
-                            "toolsDrawingColorFrame": toolsDrawingColorFrame,
-                            "inputPathPy": uri,
-                            "outputPathPy": tempImageFolderPath + origImageFileName + ".tmp" + (undoNr+1) + ".png",
-                            "previewBaseImagePath": previewBaseImagePath,
-                        }
-
-                        pageStack.push(Qt.resolvedUrl("CollageBench.qml"), args)    
-                    }
-                    Label {
-                        id: idCollageLabel
-
-                        anchors {
-                            top: parent.bottom
-                            topMargin: -Theme.paddingSmall
-                            horizontalCenter: parent.horizontalCenter
-                        }
-
-                        font.pixelSize: Theme.fontSizeExtraSmall
-                        horizontalAlignment: Text.AlignHCenter
-                        text: qsTr("collage")
-                    }
-                }
-
-            } // end tools effects
-
-            Grid {
-                id: idGridFile
-
-                visible: ( buttonFile.down === true) ? true : false
-                x: Theme.paddingLarge
-                width: parent.width - 2* Theme.paddingLarge - spacing
-                rowSpacing: Theme.itemSizeExtraSmall * 0.8
-                columns: itemsPerRow
-
-                IconButton {
-                    enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading === true && templock === -1
-                    width: parent.width / itemsPerRow
-                    height: Theme.itemSizeSmall
-                    icon.source: "image://theme/icon-m-delete"
-
-                    onClicked: {
-                        pageStack.push("ConfirmDeletionPage.qml", { "callback": py.deleteOriginalFunction, 
-                                                                    "filePath": idImageLoadedFreecrop.source })
-                    }
-                    
-                    Label {
-                        anchors {
-                            top: parent.bottom
-                            topMargin: -Theme.paddingSmall
-                            horizontalCenter: parent.horizontalCenter
-                        }
-
-                        horizontalAlignment: Text.AlignHCenter
-                        text: qsTr("delete")
-                        font.pixelSize: Theme.fontSizeExtraSmall
-                    }
-                }
-
-                IconButton {
-                    enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading && templock === -1
-                    width: parent.width / itemsPerRow
-                    height: Theme.itemSizeSmall
-                    
-                    icon {
-                        source : "../symbols/icon-m-rename.svg"
-                        width: Theme.iconSizeMedium
-                        height: Theme.iconSizeMedium
-                    }
-                    
-                    onClicked: {
-                        const args = {
-                            "origImageFilePath": appBar.subHeaderText,
-                            "origImageFileName": origImageFileName,
-                            "origImageFolderPath": origImageFolderPath,
-                            "tempImageFolderPath": tempImageFolderPath,
-                            "imageWidthSave": idImageLoadedFreecrop.sourceSize.width,
-                            "imageHeightSave": idImageLoadedFreecrop.sourceSize.height,
-                            "inputPathPy": idImageLoadedFreecrop.source.toString()
-                        }
-
-                        pageStack.push(Qt.resolvedUrl("RenamePage.qml"), args)
-                    }
-
-                    Label {
-                        anchors {
-                            top: parent.bottom
-                            topMargin: -Theme.paddingSmall
-                            horizontalCenter: parent.horizontalCenter
-                        }
-
-                        horizontalAlignment: Text.AlignHCenter
-                        text: qsTr("rename")
-                        font.pixelSize: Theme.fontSizeExtraSmall
-                    }
-                }
-
-                IconButton {
-                    enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading && templock === -1
-                    width: parent.width / itemsPerRow
-                    height: Theme.itemSizeSmall
-                    icon.source: "image://theme/icon-m-diagnostic?"
-                    
-                    onClicked: {
-                        const args = {
-                            "origImageFileName": origImageFileName,
-                            "origImageFolderPath": origImageFolderPath,
-                            "inputPathPy": idImageLoadedFreecrop.source.toString()
-                        }
-
-                        pageStack.push(Qt.resolvedUrl("MetadataPage.qml"), args)
-                    }
-
-                    Label {
-                        anchors {
-                            top: parent.bottom
-                            topMargin: -Theme.paddingSmall
-                            horizontalCenter: parent.horizontalCenter
-                        }
-
-                        horizontalAlignment: Text.AlignHCenter
-                        text: qsTr("meta")
-                        font.pixelSize: Theme.fontSizeExtraSmall
-                    }
-                }
-
-                IconButton {
-                    enabled: finishedLoading && !warningNoPillow
-                    width: parent.width / itemsPerRow
-                    height: Theme.itemSizeSmall
-                    
-                    icon {
-                        source : "../symbols/icon-m-newpage.svg"
-                        width: Theme.iconSizeMedium
-                        height: Theme.iconSizeMedium
-                    }
-
-                    onClicked: page.openNewImagePage()
-
-                    Label {
-                        anchors {
-                            top: parent.bottom
-                            topMargin: -Theme.paddingSmall
-                            horizontalCenter: parent.horizontalCenter
-                        }
-
-                        horizontalAlignment: Text.AlignHCenter
-                        text: qsTr("new")
-                        font.pixelSize: Theme.fontSizeExtraSmall
-                    }
-                }
-            } // end tools file
-
-            Grid {
-                id: idGridPaint
-                
-                visible: buttonPaint.down
-                x: Theme.paddingLarge
-                width: parent.width - 2*Theme.paddingLarge
-                rowSpacing: Theme.itemSizeExtraSmall * 0.5
-                columns: itemsPerRow
-
-                IconButton {
-                    id: idPaintCanvasButton
-                    
-                    enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
-                    down: true
-                    width: parent.width / itemsPerRow
-                    height: Theme.itemSizeSmall
-                    icon {
-                        source: "../symbols/icon-m-freedraw.svg"
-                        width: Theme.iconSizeMedium
-                        height: Theme.iconSizeMedium
-                    }
-
-                    onClicked: {
-                        idPaintCanvasButton.down = true
-                        idPaintPointButton.down = false
-                        idPaintSolidButton.down = false
-                        idPaintFrameButton.down = false
-                        idPaintLineButton.down = false
-                        idPaintTextButton.down = false
-                        idPaintCopyButton.down = false
-                        idPaintPasteButton.down = false
-                        idPaintSprayButton.down = false
-                        idPaintShapesButton.down = false
-                        idPaintColorPickerButton.down = false
-                    }
-
-                    Label {
-                        anchors {
-                            top: parent.bottom
-                            topMargin: -Theme.paddingSmall
-                            horizontalCenter: parent.horizontalCenter
-                        }
-
-                        horizontalAlignment: Text.AlignHCenter
-                        text: qsTr("free")
-                        font.pixelSize: Theme.fontSizeExtraSmall
-                    }
-                }
-
-                IconButton {
-                    id: idPaintSolidButton
-                
-                    enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
-                    width: parent.width / itemsPerRow
-                    height: Theme.itemSizeSmall
-                    
-                    icon {
-                        source: "../symbols/icon-m-area.svg"
-                        width: Theme.iconSizeMedium
-                        height: Theme.iconSizeMedium
-                    }
-                    
-                    onClicked: {
-                        idPaintSolidButton.down = true
-                        idPaintPointButton.down = false
-                        idPaintCanvasButton.down = false
-                        idPaintFrameButton.down = false
-                        idPaintLineButton.down = false
-                        idPaintTextButton.down = false
-                        idPaintCopyButton.down = false
-                        idPaintPasteButton.down = false
-                        idPaintSprayButton.down = false
-                        idPaintShapesButton.down = false
-                        idPaintColorPickerButton.down = false
-                    }
-                    
-                    Label {
-                        anchors {
-                            top: parent.bottom
-                            topMargin: -Theme.paddingSmall
-                            horizontalCenter: parent.horizontalCenter
-                        }
-
-                        horizontalAlignment: Text.AlignHCenter
-                        text: qsTr("area")
-                        font.pixelSize: Theme.fontSizeExtraSmall
-                    }
-                }
-
-                IconButton {
-                    id: idPaintFrameButton
-
-                    enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
-                    width: parent.width / itemsPerRow
-                    height: Theme.itemSizeSmall
-                    icon.source: "image://theme/icon-m-file-image?"
-
-                    onClicked: {
-                        idPaintFrameButton.down = true
-                        idPaintPointButton.down = false
-                        idPaintCanvasButton.down = false
-                        idPaintSolidButton.down = false
-                        idPaintLineButton.down = false
-                        idPaintTextButton.down = false
-                        idPaintCopyButton.down = false
-                        idPaintPasteButton.down = false
-                        idPaintSprayButton.down = false
-                        idPaintShapesButton.down = false
-                        idPaintColorPickerButton.down = false
-                    }
-                    
-                    Label {
-                        anchors {
-                            top: parent.bottom
-                            topMargin: -Theme.paddingSmall
-                            horizontalCenter: parent.horizontalCenter
-                        }
-
-                        horizontalAlignment: Text.AlignHCenter
-                        text: qsTr("frame")
-                        font.pixelSize: Theme.fontSizeExtraSmall
-                    }
-                }
-
-                IconButton {
-                    id: idPaintSprayButton
-                
-                    enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
-                    width: parent.width / itemsPerRow
-                    height: Theme.itemSizeSmall
-
-                    icon {
-                        source: "../symbols/icon-m-spray.svg"
-                        width: Theme.iconSizeMedium
-                        height: Theme.iconSizeMedium
-                    }
-                    
-                    onClicked: {
-                        idPaintSprayButton.down = true
-                        idPaintPointButton.down = false
-                        idPaintCanvasButton.down = false
-                        idPaintSolidButton.down = false
-                        idPaintFrameButton.down = false
-                        idPaintLineButton.down = false
-                        idPaintTextButton.down = false
-                        idPaintCopyButton.down = false
-                        idPaintPasteButton.down = false                        
-                        idPaintShapesButton.down = false
-                        idPaintColorPickerButton.down = false
-                    }
-                    
-                    Label {
-                        anchors {
-                            top: parent.bottom
-                            topMargin: -Theme.paddingSmall
-                            horizontalCenter: parent.horizontalCenter
-                        }
-
-                        horizontalAlignment: Text.AlignHCenter
-                        text: qsTr("spray")
-                        font.pixelSize: Theme.fontSizeExtraSmall
-                    }
-                }
-
-                IconButton {
-                    id: idPaintCopyButton
-                
-                    enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
-                    width: parent.width / itemsPerRow
-                    height: Theme.itemSizeSmall
-                    icon.source: "image://theme/icon-m-up?"
-
-                    onClicked: {
-                        idPaintCopyButton.down = true
-                        idPaintPointButton.down = false
-                        idPaintCanvasButton.down = false
-                        idPaintSolidButton.down = false
-                        idPaintFrameButton.down = false
-                        idPaintLineButton.down = false
-                        idPaintTextButton.down = false
-                        idPaintPasteButton.down = false
-                        idPaintSprayButton.down = false
-                        idPaintShapesButton.down = false
-                        idPaintColorPickerButton.down = false
-                    }
-                    
-                    Label {
-                        anchors {
-                            top: parent.bottom
-                            topMargin: -Theme.paddingSmall
-                            horizontalCenter: parent.horizontalCenter
-                        }
-
-                        horizontalAlignment: Text.AlignHCenter
-                        text: qsTr("copy")
-                        font.pixelSize: Theme.fontSizeExtraSmall
-                    }
-                }
-
-                IconButton {
-                    id: idPaintPasteButton
-
-                    enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading && copyPastePath !== ""
-                    width: parent.width / itemsPerRow
-                    height: Theme.itemSizeSmall
-                    icon.source: "image://theme/icon-m-down?"
-
-                    onDownChanged: {
-                        // before onClicked signal, to make sure whenever this button is not down,
-                        // it resets the handles ratio to "free"
-                        croppingRatio = 0
-                    }
-
-                    onClicked: {
-                        idPaintPasteButton.down = true
-                        idPaintPointButton.down = false
-                        idPaintCanvasButton.down = false
-                        idPaintSolidButton.down = false
-                        idPaintFrameButton.down = false
-                        idPaintLineButton.down = false
-                        idPaintTextButton.down = false
-                        idPaintCopyButton.down = false
-                        idPaintSprayButton.down = false
-                        idPaintShapesButton.down = false
-                        idPaintColorPickerButton.down = false
-                        croppingRatio = copyPasteRegionRatioHW
-                        
-                        // including Patch: resetting cropmarkers when pasting from big image on smaller one
-                        setCropmarkersPaste()
-                    }
-
-                    Label {
-                        anchors {
-                            top: parent.bottom
-                            topMargin: -Theme.paddingSmall
-                            horizontalCenter: parent.horizontalCenter
-                        }
-
-                        horizontalAlignment: Text.AlignHCenter
-                        text: qsTr("paste")
-                        font.pixelSize: Theme.fontSizeExtraSmall
-                    }
-                }
-
-                IconButton {
-                    id: idPaintLineButton
-                
-                    enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
-                    width: parent.width / itemsPerRow
-                    height: Theme.itemSizeSmall
-                    
-                    icon {
-                        source: "../symbols/icon-m-line.svg"
-                        width: Theme.iconSizeMedium
-                        height: Theme.iconSizeMedium
-                    }
-
-                    onClicked: {
-                        idPaintLineButton.down = true
-                        idPaintPointButton.down = false
-                        idPaintCanvasButton.down = false
-                        idPaintSolidButton.down = false
-                        idPaintFrameButton.down = false
-                        idPaintTextButton.down = false
-                        idPaintCopyButton.down = false
-                        idPaintPasteButton.down = false
-                        idPaintSprayButton.down = false
-                        idPaintShapesButton.down = false
-                        idPaintColorPickerButton.down = false
-                    }
-                    
-                    Label {
-                        anchors {
-                            top: parent.bottom
-                            topMargin: -Theme.paddingSmall
-                            horizontalCenter: parent.horizontalCenter
-                        }
-                    
-                        horizontalAlignment: Text.AlignHCenter
-                        text: qsTr("line")
-                        font.pixelSize: Theme.fontSizeExtraSmall
-                    }
-                }
-
-                IconButton {
-                    id: idPaintPointButton
-                
-                    enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
-                    width: parent.width / itemsPerRow
-                    height: Theme.itemSizeSmall
-                    icon {
-                        source: "../symbols/icon-m-point.svg"
-                        width: Theme.iconSizeMedium
-                        height: Theme.iconSizeMedium
-                    }
-
-                    onClicked: {
-                        idPaintPointButton.down = true
-                        idPaintCanvasButton.down = false
-                        idPaintSolidButton.down = false
-                        idPaintFrameButton.down = false
-                        idPaintLineButton.down = false
-                        idPaintTextButton.down = false
-                        idPaintCopyButton.down = false
-                        idPaintPasteButton.down = false
-                        idPaintSprayButton.down = false
-                        idPaintShapesButton.down = false
-                        idPaintColorPickerButton.down = false
-                    }
-                    
-                    Label {
-                        anchors {
-                            top: parent.bottom
-                            topMargin: -Theme.paddingSmall
-                            horizontalCenter: parent.horizontalCenter
-                        }
-
-                        horizontalAlignment: Text.AlignHCenter
-                        text: qsTr("point")
-                        font.pixelSize: Theme.fontSizeExtraSmall
-                    }
-                }
-
-                IconButton {
-                    id: idPaintShapesButton
-                
-                    enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
-                    width: parent.width / itemsPerRow
-                    height: Theme.itemSizeSmall
-
-                    icon {
-                        source: "../symbols/icon-m-symbols.svg"
-                        width: Theme.iconSizeMedium
-                        height: Theme.iconSizeMedium
-                    }
-                    
-                    onClicked: {
-                        idPaintShapesButton.down = true
-                        idPaintPointButton.down = false
-                        idPaintCanvasButton.down = false
-                        idPaintSolidButton.down = false
-                        idPaintFrameButton.down = false
-                        idPaintLineButton.down = false
-                        idPaintTextButton.down = false
-                        idPaintCopyButton.down = false
-                        idPaintPasteButton.down = false
-                        idPaintSprayButton.down = false
-                        idPaintColorPickerButton.down = false
-                    }
-                    
-                    Label {
-                        anchors {
-                            top: parent.bottom
-                            topMargin: -Theme.paddingSmall
-                            horizontalCenter: parent.horizontalCenter
-                        }
-
-                        horizontalAlignment: Text.AlignHCenter
-                        text: qsTr("symbol")
-                        font.pixelSize: Theme.fontSizeExtraSmall
-                    }
-                }
-
-                IconButton {
-                    id: idPaintTextButton
-                
-                    enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
-                    width: parent.width / itemsPerRow
-                    height: Theme.itemSizeSmall
-                    icon.source: "image://theme/icon-m-font-size"
-                    
-                    onClicked: {
-                        idPaintTextButton.down = true
-                        idPaintPointButton.down = false
-                        idPaintCanvasButton.down = false
-                        idPaintSolidButton.down = false
-                        idPaintFrameButton.down = false
-                        idPaintLineButton.down = false
-                        idPaintCopyButton.down = false
-                        idPaintPasteButton.down = false
-                        idPaintSprayButton.down = false
-                        idPaintShapesButton.down = false
-                        idPaintColorPickerButton.down = false
-                    }
-
-                    Label {
-                        anchors {
-                            top: parent.bottom
-                            topMargin: -Theme.paddingSmall
-                            horizontalCenter: parent.horizontalCenter
-                        }
-                    
-                        horizontalAlignment: Text.AlignHCenter
-                        text: qsTr("label")
-                        font.pixelSize: Theme.fontSizeExtraSmall
-                    }
-                }
-
-                IconButton {
-                    id: idPaintColorPickerButton
-                
-                    enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
-                    width: parent.width / itemsPerRow
-                    height: Theme.itemSizeSmall
-
-                    icon {
-                        source: "../symbols/icon-m-colorpicker.svg"
-                        width: Theme.iconSizeMedium
-                        height: Theme.iconSizeMedium
-                    }
-
-                    onClicked: {                        
-                        idPaintColorPickerButton.down = true
-                        idPaintPointButton.down = false
-                        idPaintCanvasButton.down = false
-                        idPaintSolidButton.down = false
-                        idPaintFrameButton.down = false
-                        idPaintLineButton.down = false
-                        idPaintTextButton.down = false
-                        idPaintCopyButton.down = false
-                        idPaintPasteButton.down = false
-                        idPaintSprayButton.down = false
-                        idPaintShapesButton.down = false
-                    }
-                    
-                    Label {
-                        anchors {
-                            top: parent.bottom
-                            topMargin: -Theme.paddingSmall
-                            horizontalCenter: parent.horizontalCenter
-                        }
-
-                        horizontalAlignment: Text.AlignHCenter
-                        text: qsTr("color")
-                        font.pixelSize: Theme.fontSizeExtraSmall
-                    }
-
-                }
-
-                IconButton {
-                    id: idPaintColorPickerButtonPresets
-                
-                    enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
-                    width: parent.width / itemsPerRow
-                    height: Theme.itemSizeSmall
-                    icon {
-                        source: paintToolColor === "#00000000" 
-                                ? "../symbols/icon-m-color-alpha.svg" 
-                                : "../symbols/icon-m-color.svg"
-                        width: Theme.iconSizeMedium
-                        height: Theme.iconSizeMedium
-                        color: paintToolColor === "#00000000" ? "white" : paintToolColor
-                    }
-
-                    onClicked: {
-                        var page = pageStack.push("Sailfish.Silica.ColorPickerPage", { "colors" : myColors})
-                        page.colorClicked.connect(function(color) {
-                            paintToolColor = color.toString().replace("#", "#ff")
-                            idColorPaintManualInput.text = paintToolColor
-                            pageStack.pop()
-                            hexToRGBA(paintToolColor)
-                        })
-                    }
-
-                    Label {
-                        anchors {
-                            top: parent.bottom
-                            topMargin: -Theme.paddingSmall
-                            horizontalCenter: parent.horizontalCenter
-                        }
-
-                        horizontalAlignment: Text.AlignHCenter
-                        text: idPaintShapesButton.down 
-                              ? qsTr("100%") 
-                              : Math.round( idSliderColorAlpha.value / 255 * 100) + "%"
-                        font.pixelSize: Theme.fontSizeExtraSmall
-                    }
-                }
-            } // end tools paint
-
-            Rectangle {
-                visible: buttonPaint.down
-                x: Theme.paddingLarge
-                width: parent.width - 2 * Theme.paddingLarge
-                height: Theme.paddingMedium
-                color: "transparent"
-            }
-
-            Grid {
-                id: idGridSubmodulPaint
-
-                visible: buttonPaint.down
-                x: Theme.paddingLarge
-                width: parent.width - 2 * Theme.paddingLarge
-                columns: 2
-                
-                Row {
-                    width: parent.width / itemsPerRowLess * (itemsPerRowLess - 1)
-                    
-                    Grid {
-                        id: idRowCanvasFreedraw
-
+                        enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
+                        visible: (idComboBoxEnhance.currentIndex > 3)
                         width: parent.width
-                        visible: idPaintCanvasButton.down
-                        columns: 2
-
-                        IconButton {
-                            id: idClearCanvasButton
-                            
-                            enabled: idImageLoadedFreecrop.status !== Image.Null 
-                                     && finishedLoading 
-                                     && freeDrawPolyCoordinates !== ""
-                            width: parent.width / (itemsPerRowLess - 1)
-                            height: Theme.itemSizeSmall
-                            icon.source: "image://theme/icon-m-clear?"
-                            
-                            onClicked: {
-                                freeDrawPolyCoordinates = ""
-                                freeDrawCanvas.clear_canvas()
-                                freeDrawLock = false
-                                freeDrawSliderSizeLock = false
-                            }
-                        }
-
-                        ComboBox {
-                            id: idComboBoxCanvasDraw
+                        height: Theme.itemSizeSmall * 1.1
+                        minimumValue: -180
+                        maximumValue: 180
+                        value: 0
+                        stepSize: 1
+                        leftMargin: Theme.paddingLarge
+                        rightMargin: Theme.paddingLarge
+                        smooth: true
                         
-                            enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
-                            width: parent.width / (itemsPerRowLess - 1) * (itemsPerRowLess - 2)
-                            
-                            menu: ContextMenu {
-                                MenuItem {
-                                    text: qsTr("line")
-                                    font.pixelSize: Theme.fontSizeExtraSmall
-                                }
-                                MenuItem {
-                                    text: qsTr("fill")
-                                    font.pixelSize: Theme.fontSizeExtraSmall
-                                }
-                                MenuItem {
-                                    text: qsTr("keep")
-                                    font.pixelSize: Theme.fontSizeExtraSmall
-                                }
-                                MenuItem {
-                                    text: qsTr("remove")
-                                    font.pixelSize: Theme.fontSizeExtraSmall
-                                }
-                            }
+                        onReleased: {
+                            finishedLoading = false
+                            py.enhanceHueFunction("preview")
                         }
-
-                        Item {
-                            enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
-                            width: parent.width / (itemsPerRowLess - 1)
-                            height: Theme.itemSizeSmall
-                        }
-
-                        Slider {
-                            id: idCanvasThicknessSlider
                         
-                            enabled: idImageLoadedFreecrop.status !== Image.Null 
-                                     && finishedLoading 
-                                     && !freeDrawSliderSizeLock
-                            opacity: freeDrawSliderSizeLock ? 0.5 : 1
-                            visible: idComboBoxCanvasDraw.currentIndex === 0
-                            width: parent.width / (itemsPerRowLess - 1) * (itemsPerRowLess - 2)
-                            height: Theme.itemSizeSmall
-                            minimumValue: 1
-                            maximumValue: 6
-                            value: 3
-                            stepSize: 1
-                            leftMargin: Theme.paddingLarge
-                            rightMargin: Theme.paddingLarge
-                            
-                            Label {
-                                anchors {
-                                    bottom: parent.bottom
-                                    bottomMargin: -Theme.paddingSmall
-                                    horizontalCenter: parent.horizontalCenter
-                                }
-
-                                text: qsTr("size") + " " + idCanvasThicknessSlider.value
-                                font.pixelSize: Theme.fontSizeExtraSmall
+                        Grid {
+                            anchors {
+                                bottom: parent.bottom
+                                bottomMargin: -Theme.paddingSmall
+                                horizontalCenter: parent.horizontalCenter
                             }
-
-                            onValueChanged: {
-                                if (value === 1) {
-                                    paintCanvasThicknessQML = idImageLoadedFreecrop.width / 330 
-                                } else if (value === 2) { 
-                                    paintCanvasThicknessQML = idImageLoadedFreecrop.width / 130
-                                } else if (value === 3) { 
-                                    paintCanvasThicknessQML = idImageLoadedFreecrop.width / 75
-                                } else if (value === 4) { 
-                                    paintCanvasThicknessQML = idImageLoadedFreecrop.width / 47
-                                } else if (value === 5) { 
-                                    paintCanvasThicknessQML = idImageLoadedFreecrop.width / 30
-                                } else if (value === 6) { 
-                                    paintCanvasThicknessQML = idImageLoadedFreecrop.width / 20
-                                }
-                            }
-                        }
-                    }
-
-                    Row {
-                        id: idRowSolidTool
-                    
-                        width: parent.width
-                        visible: idPaintSolidButton.down
-
-                        IconButton {
-                            id: idSolidArea
                         
-                            enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
-                            width: parent.width / (itemsPerRowLess-1)
-                            height: Theme.itemSizeSmall
-
-                            icon {
-                                width: Theme.iconSizeMedium
-                                height: Theme.iconSizeMedium
-                                source: "image://theme/icon-m-tabs?"
-                            }
-                            onClicked: {
-                                solidPickerCounter = solidPickerCounter + 1
-                            
-                                if (solidPickerCounter === 0) {
-                                    idSolidArea.icon.source = "image://theme/icon-m-tabs?"
-                                    idSolidArea.icon.scale = 1
-                                    solidTypeTool = "rectangle"
-                                } else if (solidPickerCounter === 1) {
-                                    idSolidArea.icon.source = "../symbols/icon-m-circle.svg"
-                                    idSolidArea.icon.scale = 0.9
-                                    solidTypeTool = "circle"
-                                } else if (solidPickerCounter === 2) {
-                                    idSolidArea.icon.source = "../symbols/icon-m-blur.svg"
-                                    idSolidArea.icon.scale = 1
-                                    solidTypeTool = "blur"
-                                    solidPickerCounter = -1
-                                }
-                            }
-                        }
-
-                        Slider {
-                            id: idBlurIntensitySlider
-                        
-                            visible: solidTypeTool === "blur"
-                            enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
-                            width: parent.width / (itemsPerRowLess - 1) * (itemsPerRowLess - 2)
-                            height: Theme.itemSizeSmall
-                            minimumValue: 1
-                            maximumValue: 6
-                            value: 1
-                            stepSize: 1
-                            leftMargin: Theme.paddingLarge
-                            rightMargin: Theme.paddingLarge
-                            
-                            Label {
-                                anchors {
-                                    bottom: parent.bottom
-                                    bottomMargin: -Theme.paddingSmall
-                                    horizontalCenter: parent.horizontalCenter
-                                }
-
-                                text: qsTr("blur") + " " + idBlurIntensitySlider.value
-                                font.pixelSize: Theme.fontSizeExtraSmall
-                            }
-                        }
-
-                        ComboBox {
-                            id: idComboBoxCutShape
-                        
-                            enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
-                            visible: solidTypeTool !== "blur"
-                            width: parent.width / itemsPerRow * (itemsPerRow-2)
-                            
-                            menu: ContextMenu {
-                                MenuItem {
-                                    text: qsTr("fill")
-                                    font.pixelSize: Theme.fontSizeExtraSmall
-                                }
-                                MenuItem {
-                                    text: qsTr("keep")
-                                    font.pixelSize: Theme.fontSizeExtraSmall
-                                }
-                                MenuItem {
-                                    text: qsTr("remove")
-                                    font.pixelSize: Theme.fontSizeExtraSmall
-                                }
-                            }
-                        }
-                    }
-
-                    Row {
-                        id: idRowFrameTool
-                    
-                        width: parent.width
-                        visible: idPaintFrameButton.down
-                    
-                        IconButton {
-                            id: idFrameArea
-
-                            enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
-                            width: parent.width / (itemsPerRowLess - 1)
-                            height: Theme.itemSizeSmall
-                            
-                            icon {
-                                width: Theme.iconSizeMedium
-                                height: Theme.iconSizeMedium
-                                source: "image://theme/icon-m-tabs?"
-                            } 
-                            onClicked: {
-                                framePickerCounter = framePickerCounter + 1
-                            
-                                if (framePickerCounter === 0) {
-                                    idFrameArea.icon.source = "image://theme/icon-m-tabs?"
-                                    idFrameArea.icon.scale = 1
-                                    frameTypeTool = "rectangle"
-                                } else if (framePickerCounter === 1) {
-                                    idFrameArea.icon.source = "../symbols/icon-m-circle.svg"
-                                    idFrameArea.icon.scale = 0.9
-                                    frameTypeTool = "circle"
-                                    framePickerCounter = -1
-                                }
-                            }
-                        }
-
-                        Slider {
-                            id: idFrameThicknessSlider
-                        
-                            enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
-                            width: parent.width / (itemsPerRowLess - 1) * (itemsPerRowLess - 2)
-                            height: Theme.itemSizeSmall
-                            minimumValue: 1
-                            maximumValue: 6
-                            value: 3
-                            stepSize: 1
-                            leftMargin: Theme.paddingLarge
-                            rightMargin: Theme.paddingLarge
-
-                            Label {
-                                anchors {
-                                    bottom: parent.bottom
-                                    bottomMargin: -Theme.paddingSmall
-                                    horizontalCenter: parent.horizontalCenter
-                                }
-
-                                text: qsTr("size") + " " + idFrameThicknessSlider.value
-                                font.pixelSize: Theme.fontSizeExtraSmall
-                            }
-
-                            onValueChanged: {
-                                if (value === 1) { 
-                                    paintFrameThicknessQML = idImageLoadedFreecrop.width / 330 
-                                } else if (value === 2) { 
-                                    paintFrameThicknessQML = idImageLoadedFreecrop.width / 130
-                                } else if (value === 3) { 
-                                    paintFrameThicknessQML = idImageLoadedFreecrop.width / 75
-                                } else if (value === 4) { 
-                                    paintFrameThicknessQML = idImageLoadedFreecrop.width / 47
-                                } else if (value === 5) { 
-                                    paintFrameThicknessQML = idImageLoadedFreecrop.width / 30
-                                } else if (value === 6) { 
-                                    paintFrameThicknessQML = idImageLoadedFreecrop.width / 20
-                                }
-                            }
-                        }
-                    }
-
-                    Grid {
-                        id: idRowSprayTool
-                    
-                        width: parent.width
-                        visible: idPaintSprayButton.down
-                        columns: 2
-
-                        Item {
-                            enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
-                            width: parent.width / (itemsPerRowLess-1)
-                            height: Theme.itemSizeSmall
-                        }
-
-                        Slider {
-                            id: idSprayThicknessSlider
-                        
-                            enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
-                            width: parent.width / (itemsPerRowLess-1) * (itemsPerRowLess-2)
-                            height: Theme.itemSizeSmall
-                            minimumValue: 1
-                            maximumValue: 6
-                            value: 1
-                            stepSize: 1
-                            leftMargin: Theme.paddingLarge
-                            rightMargin: Theme.paddingLarge
-
-                            Label {
-                                anchors {
-                                    bottom: parent.bottom
-                                    bottomMargin: -Theme.paddingSmall
-                                    horizontalCenter: parent.horizontalCenter
-                                }
-
-                                text: qsTr("size") + " " + idSprayThicknessSlider.value
-                                font.pixelSize: Theme.fontSizeExtraSmall
-                            }
-                        }
-
-                        Item {
-                            enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
-                            width: parent.width / (itemsPerRowLess-1)
-                            height: Theme.itemSizeSmall
-                        }
-
-                        Slider {
-                            id: idSliderSprayAmount
-                        
-                            enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
-                            visible: idPaintSprayButton.down
-                            width: parent.width / (itemsPerRowLess - 1) * (itemsPerRowLess - 2)
-                            height: Theme.itemSizeSmall
-                            minimumValue: 10
-                            maximumValue: 1000
-                            value: 200
-                            stepSize: 10
-                            leftMargin: Theme.paddingLarge
-                            rightMargin: Theme.paddingLarge
-
-                            Label {
-                                anchors {
-                                    bottom: parent.bottom
-                                    bottomMargin: -Theme.paddingSmall
-                                    horizontalCenter: parent.horizontalCenter
-                                }
-
-                                text: qsTr("dots") + " " + idSliderSprayAmount.value
-                                font.pixelSize: Theme.fontSizeExtraSmall
-                            }
-                        }
-                    }
-
-                    Row {
-                        id: idRowSymbolTool
-                    
-                        width: parent.width
-                        visible: idPaintShapesButton.down
-
-                        IconButton {
-                            id: idComboBoxPaintSymbolPicker
-                        
-                            enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
-                            width: parent.width / (itemsPerRowLess-1)
-                            height: Theme.itemSizeSmall
-                            icon.source: "image://theme/icon-m-favorite-selected"
-
-                            onClicked: {
-                                symbolPickerCounter = symbolPickerCounter + 1
-                            
-                                if (symbolPickerCounter === 0) {
-                                    idComboBoxPaintSymbolPicker.icon.source = "image://theme/icon-m-favorite-selected"
-                                } else if (symbolPickerCounter === 1) {
-                                    idComboBoxPaintSymbolPicker.icon.source = "image://theme/icon-m-favorite"
-                                } else if (symbolPickerCounter === 2) {
-                                    idComboBoxPaintSymbolPicker.icon.source = "image://theme/icon-m-asterisk"
-                                } else if (symbolPickerCounter === 3) {
-                                    idComboBoxPaintSymbolPicker.icon.source = "image://theme/icon-m-add"
-                                } else if (symbolPickerCounter === 4) {
-                                    idComboBoxPaintSymbolPicker.icon.source = "image://theme/icon-m-clear"
-                                } else if (symbolPickerCounter === 5) {
-                                    idComboBoxPaintSymbolPicker.icon.source = "image://theme/icon-m-up"
-                                } else if (symbolPickerCounter === 6) {
-                                    idComboBoxPaintSymbolPicker.icon.source = "image://theme/icon-m-down"
-                                } else if (symbolPickerCounter === 7) {
-                                    idComboBoxPaintSymbolPicker.icon.source = "image://theme/icon-m-left"
-                                } else if (symbolPickerCounter === 8) {
-                                    idComboBoxPaintSymbolPicker.icon.source = "image://theme/icon-m-right"
-                                } else if (symbolPickerCounter === 9) {
-                                    idComboBoxPaintSymbolPicker.icon.source = "image://theme/icon-m-accept"
-                                } else if (symbolPickerCounter === 10) {
-                                    idComboBoxPaintSymbolPicker.icon.source = "image://theme/icon-m-cancel"
-                                } else if (symbolPickerCounter === 11) {
-                                    idComboBoxPaintSymbolPicker.icon.source = "image://theme/icon-m-home"
-                                } else if (symbolPickerCounter === 12) {
-                                    idComboBoxPaintSymbolPicker.icon.source = "image://theme/icon-m-location"
-                                } else if (symbolPickerCounter === 13) {
-                                    idComboBoxPaintSymbolPicker.icon.source = "image://theme/icon-m-people"
-                                    symbolPickerCounter = -1
-                                }
-                            }
-                        }
-
-                        Slider {
-                            id: idShapeThicknessSlider
-                        
-                            enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
-                            width: parent.width / (itemsPerRowLess-1) * (itemsPerRowLess-2)
-                            height: Theme.itemSizeSmall
-                            minimumValue: 1
-                            maximumValue: 6
-                            value: 3
-                            stepSize: 1
-                            leftMargin: Theme.paddingLarge
-                            rightMargin: Theme.paddingLarge
-
-                            Label {
-                                anchors {
-                                    bottom: parent.bottom
-                                    bottomMargin: -Theme.paddingSmall
-                                    horizontalCenter: parent.horizontalCenter
-                                }
-
-                                text: qsTr("size") + " " + idShapeThicknessSlider.value
-                                font.pixelSize: Theme.fontSizeExtraSmall
-                            }
-
-                            onValueChanged: {
-                                if (value === 1) { 
-                                    paintSymbolSizeFaktor = 0.33 / 3 
-                                } else if (value === 2) { 
-                                    paintSymbolSizeFaktor = 0.66 / 3 
-                                } else if (value === 3) { 
-                                    paintSymbolSizeFaktor = 0.99 / 3
-                                } else if (value === 4) { 
-                                    paintSymbolSizeFaktor = 1.33 / 3
-                                } else if (value === 5) { 
-                                    paintSymbolSizeFaktor = 1.66 / 3
-                                } else if (value === 6) { 
-                                    paintSymbolSizeFaktor = 1.99 / 3
-                                }
-                            }
-                        }
-                    }
-
-                    Row {
-                        id: idRowPointTool
-                    
-                        width: parent.width
-                        visible: idPaintPointButton.down
-                    
-                        Item {
-                            enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
-                            width: parent.width / (itemsPerRowLess - 1)
-                            height: Theme.itemSizeSmall
-                        }
-
-                        Slider {
-                            id: idPointThicknessSlider
-
-                            enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
-                            width: parent.width / (itemsPerRowLess - 1) * (itemsPerRowLess - 2)
-                            height: Theme.itemSizeSmall
-                            minimumValue: 1
-                            maximumValue: 6
-                            value: 3
-                            stepSize: 1
-                            leftMargin: Theme.paddingLarge
-                            rightMargin: Theme.paddingLarge
-
-                            Label {
-                                anchors {
-                                    bottom: parent.bottom
-                                    bottomMargin: -Theme.paddingSmall
-                                    horizontalCenter: parent.horizontalCenter
-                                }
-
-                                text: qsTr("size") + " " + idPointThicknessSlider.value
-                                font.pixelSize: Theme.fontSizeExtraSmall
-                            }
-
-                            onValueChanged: {
-                                if (value === 1) { 
-                                    paintPointWidthQML = handleWidth - 2 * handleWidth / 2.5 
-                                } else if (value === 2) { 
-                                    paintPointWidthQML = handleWidth - 2 * handleWidth / 3.5 
-                                } else if (value === 3) { 
-                                    paintPointWidthQML = handleWidth - 2 * handleWidth / 6 
-                                } else if (value === 4) { 
-                                    paintPointWidthQML = handleWidth 
-                                } else if (value === 5) { 
-                                    paintPointWidthQML = handleWidth + 2 * handleWidth / 6 
-                                } else if (value === 6) { 
-                                    paintPointWidthQML = handleWidth + 2 * handleWidth / 3 
-                                }
-                            }
-                        }
-                    }
-
-                    Row {
-                        id: idRowLineTool
-                    
-                        width: parent.width
-                        visible: idPaintLineButton.down
-                    
-                        Item {
-                            enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
-                            width: parent.width / (itemsPerRowLess-1)
-                            height: Theme.itemSizeSmall
-                        }
-
-                        Slider {
-                            id: idLineThicknessSlider
-                        
-                            enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
-                            width: parent.width / (itemsPerRowLess-1) * (itemsPerRowLess-2)
-                            height: Theme.itemSizeSmall
-                            minimumValue: 1
-                            maximumValue: 6
-                            value: 3
-                            stepSize: 1
-                            leftMargin: Theme.paddingLarge
-                            rightMargin: Theme.paddingLarge
-
-                            Label {
-                                anchors {
-                                    bottom: parent.bottom
-                                    bottomMargin: -Theme.paddingSmall
-                                    horizontalCenter: parent.horizontalCenter
-                                }
-
-                                text: qsTr("size") + " " + idLineThicknessSlider.value
-                                font.pixelSize: Theme.fontSizeExtraSmall
-                            }
-
-                            onValueChanged: {
-                                if (value === 1) { 
-                                    paintLineThicknessQML = idImageLoadedFreecrop.width / 330 
-                                } else if (value === 2) { 
-                                    paintLineThicknessQML = idImageLoadedFreecrop.width / 130
-                                } else if (value === 3) { 
-                                    paintLineThicknessQML = idImageLoadedFreecrop.width / 75
-                                } else if (value === 4) { 
-                                    paintLineThicknessQML = idImageLoadedFreecrop.width / 47
-                                } else if (value === 5) { 
-                                    paintLineThicknessQML = idImageLoadedFreecrop.width / 30
-                                } else if (value === 6) { 
-                                    paintLineThicknessQML = idImageLoadedFreecrop.width / 20
-                                }
-                            }
-                        }
-                    }
-
-                    Grid {
-                        id: idRowTextTool
-                    
-                        width: parent.width
-                        visible: idPaintTextButton.down
-                        columns: 1
-                    
-                        Row {
                             width: parent.width
-
-                            Item {
-                                width: parent.width / 3 * 0.7
-                                enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
-                                visible: idPaintTextButton.down
-                                height: Theme.itemSizeSmall * 1.1
-                                
-                                TextField {
-                                    id: idInputAngleManual
-                                
-                                    width: parent.width
-                                    height: parent.height
-                                    anchors.top: parent.top
-                                    anchors.topMargin: Theme.paddingSmall * 1.4
-                                    text: "0"
-                                    color: Theme.highlightColor
-                                    inputMethodHints: Qt.ImhDigitsOnly
-                                    font.pixelSize: Theme.fontSizeSmall
-                                
-                                    validator: IntValidator { 
-                                        bottom: -90
-                                        top: 90 
-                                    }
-                                    
-                                    EnterKey.onClicked: {
-                                        idInputAngleManual.focus = false
-                                        if (idInputAngleManual.text === "") {
-                                            idInputAngleManual.text = "0"
-                                        }
-                                    }
-                                    
-                                    Label {
-                                        anchors {
-                                            left: parent.right
-                                            leftMargin: -Theme.paddingMedium
-                                            verticalCenter: parent.verticalCenter
-                                            verticalCenterOffset: -Theme.paddingSmall * 0.4
-                                        }
-
-                                        text: qsTr("°")
-                                        color: Theme.highlightColor
-                                        font.pixelSize: Theme.fontSizeExtraSmall
-                                    }
-                                }
-
-                                Label {
-                                    anchors {
-                                        horizontalCenter: parent.horizontalCenter
-                                        bottom: parent.bottom
-                                        bottomMargin: Theme.paddingSmall * 0.7
-                                    }
-
-                                    text: qsTr("angle")
-                                    color: Theme.secondaryColor
-                                    font.pixelSize: Theme.fontSizeExtraSmall
-                                }
-                            }
-
-                            ComboBox {
-                                id: idComboBoxFontPicker
-
-                                width: parent.width / 3 * 1.15
-                                description: qsTr("font")
-
-                                menu: ContextMenu {
-                                    MenuItem {
-                                        text: qsTr("Sailfish")
-                                        font.pixelSize: Theme.fontSizeExtraSmall
-
-                                        onClicked: {
-                                            paintTextStyleNr = 0
-                                            paintTextNameNr = 0
-                                            idPaintTextPreview.font.family = Theme.fontFamily
-                                        }
-                                    }
-                                    MenuItem {
-                                        text: customFontName === ""
-                                              ? qsTr("load custom font") 
-                                              : customFontName + " " + qsTr("(custom)")
-                                        
-                                        font.pixelSize: Theme.fontSizeExtraSmall
-                                        
-                                        onClicked: {
-                                            paintTextStyleNr = 0
-                                            paintTextNameNr = 1
-                                            idDelayTimer.running = true
-                                        }
-                                    }
-                                    MenuItem {
-                                        text: qsTr("Angelface")
-                                        font.pixelSize: Theme.fontSizeExtraSmall
-
-                                        onClicked: {
-                                            paintTextStyleNr = 0
-                                            paintTextNameNr = 5
-                                            fontPath = fontSourceFolder + "Angelface.otf"
-                                            localFont.source = fontPath
-                                            idPaintTextPreview.font.family = localFont.name
-                                        }
-                                    }
-                                    MenuItem {
-                                        text: qsTr("Antonio")
-                                        font.pixelSize: Theme.fontSizeExtraSmall
-                                        
-                                        onClicked: {
-                                            paintTextStyleNr = 0
-                                            paintTextNameNr = 5
-                                            fontPath = fontSourceFolder + "Antonio.ttf"
-                                            localFont.source = fontPath
-                                            idPaintTextPreview.font.family = localFont.name
-                                        }
-                                    }
-                                    MenuItem {
-                                        text: qsTr("Bananasplit")
-                                        font.pixelSize: Theme.fontSizeExtraSmall
-                                    
-                                        onClicked: {
-                                            paintTextStyleNr = 0
-                                            paintTextNameNr = 5
-                                            fontPath = fontSourceFolder + "Bananasplit.ttf"
-                                            localFont.source = fontPath
-                                            idPaintTextPreview.font.family = localFont.name
-                                        }
-                                    }
-                                    MenuItem {
-                                        text: qsTr("Baskerville")
-                                        font.pixelSize: Theme.fontSizeExtraSmall
-                                    
-                                        onClicked: {
-                                            paintTextStyleNr = 0
-                                            paintTextNameNr = 5
-                                            fontPath = fontSourceFolder + "Baskerville.ttf"
-                                            localFont.source = fontPath
-                                            idPaintTextPreview.font.family = localFont.name
-                                        }
-                                    }
-                                    MenuItem {
-                                        text: qsTr("Fraktur")
-                                        font.pixelSize: Theme.fontSizeExtraSmall
-                                    
-                                        onClicked: {
-                                            paintTextStyleNr = 0
-                                            paintTextNameNr = 5
-                                            fontPath = fontSourceFolder + "Fraktur.ttf"
-                                            localFont.source = fontPath
-                                            idPaintTextPreview.font.family = localFont.name
-                                        }
-                                    }
-                                    MenuItem {
-                                        text: qsTr("League Gothic")
-                                        font.pixelSize: Theme.fontSizeExtraSmall
-                                    
-                                        onClicked: {
-                                            paintTextStyleNr = 0
-                                            paintTextNameNr = 5
-                                            fontPath = fontSourceFolder + "LeagueGothic.ttf"
-                                            localFont.source = fontPath
-                                            idPaintTextPreview.font.family = localFont.name
-                                        }
-                                    }
-                                    
-                                    MenuItem {
-                                        text: qsTr("Lobster")
-                                        font.pixelSize: Theme.fontSizeExtraSmall
-                                    
-                                        onClicked: {
-                                            paintTextStyleNr = 0
-                                            paintTextNameNr = 5
-                                            fontPath = fontSourceFolder + "Lobster.otf"
-                                            localFont.source = fontPath
-                                            idPaintTextPreview.font.family = localFont.name
-                                        }
-                                    }
-                                    
-                                    MenuItem {
-                                        text: qsTr("Miso")
-                                        font.pixelSize: Theme.fontSizeExtraSmall
-                                    
-                                        onClicked: {
-                                            paintTextStyleNr = 0
-                                            paintTextNameNr = 5
-                                            fontPath = fontSourceFolder + "Miso.ttf"
-                                            localFont.source = fontPath
-                                            idPaintTextPreview.font.family = localFont.name
-                                        }
-                                    }
-                                    
-                                    MenuItem {
-                                        text: qsTr("Monterey")
-                                        font.pixelSize: Theme.fontSizeExtraSmall
-                                    
-                                        onClicked: {
-                                            paintTextStyleNr = 0
-                                            paintTextNameNr = 5
-                                            fontPath = fontSourceFolder + "Monterey.ttf"
-                                            localFont.source = fontPath
-                                            idPaintTextPreview.font.family = localFont.name
-                                        }
-                                    }
-                                    
-                                    MenuItem {
-                                        text: qsTr("Nebula bold")
-                                        font.pixelSize: Theme.fontSizeExtraSmall
-                                    
-                                        onClicked: {
-                                            paintTextStyleNr = 0
-                                            paintTextNameNr = 5
-                                            fontPath = fontSourceFolder + "NebulaBold.ttf"
-                                            localFont.source = fontPath
-                                            idPaintTextPreview.font.family = localFont.name
-                                        }
-                                    }
-                                    
-                                    MenuItem {
-                                        text: qsTr("Oswald heavy")
-                                        font.pixelSize: Theme.fontSizeExtraSmall
-                                    
-                                        onClicked: {
-                                            paintTextStyleNr = 0
-                                            paintTextNameNr = 5
-                                            fontPath = fontSourceFolder + "OswaldHeavy.ttf"
-                                            localFont.source = fontPath
-                                            idPaintTextPreview.font.family = localFont.name
-                                        }
-                                    }
-                                    
-                                    MenuItem {
-                                        text: qsTr("Raleway")
-                                        font.pixelSize: Theme.fontSizeExtraSmall
-                                    
-                                        onClicked: {
-                                            paintTextStyleNr = 0
-                                            paintTextNameNr = 5
-                                            fontPath = fontSourceFolder + "RalewayLight.ttf"
-                                            localFont.source = fontPath
-                                            idPaintTextPreview.font.family = localFont.name
-                                        }
-                                    }
-                                    
-                                    MenuItem {
-                                        text: qsTr("Roland")
-                                        font.pixelSize: Theme.fontSizeExtraSmall
-                                    
-                                        onClicked: {
-                                            paintTextStyleNr = 0
-                                            paintTextNameNr = 5
-                                            fontPath = fontSourceFolder + "Roland.ttf"
-                                            localFont.source = fontPath
-                                            idPaintTextPreview.font.family = localFont.name
-                                        }
-                                    }
-                                    
-                                    MenuItem {
-                                        text: qsTr("Stay Girly")
-                                        font.pixelSize: Theme.fontSizeExtraSmall
-                                    
-                                        onClicked: {
-                                            paintTextStyleNr = 0
-                                            paintTextNameNr = 5
-                                            fontPath = fontSourceFolder + "StayGirly.ttf"
-                                            localFont.source = fontPath
-                                            idPaintTextPreview.font.family = localFont.name
-                                        }
-                                    }
-                                    
-                                    MenuItem {
-                                        text: qsTr("Yanone")
-                                        font.pixelSize: Theme.fontSizeExtraSmall
-                                    
-                                        onClicked: {
-                                            paintTextStyleNr = 0
-                                            paintTextNameNr = 5
-                                            fontPath = fontSourceFolder + "Yanone.ttf"
-                                            localFont.source = fontPath
-                                            idPaintTextPreview.font.family = localFont.name
-                                        }
-                                    }
-
-                                    MenuItem {
-                                        text: qsTr("Sans regular")
-                                        font.pixelSize: Theme.fontSizeExtraSmall
-
-                                        onClicked: {
-                                            paintTextStyleNr = 0
-                                            paintTextNameNr = 2
-                                            idPaintTextPreview.font.family = "Sans"
-                                        }
-                                    }
-
-                                    MenuItem {
-                                        text: qsTr("Sans bold")
-                                        font.bold : true
-                                        font.pixelSize: Theme.fontSizeExtraSmall
-
-                                        onClicked: {
-                                            paintTextStyleNr = 1
-                                            paintTextNameNr = 2
-                                            idPaintTextPreview.font.family = "Sans"
-                                        }
-                                    }
-
-                                    MenuItem {
-                                        text: qsTr("Sans italic")
-                                        font.italic : true
-                                        font.pixelSize: Theme.fontSizeExtraSmall
-
-                                        onClicked: {
-                                            paintTextStyleNr = 2
-                                            paintTextNameNr = 2
-                                            idPaintTextPreview.font.family = "Sans"
-                                        }
-                                    }
-
-                                    MenuItem {
-                                        text: qsTr("Serif regular")
-                                        font.pixelSize: Theme.fontSizeExtraSmall
-
-                                        onClicked: {
-                                            paintTextStyleNr = 0
-                                            paintTextNameNr = 3
-                                            idPaintTextPreview.font.family = "Serif"
-                                        }
-                                    }
-
-                                    MenuItem {
-                                        text: qsTr("Serif bold")
-                                        font.bold : true
-                                        font.pixelSize: Theme.fontSizeExtraSmall
-                                        onClicked: {
-                                            paintTextStyleNr = 1
-                                            paintTextNameNr = 3
-                                            idPaintTextPreview.font.family = "Serif"
-                                        }
-                                    }
-
-                                    MenuItem {
-                                        text: qsTr("Serif italic")
-                                        font.italic : true
-                                        font.pixelSize: Theme.fontSizeExtraSmall
-
-                                        onClicked: {
-                                            paintTextStyleNr = 2
-                                            paintTextNameNr = 3
-                                            idPaintTextPreview.font.family = "Serif"
-                                        }
-                                    }
-
-                                    MenuItem {
-                                        text: qsTr("Mono regular")
-                                        font.pixelSize: Theme.fontSizeExtraSmall
-
-                                        onClicked: {
-                                            paintTextStyleNr = 0
-                                            paintTextNameNr = 4
-                                            idPaintTextPreview.font.family = "Mono"
-                                        }
-                                    }
-
-                                    MenuItem {
-                                        text: qsTr("Mono bold")
-                                        font.bold : true
-                                        font.pixelSize: Theme.fontSizeExtraSmall
-
-                                        onClicked: {
-                                            paintTextStyleNr = 1
-                                            paintTextNameNr = 4
-                                            idPaintTextPreview.font.family = "Mono"
-                                        }
-                                    }
-
-                                    MenuItem {
-                                        text: qsTr("Mono italic")
-                                        font.italic : true
-                                        font.pixelSize: Theme.fontSizeExtraSmall
-
-                                        onClicked: {
-                                            paintTextStyleNr = 2
-                                            paintTextNameNr = 4
-                                            idPaintTextPreview.font.family = "Mono"
-                                        }
-                                    }
-                                }
-                            }
-
-                            ComboBox {
-                                id: idComboBoxFontBackColor
-
-                                width: parent.width / 3* 1.15
-                                description: qsTr("layer")
-
-                                menu: ContextMenu {
-                                    MenuItem {
-                                        text: qsTr("transparent")
-                                        font.pixelSize: Theme.fontSizeExtraSmall
-
-                                        onClicked: idPaintTextPreviewBox.color = "transparent"
-                                    }
-                                    MenuItem {
-                                        text: qsTr("clipboard color")
-                                        enabled: (paintSecondaryColor !== "none")
-                                        font.pixelSize: Theme.fontSizeExtraSmall
-                                        
-                                        onClicked: idPaintTextPreviewBox.color = paintSecondaryColor
-                                    }
-                                    MenuItem {
-                                        text: qsTr("black")
-                                        font.pixelSize: Theme.fontSizeExtraSmall
-                                        
-                                        onClicked: idPaintTextPreviewBox.color = "black"
-                                    }
-                                    MenuItem {
-                                        text: qsTr("white")
-                                        font.pixelSize: Theme.fontSizeExtraSmall
-                                        
-                                        onClicked: idPaintTextPreviewBox.color = "white"
-                                    }
-                                }
-                            }
-                        }
-
-                        Row {
-                            width: parent.width
-
-                            Item {
-                                height: Theme.itemSizeSmall
-                                width: parent.width / (itemsPerRowLess-1)
-                            }
-
-                            Slider {
-                                id: idTextThicknessSlider
+                            columns: 7
                         
-                                enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
-                                width: parent.width / (itemsPerRowLess - 1) * (itemsPerRowLess - 2)
-                                height: Theme.itemSizeSmall
-                                minimumValue: 1
-                                maximumValue: 6
-                                value: 4
-                                stepSize: 1
-                                leftMargin: Theme.paddingLarge
-                                rightMargin: Theme.paddingLarge
-                                
-                                onValueChanged: updateTextPreviewSize()
-
-                                Label {
-                                    anchors {
-                                        bottom: parent.bottom
-                                        bottomMargin: -Theme.paddingSmall
-                                        horizontalCenter: parent.horizontalCenter
-                                    }
-
-                                    text: qsTr("size") + " " + idTextThicknessSlider.value
-                                    font.pixelSize: Theme.fontSizeExtraSmall
-                                }
+                            Label {
+                                width: parent.width / 7
+                                horizontalAlignment: Text.AlignHCenter
+                                font.pixelSize: Theme.fontSizeExtraSmall
+                                text: (idComboBoxEnhance.currentIndex === 4) ? qsTr("red") : ""
+                            }
+                        
+                            Label {
+                                width: parent.width / 7
+                                horizontalAlignment: Text.AlignHCenter
+                                font.pixelSize: Theme.fontSizeExtraSmall
+                                text: (idComboBoxEnhance.currentIndex === 4) ? qsTr("yellow") : ""
+                            }
+                        
+                            Label {
+                                width: parent.width / 7
+                                horizontalAlignment: Text.AlignHCenter
+                                font.pixelSize: Theme.fontSizeExtraSmall
+                                text: (idComboBoxEnhance.currentIndex === 4) ? qsTr("green") : ""
+                            }
+                        
+                            Label {
+                                width: parent.width / 7
+                                horizontalAlignment: Text.AlignHCenter
+                                font.pixelSize: Theme.fontSizeExtraSmall
+                                text: "[ " + (idSliderEnhancementHue.value) + " ]"
+                            }
+                        
+                            Label {
+                                width: parent.width / 7
+                                horizontalAlignment: Text.AlignHCenter
+                                font.pixelSize: Theme.fontSizeExtraSmall
+                                text: (idComboBoxEnhance.currentIndex === 4) ? qsTr("blue") : ""
+                            }
+                        
+                            Label {
+                                width: parent.width / 7
+                                horizontalAlignment: Text.AlignHCenter
+                                font.pixelSize: Theme.fontSizeExtraSmall
+                                text: (idComboBoxEnhance.currentIndex === 4) ? qsTr("violet") : ""
+                            }
+                        
+                            Label {
+                                width: parent.width / 7
+                                horizontalAlignment: Text.AlignHCenter
+                                font.pixelSize: Theme.fontSizeExtraSmall
+                                text: (idComboBoxEnhance.currentIndex === 4) ? qsTr("red") : ""
                             }
                         }
                     }
+                } // end tools colors
 
-                    Grid {
-                        id: idColorTool
-                    
-                        width: parent.width
-                        visible: idPaintColorPickerButton.down
-                        columns: 2
+                Grid {
+                    id: idGridWorkbenches
 
-                        IconButton {
-                            id: idPrimaryColor
-                        
-                            enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
-                            width: parent.width / (itemsPerRowLess-1)
-                            
-                            icon {
-                                source: "../symbols/icon-m-colorpicker2.svg"
-                            width: Theme.iconSizeMedium
-                            height: Theme.iconSizeMedium
-                            }
-                            onClicked: {
-                                finishedLoading = false
-                                py.paintPickColorFunction()
-                            }
-                            
-                            Label {
-                                anchors {
-                                    top: parent.bottom
-                                    topMargin: -Theme.paddingSmall
-                                    horizontalCenter: parent.horizontalCenter
-                                }
+                    visible: buttonWorkbenches.down
+                    x: Theme.paddingLarge
+                    width: parent.width - 2* Theme.paddingLarge - spacing
+                    rowSpacing: Theme.itemSizeExtraSmall * 0.8
+                    columns: itemsPerRow //Less
 
-                                horizontalAlignment: Text.AlignHCenter
-                                text: qsTr("cursor")
-                                font.pixelSize: Theme.fontSizeExtraSmall
-                            }
-                        }
-
-                        Slider {
-                            id: idSliderColorAlpha
-                        
-                            enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
-                            width: parent.width / (itemsPerRowLess-1) * (itemsPerRowLess-2)
-                            minimumValue: 0
-                            maximumValue: 255
-                            value: 255
-                            stepSize: 1
-                            leftMargin: Theme.paddingLarge
-                            rightMargin: Theme.paddingLarge
-
-                            onReleased: py.paintConvertRGBAFunction()
-
-                            Label {
-                                anchors {
-                                    bottom: parent.bottom
-                                    bottomMargin: -Theme.paddingSmall
-                                    horizontalCenter: parent.horizontalCenter
-                                }
-
-                                text: qsTr("visibility %1\%").arg(Math.round( idSliderColorAlpha.value / 255 * 100))
-                                font.pixelSize: Theme.fontSizeExtraSmall
-                            }
-                        }
-
-                        Item {
-                            enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
-                            width: parent.width / (itemsPerRowLess-1)
-                            height: Theme.itemSizeSmall
-                        }
-
-                        Slider {
-                            id: idSliderColorRed
-                        
-                            enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
-                            width: parent.width / (itemsPerRowLess-1) * (itemsPerRowLess-2)
-                            height: Theme.itemSizeSmall * 1.1
-                            minimumValue: 0
-                            maximumValue: 255
-                            value: 0
-                            stepSize: 1
-                            leftMargin: Theme.paddingLarge
-                            rightMargin: Theme.paddingLarge
-
-                            onReleased: py.paintConvertRGBAFunction()
-
-                            Label {
-                                anchors {
-                                    bottom: parent.bottom
-                                    bottomMargin: -Theme.paddingSmall
-                                    horizontalCenter: parent.horizontalCenter
-                                }
-
-                                text: qsTr("red") + " " + idSliderColorRed.value
-                                font.pixelSize: Theme.fontSizeExtraSmall
-                            }
-                        }
-
-                        IconButton {
-                            id: idDominantColor
-                        
-                            enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
-                            width: parent.width / (itemsPerRowLess-1)
-                            icon {
-                                source: "../symbols/icon-m-colorpicker2.svg"
-                            width: Theme.iconSizeMedium
-                            height: Theme.iconSizeMedium
-                            }
-                            onClicked: {
-                                finishedLoading = false
-                                py.getDominantColorFunction()
-                            }
-                            
-                            Label {
-                                anchors {
-                                    top: parent.bottom
-                                    topMargin: -Theme.paddingSmall
-                                    horizontalCenter: parent.horizontalCenter
-                                }
-
-                                horizontalAlignment: Text.AlignHCenter
-                                text: qsTr("average")
-                                font.pixelSize: Theme.fontSizeExtraSmall
-                            }
-                        }
-
-                        Slider {
-                            id: idSliderColorGreen
-                        
-                            enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
-                            width: parent.width / (itemsPerRowLess - 1) * (itemsPerRowLess - 2)
-                            height: Theme.itemSizeSmall * 1.1
-                            minimumValue: 0
-                            maximumValue: 255
-                            value: 0
-                            stepSize: 1
-                            leftMargin: Theme.paddingLarge
-                            rightMargin: Theme.paddingLarge
-
-                            onReleased: py.paintConvertRGBAFunction()
-
-                            Label {
-                                anchors {
-                                    bottom: parent.bottom
-                                    bottomMargin: -Theme.paddingSmall
-                                    horizontalCenter: parent.horizontalCenter
-                                }
-
-                                text: qsTr("green") + " " + idSliderColorGreen.value
-                                font.pixelSize: Theme.fontSizeExtraSmall
-                            }
-                        }
-
-                        Item {
-                            enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
-                            width: parent.width / (itemsPerRowLess-1)
-                            height: Theme.itemSizeSmall
-                        }
-
-                        Slider {
-                            id: idSliderColorBlue
-                        
-                            enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
-                            width: parent.width / (itemsPerRowLess-1) * (itemsPerRowLess-2)
-                            height: Theme.itemSizeSmall * 1.1
-                            minimumValue: 0
-                            maximumValue: 255
-                            value: 0
-                            stepSize: 1
-                            leftMargin: Theme.paddingLarge
-                            rightMargin: Theme.paddingLarge
-                            
-                            onReleased: py.paintConvertRGBAFunction()
-
-                            Label {
-                                anchors {
-                                    bottom: parent.bottom
-                                    bottomMargin: -Theme.paddingSmall
-                                    horizontalCenter: parent.horizontalCenter
-                                }
-
-                                text: qsTr("blue") + " " + idSliderColorBlue.value
-                                font.pixelSize: Theme.fontSizeExtraSmall
-                            }
-                        }
-
-                        Item {
-                            enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
-                            width: parent.width / (itemsPerRowLess-1)
-                            height: Theme.itemSizeSmall
-                        }
-
-                        Item {
-                            width: parent.width / (itemsPerRowLess - 1) * (itemsPerRowLess - 2)
-                            height: Theme.iconSizeLarge
-                            visible: idPaintColorPickerButton.down
-                            
-                            TextField {
-                                id: idColorPaintManualInput
-                            
-                                anchors.bottom: parent.bottom
-                                width: parent.width
-                                color: Theme.highlightColor
-                                labelVisible: false
-                                text: paintToolColor
-                                font.pixelSize: Theme.fontSizeExtraSmall
-                                horizontalAlignment: Text.AlignHCenter
-                            
-                                validator: RegExpValidator { 
-                                    regExp: /[a-f0-9#]*$/ 
-                                }
-
-                                onClicked: oldColorPaintManualInput = idColorPaintManualInput.text
-
-                                EnterKey.onClicked: {
-                                    if ((idColorPaintManualInput.text.length === 7
-                                         || idColorPaintManualInput.text.length === 9) 
-                                        && (idColorPaintManualInput.text)[0] === "#") {
-
-                                        if (idColorPaintManualInput.text.length === 7 ) {
-                                            idColorPaintManualInput.text = idColorPaintManualInput.text.toString()
-                                                                           .replace("#", "#ff")
-                                        }
-
-                                        paintToolColor = idColorPaintManualInput.text
-                                    } else {
-                                        idColorPaintManualInput.text = oldColorPaintManualInput
-                                        paintToolColor = "#ffffffff"
-                                    }
-
-                                    hexToRGBA(paintToolColor)
-                                    idColorPaintManualInput.focus = false
-                                }
-                            }
-                        }
-                    }
-
-                    Item {
-                        id: idCopyPasteSpacer
+                    IconButton {
+                        id: idIconButtonReColorize
                     
                         enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
-                        visible: idPaintCopyButton.down || idPaintPasteButton.down
-                        width: parent.width
+                        width: parent.width / itemsPerRow
                         height: Theme.itemSizeSmall
-                    }
-                }
-
-                IconButton {
-                        id: idButtonPaintIt
-                
-                        enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
-                        width: parent.width / itemsPerRowLess
+                        
                         icon {
-                            source: idPaintColorPickerButton.down
-                                    ? "../symbols/icon-m-circle-full.svg" 
-                                    : "../symbols/icon-m-apply.svg"
+                            source: "../symbols/icon-m-repixel.svg"
+                            width: Theme.iconSizeMedium
+                            height: Theme.iconSizeMedium
+                            rotation: 180
+                        }
+
+                        onClicked: {
+                            const path = idImageLoadedFreecrop.source.toString()
+                                        .replace(/^(file:\/{3})|(qrc:\/{2})|(http:\/{2})/,"")
+
+                            const args = {
+                                "inputPathPy": decodeURIComponent("/" + path),
+                                "outputPathPy": tempImageFolderPath + origImageFileName + ".tmp" + (undoNr+1) + ".png",
+                                "oldA_tmp": idSliderColorAlpha.value,
+                                "oldR_tmp": idSliderColorRed.value,
+                                "oldG_tmp": idSliderColorGreen.value,
+                                "oldB_tmp": idSliderColorBlue.value,
+                            }
+
+                            pageStack.push(Qt.resolvedUrl("PixelBench.qml"), args)
+                        }
+
+                        Label {
+                            id: idReColorizeLabel
+                        
+                            anchors {
+                                top: parent.bottom
+                                topMargin: -Theme.paddingSmall
+                                horizontalCenter: parent.horizontalCenter
+                            }
+                        
+                            font.pixelSize: Theme.fontSizeExtraSmall
+                            horizontalAlignment: Text.AlignHCenter
+                            text: qsTr("pixel")
+                        }
+                    }
+
+                    IconButton {
+                        id: idIconButtonReChannel
+                    
+                        enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
+                        width: parent.width / itemsPerRow
+                        height: Theme.itemSizeSmall
+                        icon.source: "image://theme/icon-m-levels"
+                        
+                        onClicked: {
+                            const path = idImageLoadedFreecrop.source.toString()
+                                        .replace(/^(file:\/{3})|(qrc:\/{2})|(http:\/{2})/,"")
+
+                            const args = {
+                                "inputPathPy": decodeURIComponent("/" + path),
+                                "outputPathPy": tempImageFolderPath + origImageFileName + ".tmp" + (undoNr+1) + ".png",
+                            }
+
+                            pageStack.push(Qt.resolvedUrl("ChannelBench.qml"), args) 
+                        }
+
+                        Label {
+                            id: idReChannelLabel
+                        
+                            anchors {
+                                top: parent.bottom
+                                topMargin: -Theme.paddingSmall
+                                horizontalCenter: parent.horizontalCenter
+                            }
+                        
+                            font.pixelSize: Theme.fontSizeExtraSmall
+                            horizontalAlignment: Text.AlignHCenter
+                            text: qsTr("channel")
+                        }
+                    }
+
+                    IconButton {
+                        id: idIconButtonColorcurves
+                    
+                        enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
+                        width: parent.width / itemsPerRow //Less
+                        height: Theme.itemSizeSmall
+                        
+                        icon {
+                            source: "../symbols/icon-m-colorcurve.svg"
+                            width: Theme.iconSizeMedium
+                            height: Theme.iconSizeMedium
+                        }
+                        
+                        onClicked: {
+                            const path = idImageLoadedFreecrop.source.toString()
+                                        .replace(/^(file:\/{3})|(qrc:\/{2})|(http:\/{2})/,"")
+
+                            const args = {
+                                "inputPathPy": decodeURIComponent("/" + path),
+                                "outputPathPy": tempImageFolderPath + origImageFileName + ".tmp" + (undoNr+1) + ".png",
+                                "tempImageFolderPath": tempImageFolderPath,
+                                "handleWidth": handleWidth,
+                                "handleHeight": handleHeight,
+                                "toolsDrawingColorFrame": toolsDrawingColorFrame,
+                                "opacityEdges": opacityEdges,
+                                "opticalDividersWidth": opticalDividersWidth
+                            }
+
+                            pageStack.push(Qt.resolvedUrl("ColorcurveBench.qml"), args) 
+                        }
+
+                        Label {
+                            id: idColorcurvesLabel
+                        
+                            anchors {
+                                top: parent.bottom
+                                topMargin: -Theme.paddingSmall
+                                horizontalCenter: parent.horizontalCenter
+                            }
+                        
+                            font.pixelSize: Theme.fontSizeExtraSmall
+                            horizontalAlignment: Text.AlignHCenter
+                            text: qsTr("color")
+                        }
+                    }
+
+                    IconButton {
+                        id: idIconButtonFilters
+
+                        enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
+                        width: parent.width / itemsPerRow
+                        height: Theme.itemSizeSmall
+
+                        icon {
+                            source : "../symbols/icon-m-filters.svg"
                             width: Theme.iconSizeMedium
                             height: Theme.iconSizeMedium
                         }
 
                         onClicked: {
-                            finishedLoading = false
-                            freeDrawSliderSizeLock = false
-                            if (idPaintCanvasButton.down && idComboBoxCanvasDraw.currentIndex === 0) {
-                                drawType = "polyline"
-                                py.paintCanvasFunction()
+                            const ratio = idImageLoadedFreecrop.sourceSize.width / idImageLoadedFreecrop.sourceSize.height
+
+                            const uri = decodeURIComponent("/" + idImageLoadedFreecrop.source.toString()
+                                                                .replace(/^(file:\/{3})|(qrc:\/{2})|(http:\/{2})/,""))
+
+                            const args = {
+                                "previewImageRatio": ratio,
+                                "tempImageFolderPath": tempImageFolderPath,
+                                "filterSourceFolder": filterSourceFolder,
+                                "handleWidth": handleWidth,
+                                "opacityEdges": opacityEdges,
+                                "toolsDrawingColorFrame": toolsDrawingColorFrame,
+                                "inputPathPy": uri,
+                                "outputPathPy": tempImageFolderPath + origImageFileName + ".tmp" + (undoNr+1) + ".png",
+                                "previewBaseImagePath": previewBaseImagePath,
                             }
 
-                            if (idPaintCanvasButton.down && idComboBoxCanvasDraw.currentIndex === 1) {
-                                cutFillColor = paintToolColor
-                                actionCutSelection = "remove"
-                                drawType = "fill"
-                                py.paintCanvasFunction()
+                            pageStack.push(Qt.resolvedUrl("FilterBench.qml"), args)
+                        }
+                        
+                        Label {
+                            id: idFiltersLabel
+
+                            anchors {
+                                top: parent.bottom
+                                topMargin: -Theme.paddingSmall
+                                horizontalCenter: parent.horizontalCenter
                             }
 
-                            if (idPaintCanvasButton.down && idComboBoxCanvasDraw.currentIndex === 2) {
-                                cutFillColor = "#00000000"
-                                actionCutSelection = "keep"
-                                py.cropCanvasPolygonFunction()
-                            }
-                            
-                            if (idPaintCanvasButton.down && idComboBoxCanvasDraw.currentIndex === 3) {
-                                cutFillColor = "#00000000"
-                                actionCutSelection = "remove"
-                                py.cropCanvasPolygonFunction()
+                            font.pixelSize: Theme.fontSizeExtraSmall
+                            horizontalAlignment: Text.AlignHCenter
+                            text: qsTr("filter")
+                        }
+                    }
+
+                    IconButton {
+                        id: idIconButtonFx
+                    
+                        enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading === true
+                        width: parent.width / itemsPerRow //Less
+                        height: Theme.itemSizeSmall
+                        icon {
+                            source : "../symbols/icon-m-effect.svg"
+                            width: Theme.iconSizeMedium * 1.1
+                            height: Theme.iconSizeMedium * 1.1
+                        }
+                        
+                        onClicked: {
+                            const previewImageRatio = idImageLoadedFreecrop.sourceSize.width 
+                                                    / idImageLoadedFreecrop.sourceSize.height
+
+                            const sanitized = idImageLoadedFreecrop.source.toString()
+                                            .replace(/^(file:\/{3})|(qrc:\/{2})|(http:\/{2})/,"")
+
+                            const inputPathPy = decodeURIComponent("/" +  sanitized)
+
+                            const args = {
+                                "previewImageRatio": previewImageRatio,
+                                "inputImageWidth": idImageLoadedFreecrop.sourceSize.width,
+                                "tempImageFolderPath": tempImageFolderPath,
+                                "filterSourceFolder": filterSourceFolder,
+                                "symbolSourceFolder": symbolSourceFolder,
+                                "handleWidth": handleWidth,
+                                "opacityEdges": opacityEdges,
+                                "paintToolColor": paintToolColor,
+                                "toolsDrawingColorFrame": toolsDrawingColorFrame,
+                                "inputPathPy": inputPathPy,
+                                "outputPathPy": tempImageFolderPath + origImageFileName + ".tmp" + (undoNr+1) + ".png",
+                                "previewBaseImagePath": previewBaseImagePath,
                             }
 
-                            if (idPaintCopyButton.down) {
-                                copyPasteRegionRatioHW = frameRectangleCroppingzone.width 
-                                                         / frameRectangleCroppingzone.height
-
-                                copyPasteOldCopyZoneDisplayHeight = idImageLoadedFreecrop.height
-                                copyPasteOldCopyZoneDisplayWidth = idImageLoadedFreecrop.width
-                                copyPasteOldCopyZoneSourceWidth = idImageLoadedFreecrop.sourceSize.width
-                                copyPasteX1 = rectDrag1.x
-                                copyPasteY1 = rectDrag1.y
-                                copyPasteX2 = rectDrag2.x
-                                copyPasteY2 = rectDrag2.y
-                                py.paintCopyFunction()
-                            }
-
-                            if (idPaintPasteButton.down) {
-                                py.paintPasteFunction()
-                            }
-
-                            if (idPaintPointButton.down) {
-                                py.paintPointRegion()
-                            }
-
-                            if (idPaintSolidButton.down && solidTypeTool === "blur") {
-                                py.paintBlurRegion()
-                            }
-
-                            if (idPaintSolidButton.down && (solidTypeTool === "rectangle" 
-                                                            || solidTypeTool === "circle")) {
-                                if (idComboBoxCutShape.currentIndex === 0) { 
-                                    py.paintRectangleRegion() 
-                                } else if (idComboBoxCutShape.currentIndex === 1 ) {
-                                    actionCutSelection = "keep"
-                                    py.cropCanvasShapeFunction()
-                                } else if (idComboBoxCutShape.currentIndex === 2 ) {
-                                    actionCutSelection = "remove"
-                                    py.cropCanvasShapeFunction()
-                                }
-                            }
-
-                            if (idPaintFrameButton.down) {
-                                py.paintFrameRegion()
-                            }
-
-                            if (idPaintLineButton.down) {
-                                py.paintLineRegion()
-                            }
-
-                            if (idPaintTextButton.down) {
-                                py.paintTextRegion()
-                            }
-
-                            if (idPaintSprayButton.down) {
-                                py.paintSprayFunction()
-                            }
-
-                            if (idPaintShapesButton.down) {
-                                py.paintSymbolRegion()
-                            }
-
-                            if (idPaintColorPickerButton.down) {
-                                finishedLoading = true
-                                idSecondaryColorClipboard.color = idColorPaintManualInput.text
-                                Clipboard.text = idColorPaintManualInput.text
-                                paintSecondaryColor = idColorPaintManualInput.text
-                            }
+                            pageStack.push(Qt.resolvedUrl("EffectsBench.qml"), args)
                         }
 
-                        Icon {
-                            id: idSecondaryColorClipboard
+                        Label {
+                            id: idFxLabel
+                            
+                            anchors {
+                                top: parent.bottom
+                                topMargin: -Theme.paddingSmall
+                                horizontalCenter: parent.horizontalCenter
+                            }
+
+                            font.pixelSize: Theme.fontSizeExtraSmall
+                            horizontalAlignment: Text.AlignHCenter
+                            text: qsTr("effect")
+                        }
+                    }
+
+                    IconButton {
+                        id: idIconButtonCollage
+
+                        enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading === true
+                        width: parent.width / itemsPerRow //Less
+                        height: Theme.itemSizeSmall
+
+                        icon {
+                            source : "../symbols/icon-m-collage.svg"
+                            width: Theme.iconSizeMedium * 1.1
+                            height: Theme.iconSizeMedium * 1.1
+                        }
                         
-                            enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
-                            visible: idPaintColorPickerButton.down
-                            anchors.centerIn: parent
-                            scale: 1.1
-                            source: "image://theme/icon-s-clipboard"
+                        onClicked: {
+                            const ratio = idImageLoadedFreecrop.sourceSize.width/idImageLoadedFreecrop.sourceSize.height
+
+                            const uri = decodeURIComponent("/" + idImageLoadedFreecrop.source.toString()
+                                                                .replace(/^(file:\/{3})|(qrc:\/{2})|(http:\/{2})/,""))
+
+                            const args = {
+                                "previewImageRatio": ratio,
+                                "inputImageWidth": idImageLoadedFreecrop.sourceSize.width,
+                                "tempImageFolderPath": tempImageFolderPath,
+                                "filterSourceFolder": filterSourceFolder,
+                                "symbolSourceFolder": symbolSourceFolder,
+                                "handleWidth": handleWidth,
+                                "opacityEdges": opacityEdges,
+                                "paintToolColor": paintToolColor,
+                                "toolsDrawingColorFrame": toolsDrawingColorFrame,
+                                "inputPathPy": uri,
+                                "outputPathPy": tempImageFolderPath + origImageFileName + ".tmp" + (undoNr+1) + ".png",
+                                "previewBaseImagePath": previewBaseImagePath,
+                            }
+
+                            pageStack.push(Qt.resolvedUrl("CollageBench.qml"), args)    
+                        }
+                        Label {
+                            id: idCollageLabel
+
+                            anchors {
+                                top: parent.bottom
+                                topMargin: -Theme.paddingSmall
+                                horizontalCenter: parent.horizontalCenter
+                            }
+
+                            font.pixelSize: Theme.fontSizeExtraSmall
+                            horizontalAlignment: Text.AlignHCenter
+                            text: qsTr("collage")
+                        }
+                    }
+
+                } // end tools effects
+
+                Grid {
+                    id: idGridFile
+
+                    visible: ( buttonFile.down === true) ? true : false
+                    x: Theme.paddingLarge
+                    width: parent.width - 2* Theme.paddingLarge - spacing
+                    rowSpacing: Theme.itemSizeExtraSmall * 0.8
+                    columns: itemsPerRow
+
+                    IconButton {
+                        enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading === true && templock === -1
+                        width: parent.width / itemsPerRow
+                        height: Theme.itemSizeSmall
+                        icon.source: "image://theme/icon-m-delete"
+
+                        onClicked: {
+                            pageStack.push("ConfirmDeletionPage.qml", { "callback": py.deleteOriginalFunction, 
+                                                                        "filePath": idImageLoadedFreecrop.source })
+                        }
+                        
+                        Label {
+                            anchors {
+                                top: parent.bottom
+                                topMargin: -Theme.paddingSmall
+                                horizontalCenter: parent.horizontalCenter
+                            }
+
+                            horizontalAlignment: Text.AlignHCenter
+                            text: qsTr("delete")
+                            font.pixelSize: Theme.fontSizeExtraSmall
+                        }
+                    }
+
+                    IconButton {
+                        enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading && templock === -1
+                        width: parent.width / itemsPerRow
+                        height: Theme.itemSizeSmall
+                        
+                        icon {
+                            source : "../symbols/icon-m-rename.svg"
+                            width: Theme.iconSizeMedium
+                            height: Theme.iconSizeMedium
+                        }
+                        
+                        onClicked: {
+                            const args = {
+                                "origImageFilePath": appBar.subHeaderText,
+                                "origImageFileName": origImageFileName,
+                                "origImageFolderPath": origImageFolderPath,
+                                "tempImageFolderPath": tempImageFolderPath,
+                                "imageWidthSave": idImageLoadedFreecrop.sourceSize.width,
+                                "imageHeightSave": idImageLoadedFreecrop.sourceSize.height,
+                                "inputPathPy": idImageLoadedFreecrop.source.toString()
+                            }
+
+                            pageStack.push(Qt.resolvedUrl("RenamePage.qml"), args)
                         }
 
                         Label {
@@ -5533,37 +3612,1971 @@ Page {
                             }
 
                             horizontalAlignment: Text.AlignHCenter
-                            text: idPaintColorPickerButton.down ?  qsTr("copy") : ""
+                            text: qsTr("rename")
                             font.pixelSize: Theme.fontSizeExtraSmall
                         }
                     }
-            } // end submodul paint
 
-            TextField {
-                id: idTextPaintInput
-                
-                anchors {
-                    left: parent.left
-                    right: parent.right
-                    leftMargin: Theme.paddingLarge
-                    rightMargin: Theme.paddingLarge
+                    IconButton {
+                        enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading && templock === -1
+                        width: parent.width / itemsPerRow
+                        height: Theme.itemSizeSmall
+                        icon.source: "image://theme/icon-m-diagnostic?"
+                        
+                        onClicked: {
+                            const args = {
+                                "origImageFileName": origImageFileName,
+                                "origImageFolderPath": origImageFolderPath,
+                                "inputPathPy": idImageLoadedFreecrop.source.toString()
+                            }
+
+                            pageStack.push(Qt.resolvedUrl("MetadataPage.qml"), args)
+                        }
+
+                        Label {
+                            anchors {
+                                top: parent.bottom
+                                topMargin: -Theme.paddingSmall
+                                horizontalCenter: parent.horizontalCenter
+                            }
+
+                            horizontalAlignment: Text.AlignHCenter
+                            text: qsTr("meta")
+                            font.pixelSize: Theme.fontSizeExtraSmall
+                        }
+                    }
+
+                    IconButton {
+                        enabled: finishedLoading && !warningNoPillow
+                        width: parent.width / itemsPerRow
+                        height: Theme.itemSizeSmall
+                        
+                        icon {
+                            source : "../symbols/icon-m-newpage.svg"
+                            width: Theme.iconSizeMedium
+                            height: Theme.iconSizeMedium
+                        }
+
+                        onClicked: page.openNewImagePage()
+
+                        Label {
+                            anchors {
+                                top: parent.bottom
+                                topMargin: -Theme.paddingSmall
+                                horizontalCenter: parent.horizontalCenter
+                            }
+
+                            horizontalAlignment: Text.AlignHCenter
+                            text: qsTr("new")
+                            font.pixelSize: Theme.fontSizeExtraSmall
+                        }
+                    }
+                } // end tools file
+
+                Grid {
+                    id: idGridPaint
+                    
+                    visible: buttonPaint.down
+                    x: Theme.paddingLarge
+                    width: parent.width - 2*Theme.paddingLarge
+                    rowSpacing: Theme.itemSizeExtraSmall * 0.5
+                    columns: itemsPerRow
+
+                    IconButton {
+                        id: idPaintCanvasButton
+                        
+                        enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
+                        down: true
+                        width: parent.width / itemsPerRow
+                        height: Theme.itemSizeSmall
+                        icon {
+                            source: "../symbols/icon-m-freedraw.svg"
+                            width: Theme.iconSizeMedium
+                            height: Theme.iconSizeMedium
+                        }
+
+                        onClicked: {
+                            idPaintCanvasButton.down = true
+                            idPaintPointButton.down = false
+                            idPaintSolidButton.down = false
+                            idPaintFrameButton.down = false
+                            idPaintLineButton.down = false
+                            idPaintTextButton.down = false
+                            idPaintCopyButton.down = false
+                            idPaintPasteButton.down = false
+                            idPaintSprayButton.down = false
+                            idPaintShapesButton.down = false
+                            idPaintColorPickerButton.down = false
+                        }
+
+                        Label {
+                            anchors {
+                                top: parent.bottom
+                                topMargin: -Theme.paddingSmall
+                                horizontalCenter: parent.horizontalCenter
+                            }
+
+                            horizontalAlignment: Text.AlignHCenter
+                            text: qsTr("free")
+                            font.pixelSize: Theme.fontSizeExtraSmall
+                        }
+                    }
+
+                    IconButton {
+                        id: idPaintSolidButton
+                    
+                        enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
+                        width: parent.width / itemsPerRow
+                        height: Theme.itemSizeSmall
+                        
+                        icon {
+                            source: "../symbols/icon-m-area.svg"
+                            width: Theme.iconSizeMedium
+                            height: Theme.iconSizeMedium
+                        }
+                        
+                        onClicked: {
+                            idPaintSolidButton.down = true
+                            idPaintPointButton.down = false
+                            idPaintCanvasButton.down = false
+                            idPaintFrameButton.down = false
+                            idPaintLineButton.down = false
+                            idPaintTextButton.down = false
+                            idPaintCopyButton.down = false
+                            idPaintPasteButton.down = false
+                            idPaintSprayButton.down = false
+                            idPaintShapesButton.down = false
+                            idPaintColorPickerButton.down = false
+                        }
+                        
+                        Label {
+                            anchors {
+                                top: parent.bottom
+                                topMargin: -Theme.paddingSmall
+                                horizontalCenter: parent.horizontalCenter
+                            }
+
+                            horizontalAlignment: Text.AlignHCenter
+                            text: qsTr("area")
+                            font.pixelSize: Theme.fontSizeExtraSmall
+                        }
+                    }
+
+                    IconButton {
+                        id: idPaintFrameButton
+
+                        enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
+                        width: parent.width / itemsPerRow
+                        height: Theme.itemSizeSmall
+                        icon.source: "image://theme/icon-m-file-image?"
+
+                        onClicked: {
+                            idPaintFrameButton.down = true
+                            idPaintPointButton.down = false
+                            idPaintCanvasButton.down = false
+                            idPaintSolidButton.down = false
+                            idPaintLineButton.down = false
+                            idPaintTextButton.down = false
+                            idPaintCopyButton.down = false
+                            idPaintPasteButton.down = false
+                            idPaintSprayButton.down = false
+                            idPaintShapesButton.down = false
+                            idPaintColorPickerButton.down = false
+                        }
+                        
+                        Label {
+                            anchors {
+                                top: parent.bottom
+                                topMargin: -Theme.paddingSmall
+                                horizontalCenter: parent.horizontalCenter
+                            }
+
+                            horizontalAlignment: Text.AlignHCenter
+                            text: qsTr("frame")
+                            font.pixelSize: Theme.fontSizeExtraSmall
+                        }
+                    }
+
+                    IconButton {
+                        id: idPaintSprayButton
+                    
+                        enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
+                        width: parent.width / itemsPerRow
+                        height: Theme.itemSizeSmall
+
+                        icon {
+                            source: "../symbols/icon-m-spray.svg"
+                            width: Theme.iconSizeMedium
+                            height: Theme.iconSizeMedium
+                        }
+                        
+                        onClicked: {
+                            idPaintSprayButton.down = true
+                            idPaintPointButton.down = false
+                            idPaintCanvasButton.down = false
+                            idPaintSolidButton.down = false
+                            idPaintFrameButton.down = false
+                            idPaintLineButton.down = false
+                            idPaintTextButton.down = false
+                            idPaintCopyButton.down = false
+                            idPaintPasteButton.down = false                        
+                            idPaintShapesButton.down = false
+                            idPaintColorPickerButton.down = false
+                        }
+                        
+                        Label {
+                            anchors {
+                                top: parent.bottom
+                                topMargin: -Theme.paddingSmall
+                                horizontalCenter: parent.horizontalCenter
+                            }
+
+                            horizontalAlignment: Text.AlignHCenter
+                            text: qsTr("spray")
+                            font.pixelSize: Theme.fontSizeExtraSmall
+                        }
+                    }
+
+                    IconButton {
+                        id: idPaintCopyButton
+                    
+                        enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
+                        width: parent.width / itemsPerRow
+                        height: Theme.itemSizeSmall
+                        icon.source: "image://theme/icon-m-up?"
+
+                        onClicked: {
+                            idPaintCopyButton.down = true
+                            idPaintPointButton.down = false
+                            idPaintCanvasButton.down = false
+                            idPaintSolidButton.down = false
+                            idPaintFrameButton.down = false
+                            idPaintLineButton.down = false
+                            idPaintTextButton.down = false
+                            idPaintPasteButton.down = false
+                            idPaintSprayButton.down = false
+                            idPaintShapesButton.down = false
+                            idPaintColorPickerButton.down = false
+                        }
+                        
+                        Label {
+                            anchors {
+                                top: parent.bottom
+                                topMargin: -Theme.paddingSmall
+                                horizontalCenter: parent.horizontalCenter
+                            }
+
+                            horizontalAlignment: Text.AlignHCenter
+                            text: qsTr("copy")
+                            font.pixelSize: Theme.fontSizeExtraSmall
+                        }
+                    }
+
+                    IconButton {
+                        id: idPaintPasteButton
+
+                        enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading && copyPastePath !== ""
+                        width: parent.width / itemsPerRow
+                        height: Theme.itemSizeSmall
+                        icon.source: "image://theme/icon-m-down?"
+
+                        onDownChanged: {
+                            // before onClicked signal, to make sure whenever this button is not down,
+                            // it resets the handles ratio to "free"
+                            croppingRatio = 0
+                        }
+
+                        onClicked: {
+                            idPaintPasteButton.down = true
+                            idPaintPointButton.down = false
+                            idPaintCanvasButton.down = false
+                            idPaintSolidButton.down = false
+                            idPaintFrameButton.down = false
+                            idPaintLineButton.down = false
+                            idPaintTextButton.down = false
+                            idPaintCopyButton.down = false
+                            idPaintSprayButton.down = false
+                            idPaintShapesButton.down = false
+                            idPaintColorPickerButton.down = false
+                            croppingRatio = copyPasteRegionRatioHW
+                            
+                            // including Patch: resetting cropmarkers when pasting from big image on smaller one
+                            setCropmarkersPaste()
+                        }
+
+                        Label {
+                            anchors {
+                                top: parent.bottom
+                                topMargin: -Theme.paddingSmall
+                                horizontalCenter: parent.horizontalCenter
+                            }
+
+                            horizontalAlignment: Text.AlignHCenter
+                            text: qsTr("paste")
+                            font.pixelSize: Theme.fontSizeExtraSmall
+                        }
+                    }
+
+                    IconButton {
+                        id: idPaintLineButton
+                    
+                        enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
+                        width: parent.width / itemsPerRow
+                        height: Theme.itemSizeSmall
+                        
+                        icon {
+                            source: "../symbols/icon-m-line.svg"
+                            width: Theme.iconSizeMedium
+                            height: Theme.iconSizeMedium
+                        }
+
+                        onClicked: {
+                            idPaintLineButton.down = true
+                            idPaintPointButton.down = false
+                            idPaintCanvasButton.down = false
+                            idPaintSolidButton.down = false
+                            idPaintFrameButton.down = false
+                            idPaintTextButton.down = false
+                            idPaintCopyButton.down = false
+                            idPaintPasteButton.down = false
+                            idPaintSprayButton.down = false
+                            idPaintShapesButton.down = false
+                            idPaintColorPickerButton.down = false
+                        }
+                        
+                        Label {
+                            anchors {
+                                top: parent.bottom
+                                topMargin: -Theme.paddingSmall
+                                horizontalCenter: parent.horizontalCenter
+                            }
+                        
+                            horizontalAlignment: Text.AlignHCenter
+                            text: qsTr("line")
+                            font.pixelSize: Theme.fontSizeExtraSmall
+                        }
+                    }
+
+                    IconButton {
+                        id: idPaintPointButton
+                    
+                        enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
+                        width: parent.width / itemsPerRow
+                        height: Theme.itemSizeSmall
+                        icon {
+                            source: "../symbols/icon-m-point.svg"
+                            width: Theme.iconSizeMedium
+                            height: Theme.iconSizeMedium
+                        }
+
+                        onClicked: {
+                            idPaintPointButton.down = true
+                            idPaintCanvasButton.down = false
+                            idPaintSolidButton.down = false
+                            idPaintFrameButton.down = false
+                            idPaintLineButton.down = false
+                            idPaintTextButton.down = false
+                            idPaintCopyButton.down = false
+                            idPaintPasteButton.down = false
+                            idPaintSprayButton.down = false
+                            idPaintShapesButton.down = false
+                            idPaintColorPickerButton.down = false
+                        }
+                        
+                        Label {
+                            anchors {
+                                top: parent.bottom
+                                topMargin: -Theme.paddingSmall
+                                horizontalCenter: parent.horizontalCenter
+                            }
+
+                            horizontalAlignment: Text.AlignHCenter
+                            text: qsTr("point")
+                            font.pixelSize: Theme.fontSizeExtraSmall
+                        }
+                    }
+
+                    IconButton {
+                        id: idPaintShapesButton
+                    
+                        enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
+                        width: parent.width / itemsPerRow
+                        height: Theme.itemSizeSmall
+
+                        icon {
+                            source: "../symbols/icon-m-symbols.svg"
+                            width: Theme.iconSizeMedium
+                            height: Theme.iconSizeMedium
+                        }
+                        
+                        onClicked: {
+                            idPaintShapesButton.down = true
+                            idPaintPointButton.down = false
+                            idPaintCanvasButton.down = false
+                            idPaintSolidButton.down = false
+                            idPaintFrameButton.down = false
+                            idPaintLineButton.down = false
+                            idPaintTextButton.down = false
+                            idPaintCopyButton.down = false
+                            idPaintPasteButton.down = false
+                            idPaintSprayButton.down = false
+                            idPaintColorPickerButton.down = false
+                        }
+                        
+                        Label {
+                            anchors {
+                                top: parent.bottom
+                                topMargin: -Theme.paddingSmall
+                                horizontalCenter: parent.horizontalCenter
+                            }
+
+                            horizontalAlignment: Text.AlignHCenter
+                            text: qsTr("symbol")
+                            font.pixelSize: Theme.fontSizeExtraSmall
+                        }
+                    }
+
+                    IconButton {
+                        id: idPaintTextButton
+                    
+                        enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
+                        width: parent.width / itemsPerRow
+                        height: Theme.itemSizeSmall
+                        icon.source: "image://theme/icon-m-font-size"
+                        
+                        onClicked: {
+                            idPaintTextButton.down = true
+                            idPaintPointButton.down = false
+                            idPaintCanvasButton.down = false
+                            idPaintSolidButton.down = false
+                            idPaintFrameButton.down = false
+                            idPaintLineButton.down = false
+                            idPaintCopyButton.down = false
+                            idPaintPasteButton.down = false
+                            idPaintSprayButton.down = false
+                            idPaintShapesButton.down = false
+                            idPaintColorPickerButton.down = false
+                        }
+
+                        Label {
+                            anchors {
+                                top: parent.bottom
+                                topMargin: -Theme.paddingSmall
+                                horizontalCenter: parent.horizontalCenter
+                            }
+                        
+                            horizontalAlignment: Text.AlignHCenter
+                            text: qsTr("label")
+                            font.pixelSize: Theme.fontSizeExtraSmall
+                        }
+                    }
+
+                    IconButton {
+                        id: idPaintColorPickerButton
+                    
+                        enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
+                        width: parent.width / itemsPerRow
+                        height: Theme.itemSizeSmall
+
+                        icon {
+                            source: "../symbols/icon-m-colorpicker.svg"
+                            width: Theme.iconSizeMedium
+                            height: Theme.iconSizeMedium
+                        }
+
+                        onClicked: {                        
+                            idPaintColorPickerButton.down = true
+                            idPaintPointButton.down = false
+                            idPaintCanvasButton.down = false
+                            idPaintSolidButton.down = false
+                            idPaintFrameButton.down = false
+                            idPaintLineButton.down = false
+                            idPaintTextButton.down = false
+                            idPaintCopyButton.down = false
+                            idPaintPasteButton.down = false
+                            idPaintSprayButton.down = false
+                            idPaintShapesButton.down = false
+                        }
+                        
+                        Label {
+                            anchors {
+                                top: parent.bottom
+                                topMargin: -Theme.paddingSmall
+                                horizontalCenter: parent.horizontalCenter
+                            }
+
+                            horizontalAlignment: Text.AlignHCenter
+                            text: qsTr("color")
+                            font.pixelSize: Theme.fontSizeExtraSmall
+                        }
+
+                    }
+
+                    IconButton {
+                        id: idPaintColorPickerButtonPresets
+                    
+                        enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
+                        width: parent.width / itemsPerRow
+                        height: Theme.itemSizeSmall
+                        icon {
+                            source: paintToolColor === "#00000000" 
+                                    ? "../symbols/icon-m-color-alpha.svg" 
+                                    : "../symbols/icon-m-color.svg"
+                            width: Theme.iconSizeMedium
+                            height: Theme.iconSizeMedium
+                            color: paintToolColor === "#00000000" ? "white" : paintToolColor
+                        }
+
+                        onClicked: {
+                            var page = pageStack.push("Sailfish.Silica.ColorPickerPage", { "colors" : myColors})
+                            page.colorClicked.connect(function(color) {
+                                paintToolColor = color.toString().replace("#", "#ff")
+                                idColorPaintManualInput.text = paintToolColor
+                                pageStack.pop()
+                                hexToRGBA(paintToolColor)
+                            })
+                        }
+
+                        Label {
+                            anchors {
+                                top: parent.bottom
+                                topMargin: -Theme.paddingSmall
+                                horizontalCenter: parent.horizontalCenter
+                            }
+
+                            horizontalAlignment: Text.AlignHCenter
+                            text: idPaintShapesButton.down 
+                                ? qsTr("100%") 
+                                : Math.round( idSliderColorAlpha.value / 255 * 100) + "%"
+                            font.pixelSize: Theme.fontSizeExtraSmall
+                        }
+                    }
+                } // end tools paint
+
+                Rectangle {
+                    visible: buttonPaint.down
+                    x: Theme.paddingLarge
+                    width: parent.width - 2 * Theme.paddingLarge
+                    height: Theme.paddingMedium
+                    color: "transparent"
                 }
-                
-                enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
-                visible: buttonPaint.down && idPaintTextButton.down
-                height: Theme.itemSizeSmall * 1.2
-                color: Theme.highlightColor
-                font.pixelSize: Theme.fontSizeSmall
 
-                EnterKey.onClicked: idTextPaintInput.focus = false
-            }
+                Grid {
+                    id: idGridSubmodulPaint
 
-            Rectangle {
-                // necessary for effects bottom
-                width: parent.width
-                height: Theme.itemSizeMedium
-                color: "transparent"
-            }
+                    visible: buttonPaint.down
+                    x: Theme.paddingLarge
+                    width: parent.width - 2 * Theme.paddingLarge
+                    columns: 2
+                    
+                    Row {
+                        width: parent.width / itemsPerRowLess * (itemsPerRowLess - 1)
+                        
+                        Grid {
+                            id: idRowCanvasFreedraw
+
+                            width: parent.width
+                            visible: idPaintCanvasButton.down
+                            columns: 2
+
+                            IconButton {
+                                id: idClearCanvasButton
+                                
+                                enabled: idImageLoadedFreecrop.status !== Image.Null 
+                                        && finishedLoading 
+                                        && freeDrawPolyCoordinates !== ""
+                                width: parent.width / (itemsPerRowLess - 1)
+                                height: Theme.itemSizeSmall
+                                icon.source: "image://theme/icon-m-clear?"
+                                
+                                onClicked: {
+                                    freeDrawPolyCoordinates = ""
+                                    freeDrawCanvas.clear_canvas()
+                                    freeDrawLock = false
+                                    freeDrawSliderSizeLock = false
+                                }
+                            }
+
+                            ComboBox {
+                                id: idComboBoxCanvasDraw
+                            
+                                enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
+                                width: parent.width / (itemsPerRowLess - 1) * (itemsPerRowLess - 2)
+                                
+                                menu: ContextMenu {
+                                    MenuItem {
+                                        text: qsTr("line")
+                                        font.pixelSize: Theme.fontSizeExtraSmall
+                                    }
+                                    MenuItem {
+                                        text: qsTr("fill")
+                                        font.pixelSize: Theme.fontSizeExtraSmall
+                                    }
+                                    MenuItem {
+                                        text: qsTr("keep")
+                                        font.pixelSize: Theme.fontSizeExtraSmall
+                                    }
+                                    MenuItem {
+                                        text: qsTr("remove")
+                                        font.pixelSize: Theme.fontSizeExtraSmall
+                                    }
+                                }
+                            }
+
+                            Item {
+                                enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
+                                width: parent.width / (itemsPerRowLess - 1)
+                                height: Theme.itemSizeSmall
+                            }
+
+                            Slider {
+                                id: idCanvasThicknessSlider
+                            
+                                enabled: idImageLoadedFreecrop.status !== Image.Null 
+                                        && finishedLoading 
+                                        && !freeDrawSliderSizeLock
+                                opacity: freeDrawSliderSizeLock ? 0.5 : 1
+                                visible: idComboBoxCanvasDraw.currentIndex === 0
+                                width: parent.width / (itemsPerRowLess - 1) * (itemsPerRowLess - 2)
+                                height: Theme.itemSizeSmall
+                                minimumValue: 1
+                                maximumValue: 6
+                                value: 3
+                                stepSize: 1
+                                leftMargin: Theme.paddingLarge
+                                rightMargin: Theme.paddingLarge
+                                
+                                Label {
+                                    anchors {
+                                        bottom: parent.bottom
+                                        bottomMargin: -Theme.paddingSmall
+                                        horizontalCenter: parent.horizontalCenter
+                                    }
+
+                                    text: qsTr("size") + " " + idCanvasThicknessSlider.value
+                                    font.pixelSize: Theme.fontSizeExtraSmall
+                                }
+
+                                onValueChanged: {
+                                    if (value === 1) {
+                                        paintCanvasThicknessQML = idImageLoadedFreecrop.width / 330 
+                                    } else if (value === 2) { 
+                                        paintCanvasThicknessQML = idImageLoadedFreecrop.width / 130
+                                    } else if (value === 3) { 
+                                        paintCanvasThicknessQML = idImageLoadedFreecrop.width / 75
+                                    } else if (value === 4) { 
+                                        paintCanvasThicknessQML = idImageLoadedFreecrop.width / 47
+                                    } else if (value === 5) { 
+                                        paintCanvasThicknessQML = idImageLoadedFreecrop.width / 30
+                                    } else if (value === 6) { 
+                                        paintCanvasThicknessQML = idImageLoadedFreecrop.width / 20
+                                    }
+                                }
+                            }
+                        }
+
+                        Row {
+                            id: idRowSolidTool
+                        
+                            width: parent.width
+                            visible: idPaintSolidButton.down
+
+                            IconButton {
+                                id: idSolidArea
+                            
+                                enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
+                                width: parent.width / (itemsPerRowLess-1)
+                                height: Theme.itemSizeSmall
+
+                                icon {
+                                    width: Theme.iconSizeMedium
+                                    height: Theme.iconSizeMedium
+                                    source: "image://theme/icon-m-tabs?"
+                                }
+                                onClicked: {
+                                    solidPickerCounter = solidPickerCounter + 1
+                                
+                                    if (solidPickerCounter === 0) {
+                                        idSolidArea.icon.source = "image://theme/icon-m-tabs?"
+                                        idSolidArea.icon.scale = 1
+                                        solidTypeTool = "rectangle"
+                                    } else if (solidPickerCounter === 1) {
+                                        idSolidArea.icon.source = "../symbols/icon-m-circle.svg"
+                                        idSolidArea.icon.scale = 0.9
+                                        solidTypeTool = "circle"
+                                    } else if (solidPickerCounter === 2) {
+                                        idSolidArea.icon.source = "../symbols/icon-m-blur.svg"
+                                        idSolidArea.icon.scale = 1
+                                        solidTypeTool = "blur"
+                                        solidPickerCounter = -1
+                                    }
+                                }
+                            }
+
+                            Slider {
+                                id: idBlurIntensitySlider
+                            
+                                visible: solidTypeTool === "blur"
+                                enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
+                                width: parent.width / (itemsPerRowLess - 1) * (itemsPerRowLess - 2)
+                                height: Theme.itemSizeSmall
+                                minimumValue: 1
+                                maximumValue: 6
+                                value: 1
+                                stepSize: 1
+                                leftMargin: Theme.paddingLarge
+                                rightMargin: Theme.paddingLarge
+                                
+                                Label {
+                                    anchors {
+                                        bottom: parent.bottom
+                                        bottomMargin: -Theme.paddingSmall
+                                        horizontalCenter: parent.horizontalCenter
+                                    }
+
+                                    text: qsTr("blur") + " " + idBlurIntensitySlider.value
+                                    font.pixelSize: Theme.fontSizeExtraSmall
+                                }
+                            }
+
+                            ComboBox {
+                                id: idComboBoxCutShape
+                            
+                                enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
+                                visible: solidTypeTool !== "blur"
+                                width: parent.width / itemsPerRow * (itemsPerRow-2)
+                                
+                                menu: ContextMenu {
+                                    MenuItem {
+                                        text: qsTr("fill")
+                                        font.pixelSize: Theme.fontSizeExtraSmall
+                                    }
+                                    MenuItem {
+                                        text: qsTr("keep")
+                                        font.pixelSize: Theme.fontSizeExtraSmall
+                                    }
+                                    MenuItem {
+                                        text: qsTr("remove")
+                                        font.pixelSize: Theme.fontSizeExtraSmall
+                                    }
+                                }
+                            }
+                        }
+
+                        Row {
+                            id: idRowFrameTool
+                        
+                            width: parent.width
+                            visible: idPaintFrameButton.down
+                        
+                            IconButton {
+                                id: idFrameArea
+
+                                enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
+                                width: parent.width / (itemsPerRowLess - 1)
+                                height: Theme.itemSizeSmall
+                                
+                                icon {
+                                    width: Theme.iconSizeMedium
+                                    height: Theme.iconSizeMedium
+                                    source: "image://theme/icon-m-tabs?"
+                                } 
+                                onClicked: {
+                                    framePickerCounter = framePickerCounter + 1
+                                
+                                    if (framePickerCounter === 0) {
+                                        idFrameArea.icon.source = "image://theme/icon-m-tabs?"
+                                        idFrameArea.icon.scale = 1
+                                        frameTypeTool = "rectangle"
+                                    } else if (framePickerCounter === 1) {
+                                        idFrameArea.icon.source = "../symbols/icon-m-circle.svg"
+                                        idFrameArea.icon.scale = 0.9
+                                        frameTypeTool = "circle"
+                                        framePickerCounter = -1
+                                    }
+                                }
+                            }
+
+                            Slider {
+                                id: idFrameThicknessSlider
+                            
+                                enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
+                                width: parent.width / (itemsPerRowLess - 1) * (itemsPerRowLess - 2)
+                                height: Theme.itemSizeSmall
+                                minimumValue: 1
+                                maximumValue: 6
+                                value: 3
+                                stepSize: 1
+                                leftMargin: Theme.paddingLarge
+                                rightMargin: Theme.paddingLarge
+
+                                Label {
+                                    anchors {
+                                        bottom: parent.bottom
+                                        bottomMargin: -Theme.paddingSmall
+                                        horizontalCenter: parent.horizontalCenter
+                                    }
+
+                                    text: qsTr("size") + " " + idFrameThicknessSlider.value
+                                    font.pixelSize: Theme.fontSizeExtraSmall
+                                }
+
+                                onValueChanged: {
+                                    if (value === 1) { 
+                                        paintFrameThicknessQML = idImageLoadedFreecrop.width / 330 
+                                    } else if (value === 2) { 
+                                        paintFrameThicknessQML = idImageLoadedFreecrop.width / 130
+                                    } else if (value === 3) { 
+                                        paintFrameThicknessQML = idImageLoadedFreecrop.width / 75
+                                    } else if (value === 4) { 
+                                        paintFrameThicknessQML = idImageLoadedFreecrop.width / 47
+                                    } else if (value === 5) { 
+                                        paintFrameThicknessQML = idImageLoadedFreecrop.width / 30
+                                    } else if (value === 6) { 
+                                        paintFrameThicknessQML = idImageLoadedFreecrop.width / 20
+                                    }
+                                }
+                            }
+                        }
+
+                        Grid {
+                            id: idRowSprayTool
+                        
+                            width: parent.width
+                            visible: idPaintSprayButton.down
+                            columns: 2
+
+                            Item {
+                                enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
+                                width: parent.width / (itemsPerRowLess-1)
+                                height: Theme.itemSizeSmall
+                            }
+
+                            Slider {
+                                id: idSprayThicknessSlider
+                            
+                                enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
+                                width: parent.width / (itemsPerRowLess-1) * (itemsPerRowLess-2)
+                                height: Theme.itemSizeSmall
+                                minimumValue: 1
+                                maximumValue: 6
+                                value: 1
+                                stepSize: 1
+                                leftMargin: Theme.paddingLarge
+                                rightMargin: Theme.paddingLarge
+
+                                Label {
+                                    anchors {
+                                        bottom: parent.bottom
+                                        bottomMargin: -Theme.paddingSmall
+                                        horizontalCenter: parent.horizontalCenter
+                                    }
+
+                                    text: qsTr("size") + " " + idSprayThicknessSlider.value
+                                    font.pixelSize: Theme.fontSizeExtraSmall
+                                }
+                            }
+
+                            Item {
+                                enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
+                                width: parent.width / (itemsPerRowLess-1)
+                                height: Theme.itemSizeSmall
+                            }
+
+                            Slider {
+                                id: idSliderSprayAmount
+                            
+                                enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
+                                visible: idPaintSprayButton.down
+                                width: parent.width / (itemsPerRowLess - 1) * (itemsPerRowLess - 2)
+                                height: Theme.itemSizeSmall
+                                minimumValue: 10
+                                maximumValue: 1000
+                                value: 200
+                                stepSize: 10
+                                leftMargin: Theme.paddingLarge
+                                rightMargin: Theme.paddingLarge
+
+                                Label {
+                                    anchors {
+                                        bottom: parent.bottom
+                                        bottomMargin: -Theme.paddingSmall
+                                        horizontalCenter: parent.horizontalCenter
+                                    }
+
+                                    text: qsTr("dots") + " " + idSliderSprayAmount.value
+                                    font.pixelSize: Theme.fontSizeExtraSmall
+                                }
+                            }
+                        }
+
+                        Row {
+                            id: idRowSymbolTool
+                        
+                            width: parent.width
+                            visible: idPaintShapesButton.down
+
+                            IconButton {
+                                id: idComboBoxPaintSymbolPicker
+                            
+                                enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
+                                width: parent.width / (itemsPerRowLess-1)
+                                height: Theme.itemSizeSmall
+                                icon.source: "image://theme/icon-m-favorite-selected"
+
+                                onClicked: {
+                                    symbolPickerCounter = symbolPickerCounter + 1
+                                
+                                    if (symbolPickerCounter === 0) {
+                                        idComboBoxPaintSymbolPicker.icon.source = "image://theme/icon-m-favorite-selected"
+                                    } else if (symbolPickerCounter === 1) {
+                                        idComboBoxPaintSymbolPicker.icon.source = "image://theme/icon-m-favorite"
+                                    } else if (symbolPickerCounter === 2) {
+                                        idComboBoxPaintSymbolPicker.icon.source = "image://theme/icon-m-asterisk"
+                                    } else if (symbolPickerCounter === 3) {
+                                        idComboBoxPaintSymbolPicker.icon.source = "image://theme/icon-m-add"
+                                    } else if (symbolPickerCounter === 4) {
+                                        idComboBoxPaintSymbolPicker.icon.source = "image://theme/icon-m-clear"
+                                    } else if (symbolPickerCounter === 5) {
+                                        idComboBoxPaintSymbolPicker.icon.source = "image://theme/icon-m-up"
+                                    } else if (symbolPickerCounter === 6) {
+                                        idComboBoxPaintSymbolPicker.icon.source = "image://theme/icon-m-down"
+                                    } else if (symbolPickerCounter === 7) {
+                                        idComboBoxPaintSymbolPicker.icon.source = "image://theme/icon-m-left"
+                                    } else if (symbolPickerCounter === 8) {
+                                        idComboBoxPaintSymbolPicker.icon.source = "image://theme/icon-m-right"
+                                    } else if (symbolPickerCounter === 9) {
+                                        idComboBoxPaintSymbolPicker.icon.source = "image://theme/icon-m-accept"
+                                    } else if (symbolPickerCounter === 10) {
+                                        idComboBoxPaintSymbolPicker.icon.source = "image://theme/icon-m-cancel"
+                                    } else if (symbolPickerCounter === 11) {
+                                        idComboBoxPaintSymbolPicker.icon.source = "image://theme/icon-m-home"
+                                    } else if (symbolPickerCounter === 12) {
+                                        idComboBoxPaintSymbolPicker.icon.source = "image://theme/icon-m-location"
+                                    } else if (symbolPickerCounter === 13) {
+                                        idComboBoxPaintSymbolPicker.icon.source = "image://theme/icon-m-people"
+                                        symbolPickerCounter = -1
+                                    }
+                                }
+                            }
+
+                            Slider {
+                                id: idShapeThicknessSlider
+                            
+                                enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
+                                width: parent.width / (itemsPerRowLess-1) * (itemsPerRowLess-2)
+                                height: Theme.itemSizeSmall
+                                minimumValue: 1
+                                maximumValue: 6
+                                value: 3
+                                stepSize: 1
+                                leftMargin: Theme.paddingLarge
+                                rightMargin: Theme.paddingLarge
+
+                                Label {
+                                    anchors {
+                                        bottom: parent.bottom
+                                        bottomMargin: -Theme.paddingSmall
+                                        horizontalCenter: parent.horizontalCenter
+                                    }
+
+                                    text: qsTr("size") + " " + idShapeThicknessSlider.value
+                                    font.pixelSize: Theme.fontSizeExtraSmall
+                                }
+
+                                onValueChanged: {
+                                    if (value === 1) { 
+                                        paintSymbolSizeFaktor = 0.33 / 3 
+                                    } else if (value === 2) { 
+                                        paintSymbolSizeFaktor = 0.66 / 3 
+                                    } else if (value === 3) { 
+                                        paintSymbolSizeFaktor = 0.99 / 3
+                                    } else if (value === 4) { 
+                                        paintSymbolSizeFaktor = 1.33 / 3
+                                    } else if (value === 5) { 
+                                        paintSymbolSizeFaktor = 1.66 / 3
+                                    } else if (value === 6) { 
+                                        paintSymbolSizeFaktor = 1.99 / 3
+                                    }
+                                }
+                            }
+                        }
+
+                        Row {
+                            id: idRowPointTool
+                        
+                            width: parent.width
+                            visible: idPaintPointButton.down
+                        
+                            Item {
+                                enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
+                                width: parent.width / (itemsPerRowLess - 1)
+                                height: Theme.itemSizeSmall
+                            }
+
+                            Slider {
+                                id: idPointThicknessSlider
+
+                                enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
+                                width: parent.width / (itemsPerRowLess - 1) * (itemsPerRowLess - 2)
+                                height: Theme.itemSizeSmall
+                                minimumValue: 1
+                                maximumValue: 6
+                                value: 3
+                                stepSize: 1
+                                leftMargin: Theme.paddingLarge
+                                rightMargin: Theme.paddingLarge
+
+                                Label {
+                                    anchors {
+                                        bottom: parent.bottom
+                                        bottomMargin: -Theme.paddingSmall
+                                        horizontalCenter: parent.horizontalCenter
+                                    }
+
+                                    text: qsTr("size") + " " + idPointThicknessSlider.value
+                                    font.pixelSize: Theme.fontSizeExtraSmall
+                                }
+
+                                onValueChanged: {
+                                    if (value === 1) { 
+                                        paintPointWidthQML = handleWidth - 2 * handleWidth / 2.5 
+                                    } else if (value === 2) { 
+                                        paintPointWidthQML = handleWidth - 2 * handleWidth / 3.5 
+                                    } else if (value === 3) { 
+                                        paintPointWidthQML = handleWidth - 2 * handleWidth / 6 
+                                    } else if (value === 4) { 
+                                        paintPointWidthQML = handleWidth 
+                                    } else if (value === 5) { 
+                                        paintPointWidthQML = handleWidth + 2 * handleWidth / 6 
+                                    } else if (value === 6) { 
+                                        paintPointWidthQML = handleWidth + 2 * handleWidth / 3 
+                                    }
+                                }
+                            }
+                        }
+
+                        Row {
+                            id: idRowLineTool
+                        
+                            width: parent.width
+                            visible: idPaintLineButton.down
+                        
+                            Item {
+                                enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
+                                width: parent.width / (itemsPerRowLess-1)
+                                height: Theme.itemSizeSmall
+                            }
+
+                            Slider {
+                                id: idLineThicknessSlider
+                            
+                                enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
+                                width: parent.width / (itemsPerRowLess-1) * (itemsPerRowLess-2)
+                                height: Theme.itemSizeSmall
+                                minimumValue: 1
+                                maximumValue: 6
+                                value: 3
+                                stepSize: 1
+                                leftMargin: Theme.paddingLarge
+                                rightMargin: Theme.paddingLarge
+
+                                Label {
+                                    anchors {
+                                        bottom: parent.bottom
+                                        bottomMargin: -Theme.paddingSmall
+                                        horizontalCenter: parent.horizontalCenter
+                                    }
+
+                                    text: qsTr("size") + " " + idLineThicknessSlider.value
+                                    font.pixelSize: Theme.fontSizeExtraSmall
+                                }
+
+                                onValueChanged: {
+                                    if (value === 1) { 
+                                        paintLineThicknessQML = idImageLoadedFreecrop.width / 330 
+                                    } else if (value === 2) { 
+                                        paintLineThicknessQML = idImageLoadedFreecrop.width / 130
+                                    } else if (value === 3) { 
+                                        paintLineThicknessQML = idImageLoadedFreecrop.width / 75
+                                    } else if (value === 4) { 
+                                        paintLineThicknessQML = idImageLoadedFreecrop.width / 47
+                                    } else if (value === 5) { 
+                                        paintLineThicknessQML = idImageLoadedFreecrop.width / 30
+                                    } else if (value === 6) { 
+                                        paintLineThicknessQML = idImageLoadedFreecrop.width / 20
+                                    }
+                                }
+                            }
+                        }
+
+                        Grid {
+                            id: idRowTextTool
+                        
+                            width: parent.width
+                            visible: idPaintTextButton.down
+                            columns: 1
+                        
+                            Row {
+                                width: parent.width
+
+                                Item {
+                                    width: parent.width / 3 * 0.7
+                                    enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
+                                    visible: idPaintTextButton.down
+                                    height: Theme.itemSizeSmall * 1.1
+                                    
+                                    TextField {
+                                        id: idInputAngleManual
+                                    
+                                        width: parent.width
+                                        height: parent.height
+                                        anchors.top: parent.top
+                                        anchors.topMargin: Theme.paddingSmall * 1.4
+                                        text: "0"
+                                        color: Theme.highlightColor
+                                        inputMethodHints: Qt.ImhDigitsOnly
+                                        font.pixelSize: Theme.fontSizeSmall
+                                    
+                                        validator: IntValidator { 
+                                            bottom: -90
+                                            top: 90 
+                                        }
+                                        
+                                        EnterKey.onClicked: {
+                                            idInputAngleManual.focus = false
+                                            if (idInputAngleManual.text === "") {
+                                                idInputAngleManual.text = "0"
+                                            }
+                                        }
+                                        
+                                        Label {
+                                            anchors {
+                                                left: parent.right
+                                                leftMargin: -Theme.paddingMedium
+                                                verticalCenter: parent.verticalCenter
+                                                verticalCenterOffset: -Theme.paddingSmall * 0.4
+                                            }
+
+                                            text: qsTr("°")
+                                            color: Theme.highlightColor
+                                            font.pixelSize: Theme.fontSizeExtraSmall
+                                        }
+                                    }
+
+                                    Label {
+                                        anchors {
+                                            horizontalCenter: parent.horizontalCenter
+                                            bottom: parent.bottom
+                                            bottomMargin: Theme.paddingSmall * 0.7
+                                        }
+
+                                        text: qsTr("angle")
+                                        color: Theme.secondaryColor
+                                        font.pixelSize: Theme.fontSizeExtraSmall
+                                    }
+                                }
+
+                                ComboBox {
+                                    id: idComboBoxFontPicker
+
+                                    width: parent.width / 3 * 1.15
+                                    description: qsTr("font")
+
+                                    menu: ContextMenu {
+                                        MenuItem {
+                                            text: qsTr("Sailfish")
+                                            font.pixelSize: Theme.fontSizeExtraSmall
+
+                                            onClicked: {
+                                                paintTextStyleNr = 0
+                                                paintTextNameNr = 0
+                                                idPaintTextPreview.font.family = Theme.fontFamily
+                                            }
+                                        }
+                                        MenuItem {
+                                            text: customFontName === ""
+                                                ? qsTr("load custom font") 
+                                                : customFontName + " " + qsTr("(custom)")
+                                            
+                                            font.pixelSize: Theme.fontSizeExtraSmall
+                                            
+                                            onClicked: {
+                                                paintTextStyleNr = 0
+                                                paintTextNameNr = 1
+                                                idDelayTimer.running = true
+                                            }
+                                        }
+                                        MenuItem {
+                                            text: qsTr("Angelface")
+                                            font.pixelSize: Theme.fontSizeExtraSmall
+
+                                            onClicked: {
+                                                paintTextStyleNr = 0
+                                                paintTextNameNr = 5
+                                                fontPath = fontSourceFolder + "Angelface.otf"
+                                                localFont.source = fontPath
+                                                idPaintTextPreview.font.family = localFont.name
+                                            }
+                                        }
+                                        MenuItem {
+                                            text: qsTr("Antonio")
+                                            font.pixelSize: Theme.fontSizeExtraSmall
+                                            
+                                            onClicked: {
+                                                paintTextStyleNr = 0
+                                                paintTextNameNr = 5
+                                                fontPath = fontSourceFolder + "Antonio.ttf"
+                                                localFont.source = fontPath
+                                                idPaintTextPreview.font.family = localFont.name
+                                            }
+                                        }
+                                        MenuItem {
+                                            text: qsTr("Bananasplit")
+                                            font.pixelSize: Theme.fontSizeExtraSmall
+                                        
+                                            onClicked: {
+                                                paintTextStyleNr = 0
+                                                paintTextNameNr = 5
+                                                fontPath = fontSourceFolder + "Bananasplit.ttf"
+                                                localFont.source = fontPath
+                                                idPaintTextPreview.font.family = localFont.name
+                                            }
+                                        }
+                                        MenuItem {
+                                            text: qsTr("Baskerville")
+                                            font.pixelSize: Theme.fontSizeExtraSmall
+                                        
+                                            onClicked: {
+                                                paintTextStyleNr = 0
+                                                paintTextNameNr = 5
+                                                fontPath = fontSourceFolder + "Baskerville.ttf"
+                                                localFont.source = fontPath
+                                                idPaintTextPreview.font.family = localFont.name
+                                            }
+                                        }
+                                        MenuItem {
+                                            text: qsTr("Fraktur")
+                                            font.pixelSize: Theme.fontSizeExtraSmall
+                                        
+                                            onClicked: {
+                                                paintTextStyleNr = 0
+                                                paintTextNameNr = 5
+                                                fontPath = fontSourceFolder + "Fraktur.ttf"
+                                                localFont.source = fontPath
+                                                idPaintTextPreview.font.family = localFont.name
+                                            }
+                                        }
+                                        MenuItem {
+                                            text: qsTr("League Gothic")
+                                            font.pixelSize: Theme.fontSizeExtraSmall
+                                        
+                                            onClicked: {
+                                                paintTextStyleNr = 0
+                                                paintTextNameNr = 5
+                                                fontPath = fontSourceFolder + "LeagueGothic.ttf"
+                                                localFont.source = fontPath
+                                                idPaintTextPreview.font.family = localFont.name
+                                            }
+                                        }
+                                        
+                                        MenuItem {
+                                            text: qsTr("Lobster")
+                                            font.pixelSize: Theme.fontSizeExtraSmall
+                                        
+                                            onClicked: {
+                                                paintTextStyleNr = 0
+                                                paintTextNameNr = 5
+                                                fontPath = fontSourceFolder + "Lobster.otf"
+                                                localFont.source = fontPath
+                                                idPaintTextPreview.font.family = localFont.name
+                                            }
+                                        }
+                                        
+                                        MenuItem {
+                                            text: qsTr("Miso")
+                                            font.pixelSize: Theme.fontSizeExtraSmall
+                                        
+                                            onClicked: {
+                                                paintTextStyleNr = 0
+                                                paintTextNameNr = 5
+                                                fontPath = fontSourceFolder + "Miso.ttf"
+                                                localFont.source = fontPath
+                                                idPaintTextPreview.font.family = localFont.name
+                                            }
+                                        }
+                                        
+                                        MenuItem {
+                                            text: qsTr("Monterey")
+                                            font.pixelSize: Theme.fontSizeExtraSmall
+                                        
+                                            onClicked: {
+                                                paintTextStyleNr = 0
+                                                paintTextNameNr = 5
+                                                fontPath = fontSourceFolder + "Monterey.ttf"
+                                                localFont.source = fontPath
+                                                idPaintTextPreview.font.family = localFont.name
+                                            }
+                                        }
+                                        
+                                        MenuItem {
+                                            text: qsTr("Nebula bold")
+                                            font.pixelSize: Theme.fontSizeExtraSmall
+                                        
+                                            onClicked: {
+                                                paintTextStyleNr = 0
+                                                paintTextNameNr = 5
+                                                fontPath = fontSourceFolder + "NebulaBold.ttf"
+                                                localFont.source = fontPath
+                                                idPaintTextPreview.font.family = localFont.name
+                                            }
+                                        }
+                                        
+                                        MenuItem {
+                                            text: qsTr("Oswald heavy")
+                                            font.pixelSize: Theme.fontSizeExtraSmall
+                                        
+                                            onClicked: {
+                                                paintTextStyleNr = 0
+                                                paintTextNameNr = 5
+                                                fontPath = fontSourceFolder + "OswaldHeavy.ttf"
+                                                localFont.source = fontPath
+                                                idPaintTextPreview.font.family = localFont.name
+                                            }
+                                        }
+                                        
+                                        MenuItem {
+                                            text: qsTr("Raleway")
+                                            font.pixelSize: Theme.fontSizeExtraSmall
+                                        
+                                            onClicked: {
+                                                paintTextStyleNr = 0
+                                                paintTextNameNr = 5
+                                                fontPath = fontSourceFolder + "RalewayLight.ttf"
+                                                localFont.source = fontPath
+                                                idPaintTextPreview.font.family = localFont.name
+                                            }
+                                        }
+                                        
+                                        MenuItem {
+                                            text: qsTr("Roland")
+                                            font.pixelSize: Theme.fontSizeExtraSmall
+                                        
+                                            onClicked: {
+                                                paintTextStyleNr = 0
+                                                paintTextNameNr = 5
+                                                fontPath = fontSourceFolder + "Roland.ttf"
+                                                localFont.source = fontPath
+                                                idPaintTextPreview.font.family = localFont.name
+                                            }
+                                        }
+                                        
+                                        MenuItem {
+                                            text: qsTr("Stay Girly")
+                                            font.pixelSize: Theme.fontSizeExtraSmall
+                                        
+                                            onClicked: {
+                                                paintTextStyleNr = 0
+                                                paintTextNameNr = 5
+                                                fontPath = fontSourceFolder + "StayGirly.ttf"
+                                                localFont.source = fontPath
+                                                idPaintTextPreview.font.family = localFont.name
+                                            }
+                                        }
+                                        
+                                        MenuItem {
+                                            text: qsTr("Yanone")
+                                            font.pixelSize: Theme.fontSizeExtraSmall
+                                        
+                                            onClicked: {
+                                                paintTextStyleNr = 0
+                                                paintTextNameNr = 5
+                                                fontPath = fontSourceFolder + "Yanone.ttf"
+                                                localFont.source = fontPath
+                                                idPaintTextPreview.font.family = localFont.name
+                                            }
+                                        }
+
+                                        MenuItem {
+                                            text: qsTr("Sans regular")
+                                            font.pixelSize: Theme.fontSizeExtraSmall
+
+                                            onClicked: {
+                                                paintTextStyleNr = 0
+                                                paintTextNameNr = 2
+                                                idPaintTextPreview.font.family = "Sans"
+                                            }
+                                        }
+
+                                        MenuItem {
+                                            text: qsTr("Sans bold")
+                                            font.bold : true
+                                            font.pixelSize: Theme.fontSizeExtraSmall
+
+                                            onClicked: {
+                                                paintTextStyleNr = 1
+                                                paintTextNameNr = 2
+                                                idPaintTextPreview.font.family = "Sans"
+                                            }
+                                        }
+
+                                        MenuItem {
+                                            text: qsTr("Sans italic")
+                                            font.italic : true
+                                            font.pixelSize: Theme.fontSizeExtraSmall
+
+                                            onClicked: {
+                                                paintTextStyleNr = 2
+                                                paintTextNameNr = 2
+                                                idPaintTextPreview.font.family = "Sans"
+                                            }
+                                        }
+
+                                        MenuItem {
+                                            text: qsTr("Serif regular")
+                                            font.pixelSize: Theme.fontSizeExtraSmall
+
+                                            onClicked: {
+                                                paintTextStyleNr = 0
+                                                paintTextNameNr = 3
+                                                idPaintTextPreview.font.family = "Serif"
+                                            }
+                                        }
+
+                                        MenuItem {
+                                            text: qsTr("Serif bold")
+                                            font.bold : true
+                                            font.pixelSize: Theme.fontSizeExtraSmall
+                                            onClicked: {
+                                                paintTextStyleNr = 1
+                                                paintTextNameNr = 3
+                                                idPaintTextPreview.font.family = "Serif"
+                                            }
+                                        }
+
+                                        MenuItem {
+                                            text: qsTr("Serif italic")
+                                            font.italic : true
+                                            font.pixelSize: Theme.fontSizeExtraSmall
+
+                                            onClicked: {
+                                                paintTextStyleNr = 2
+                                                paintTextNameNr = 3
+                                                idPaintTextPreview.font.family = "Serif"
+                                            }
+                                        }
+
+                                        MenuItem {
+                                            text: qsTr("Mono regular")
+                                            font.pixelSize: Theme.fontSizeExtraSmall
+
+                                            onClicked: {
+                                                paintTextStyleNr = 0
+                                                paintTextNameNr = 4
+                                                idPaintTextPreview.font.family = "Mono"
+                                            }
+                                        }
+
+                                        MenuItem {
+                                            text: qsTr("Mono bold")
+                                            font.bold : true
+                                            font.pixelSize: Theme.fontSizeExtraSmall
+
+                                            onClicked: {
+                                                paintTextStyleNr = 1
+                                                paintTextNameNr = 4
+                                                idPaintTextPreview.font.family = "Mono"
+                                            }
+                                        }
+
+                                        MenuItem {
+                                            text: qsTr("Mono italic")
+                                            font.italic : true
+                                            font.pixelSize: Theme.fontSizeExtraSmall
+
+                                            onClicked: {
+                                                paintTextStyleNr = 2
+                                                paintTextNameNr = 4
+                                                idPaintTextPreview.font.family = "Mono"
+                                            }
+                                        }
+                                    }
+                                }
+
+                                ComboBox {
+                                    id: idComboBoxFontBackColor
+
+                                    width: parent.width / 3* 1.15
+                                    description: qsTr("layer")
+
+                                    menu: ContextMenu {
+                                        MenuItem {
+                                            text: qsTr("transparent")
+                                            font.pixelSize: Theme.fontSizeExtraSmall
+
+                                            onClicked: idPaintTextPreviewBox.color = "transparent"
+                                        }
+                                        MenuItem {
+                                            text: qsTr("clipboard color")
+                                            enabled: (paintSecondaryColor !== "none")
+                                            font.pixelSize: Theme.fontSizeExtraSmall
+                                            
+                                            onClicked: idPaintTextPreviewBox.color = paintSecondaryColor
+                                        }
+                                        MenuItem {
+                                            text: qsTr("black")
+                                            font.pixelSize: Theme.fontSizeExtraSmall
+                                            
+                                            onClicked: idPaintTextPreviewBox.color = "black"
+                                        }
+                                        MenuItem {
+                                            text: qsTr("white")
+                                            font.pixelSize: Theme.fontSizeExtraSmall
+                                            
+                                            onClicked: idPaintTextPreviewBox.color = "white"
+                                        }
+                                    }
+                                }
+                            }
+
+                            Row {
+                                width: parent.width
+
+                                Item {
+                                    height: Theme.itemSizeSmall
+                                    width: parent.width / (itemsPerRowLess-1)
+                                }
+
+                                Slider {
+                                    id: idTextThicknessSlider
+                            
+                                    enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
+                                    width: parent.width / (itemsPerRowLess - 1) * (itemsPerRowLess - 2)
+                                    height: Theme.itemSizeSmall
+                                    minimumValue: 1
+                                    maximumValue: 6
+                                    value: 4
+                                    stepSize: 1
+                                    leftMargin: Theme.paddingLarge
+                                    rightMargin: Theme.paddingLarge
+                                    
+                                    onValueChanged: updateTextPreviewSize()
+
+                                    Label {
+                                        anchors {
+                                            bottom: parent.bottom
+                                            bottomMargin: -Theme.paddingSmall
+                                            horizontalCenter: parent.horizontalCenter
+                                        }
+
+                                        text: qsTr("size") + " " + idTextThicknessSlider.value
+                                        font.pixelSize: Theme.fontSizeExtraSmall
+                                    }
+                                }
+                            }
+                        }
+
+                        Grid {
+                            id: idColorTool
+                        
+                            width: parent.width
+                            visible: idPaintColorPickerButton.down
+                            columns: 2
+
+                            IconButton {
+                                id: idPrimaryColor
+                            
+                                enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
+                                width: parent.width / (itemsPerRowLess-1)
+                                
+                                icon {
+                                    source: "../symbols/icon-m-colorpicker2.svg"
+                                width: Theme.iconSizeMedium
+                                height: Theme.iconSizeMedium
+                                }
+                                onClicked: {
+                                    finishedLoading = false
+                                    py.paintPickColorFunction()
+                                }
+                                
+                                Label {
+                                    anchors {
+                                        top: parent.bottom
+                                        topMargin: -Theme.paddingSmall
+                                        horizontalCenter: parent.horizontalCenter
+                                    }
+
+                                    horizontalAlignment: Text.AlignHCenter
+                                    text: qsTr("cursor")
+                                    font.pixelSize: Theme.fontSizeExtraSmall
+                                }
+                            }
+
+                            Slider {
+                                id: idSliderColorAlpha
+                            
+                                enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
+                                width: parent.width / (itemsPerRowLess-1) * (itemsPerRowLess-2)
+                                minimumValue: 0
+                                maximumValue: 255
+                                value: 255
+                                stepSize: 1
+                                leftMargin: Theme.paddingLarge
+                                rightMargin: Theme.paddingLarge
+
+                                onReleased: py.paintConvertRGBAFunction()
+
+                                Label {
+                                    anchors {
+                                        bottom: parent.bottom
+                                        bottomMargin: -Theme.paddingSmall
+                                        horizontalCenter: parent.horizontalCenter
+                                    }
+
+                                    text: qsTr("visibility %1\%").arg(Math.round( idSliderColorAlpha.value / 255 * 100))
+                                    font.pixelSize: Theme.fontSizeExtraSmall
+                                }
+                            }
+
+                            Item {
+                                enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
+                                width: parent.width / (itemsPerRowLess-1)
+                                height: Theme.itemSizeSmall
+                            }
+
+                            Slider {
+                                id: idSliderColorRed
+                            
+                                enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
+                                width: parent.width / (itemsPerRowLess-1) * (itemsPerRowLess-2)
+                                height: Theme.itemSizeSmall * 1.1
+                                minimumValue: 0
+                                maximumValue: 255
+                                value: 0
+                                stepSize: 1
+                                leftMargin: Theme.paddingLarge
+                                rightMargin: Theme.paddingLarge
+
+                                onReleased: py.paintConvertRGBAFunction()
+
+                                Label {
+                                    anchors {
+                                        bottom: parent.bottom
+                                        bottomMargin: -Theme.paddingSmall
+                                        horizontalCenter: parent.horizontalCenter
+                                    }
+
+                                    text: qsTr("red") + " " + idSliderColorRed.value
+                                    font.pixelSize: Theme.fontSizeExtraSmall
+                                }
+                            }
+
+                            IconButton {
+                                id: idDominantColor
+                            
+                                enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
+                                width: parent.width / (itemsPerRowLess-1)
+                                icon {
+                                    source: "../symbols/icon-m-colorpicker2.svg"
+                                width: Theme.iconSizeMedium
+                                height: Theme.iconSizeMedium
+                                }
+                                onClicked: {
+                                    finishedLoading = false
+                                    py.getDominantColorFunction()
+                                }
+                                
+                                Label {
+                                    anchors {
+                                        top: parent.bottom
+                                        topMargin: -Theme.paddingSmall
+                                        horizontalCenter: parent.horizontalCenter
+                                    }
+
+                                    horizontalAlignment: Text.AlignHCenter
+                                    text: qsTr("average")
+                                    font.pixelSize: Theme.fontSizeExtraSmall
+                                }
+                            }
+
+                            Slider {
+                                id: idSliderColorGreen
+                            
+                                enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
+                                width: parent.width / (itemsPerRowLess - 1) * (itemsPerRowLess - 2)
+                                height: Theme.itemSizeSmall * 1.1
+                                minimumValue: 0
+                                maximumValue: 255
+                                value: 0
+                                stepSize: 1
+                                leftMargin: Theme.paddingLarge
+                                rightMargin: Theme.paddingLarge
+
+                                onReleased: py.paintConvertRGBAFunction()
+
+                                Label {
+                                    anchors {
+                                        bottom: parent.bottom
+                                        bottomMargin: -Theme.paddingSmall
+                                        horizontalCenter: parent.horizontalCenter
+                                    }
+
+                                    text: qsTr("green") + " " + idSliderColorGreen.value
+                                    font.pixelSize: Theme.fontSizeExtraSmall
+                                }
+                            }
+
+                            Item {
+                                enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
+                                width: parent.width / (itemsPerRowLess-1)
+                                height: Theme.itemSizeSmall
+                            }
+
+                            Slider {
+                                id: idSliderColorBlue
+                            
+                                enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
+                                width: parent.width / (itemsPerRowLess-1) * (itemsPerRowLess-2)
+                                height: Theme.itemSizeSmall * 1.1
+                                minimumValue: 0
+                                maximumValue: 255
+                                value: 0
+                                stepSize: 1
+                                leftMargin: Theme.paddingLarge
+                                rightMargin: Theme.paddingLarge
+                                
+                                onReleased: py.paintConvertRGBAFunction()
+
+                                Label {
+                                    anchors {
+                                        bottom: parent.bottom
+                                        bottomMargin: -Theme.paddingSmall
+                                        horizontalCenter: parent.horizontalCenter
+                                    }
+
+                                    text: qsTr("blue") + " " + idSliderColorBlue.value
+                                    font.pixelSize: Theme.fontSizeExtraSmall
+                                }
+                            }
+
+                            Item {
+                                enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
+                                width: parent.width / (itemsPerRowLess-1)
+                                height: Theme.itemSizeSmall
+                            }
+
+                            Item {
+                                width: parent.width / (itemsPerRowLess - 1) * (itemsPerRowLess - 2)
+                                height: Theme.iconSizeLarge
+                                visible: idPaintColorPickerButton.down
+                                
+                                TextField {
+                                    id: idColorPaintManualInput
+                                
+                                    anchors.bottom: parent.bottom
+                                    width: parent.width
+                                    color: Theme.highlightColor
+                                    labelVisible: false
+                                    text: paintToolColor
+                                    font.pixelSize: Theme.fontSizeExtraSmall
+                                    horizontalAlignment: Text.AlignHCenter
+                                
+                                    validator: RegExpValidator { 
+                                        regExp: /[a-f0-9#]*$/ 
+                                    }
+
+                                    onClicked: oldColorPaintManualInput = idColorPaintManualInput.text
+
+                                    EnterKey.onClicked: {
+                                        if ((idColorPaintManualInput.text.length === 7
+                                            || idColorPaintManualInput.text.length === 9) 
+                                            && (idColorPaintManualInput.text)[0] === "#") {
+
+                                            if (idColorPaintManualInput.text.length === 7 ) {
+                                                idColorPaintManualInput.text = idColorPaintManualInput.text.toString()
+                                                                            .replace("#", "#ff")
+                                            }
+
+                                            paintToolColor = idColorPaintManualInput.text
+                                        } else {
+                                            idColorPaintManualInput.text = oldColorPaintManualInput
+                                            paintToolColor = "#ffffffff"
+                                        }
+
+                                        hexToRGBA(paintToolColor)
+                                        idColorPaintManualInput.focus = false
+                                    }
+                                }
+                            }
+                        }
+
+                        Item {
+                            id: idCopyPasteSpacer
+                        
+                            enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
+                            visible: idPaintCopyButton.down || idPaintPasteButton.down
+                            width: parent.width
+                            height: Theme.itemSizeSmall
+                        }
+                    }
+
+                    IconButton {
+                            id: idButtonPaintIt
+                    
+                            enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
+                            width: parent.width / itemsPerRowLess
+                            icon {
+                                source: idPaintColorPickerButton.down
+                                        ? "../symbols/icon-m-circle-full.svg" 
+                                        : "../symbols/icon-m-apply.svg"
+                                width: Theme.iconSizeMedium
+                                height: Theme.iconSizeMedium
+                            }
+
+                            onClicked: {
+                                finishedLoading = false
+                                freeDrawSliderSizeLock = false
+                                if (idPaintCanvasButton.down && idComboBoxCanvasDraw.currentIndex === 0) {
+                                    drawType = "polyline"
+                                    py.paintCanvasFunction()
+                                }
+
+                                if (idPaintCanvasButton.down && idComboBoxCanvasDraw.currentIndex === 1) {
+                                    cutFillColor = paintToolColor
+                                    actionCutSelection = "remove"
+                                    drawType = "fill"
+                                    py.paintCanvasFunction()
+                                }
+
+                                if (idPaintCanvasButton.down && idComboBoxCanvasDraw.currentIndex === 2) {
+                                    cutFillColor = "#00000000"
+                                    actionCutSelection = "keep"
+                                    py.cropCanvasPolygonFunction()
+                                }
+                                
+                                if (idPaintCanvasButton.down && idComboBoxCanvasDraw.currentIndex === 3) {
+                                    cutFillColor = "#00000000"
+                                    actionCutSelection = "remove"
+                                    py.cropCanvasPolygonFunction()
+                                }
+
+                                if (idPaintCopyButton.down) {
+                                    copyPasteRegionRatioHW = frameRectangleCroppingzone.width 
+                                                            / frameRectangleCroppingzone.height
+
+                                    copyPasteOldCopyZoneDisplayHeight = idImageLoadedFreecrop.height
+                                    copyPasteOldCopyZoneDisplayWidth = idImageLoadedFreecrop.width
+                                    copyPasteOldCopyZoneSourceWidth = idImageLoadedFreecrop.sourceSize.width
+                                    copyPasteX1 = rectDrag1.x
+                                    copyPasteY1 = rectDrag1.y
+                                    copyPasteX2 = rectDrag2.x
+                                    copyPasteY2 = rectDrag2.y
+                                    py.paintCopyFunction()
+                                }
+
+                                if (idPaintPasteButton.down) {
+                                    py.paintPasteFunction()
+                                }
+
+                                if (idPaintPointButton.down) {
+                                    py.paintPointRegion()
+                                }
+
+                                if (idPaintSolidButton.down && solidTypeTool === "blur") {
+                                    py.paintBlurRegion()
+                                }
+
+                                if (idPaintSolidButton.down && (solidTypeTool === "rectangle" 
+                                                                || solidTypeTool === "circle")) {
+                                    if (idComboBoxCutShape.currentIndex === 0) { 
+                                        py.paintRectangleRegion() 
+                                    } else if (idComboBoxCutShape.currentIndex === 1 ) {
+                                        actionCutSelection = "keep"
+                                        py.cropCanvasShapeFunction()
+                                    } else if (idComboBoxCutShape.currentIndex === 2 ) {
+                                        actionCutSelection = "remove"
+                                        py.cropCanvasShapeFunction()
+                                    }
+                                }
+
+                                if (idPaintFrameButton.down) {
+                                    py.paintFrameRegion()
+                                }
+
+                                if (idPaintLineButton.down) {
+                                    py.paintLineRegion()
+                                }
+
+                                if (idPaintTextButton.down) {
+                                    py.paintTextRegion()
+                                }
+
+                                if (idPaintSprayButton.down) {
+                                    py.paintSprayFunction()
+                                }
+
+                                if (idPaintShapesButton.down) {
+                                    py.paintSymbolRegion()
+                                }
+
+                                if (idPaintColorPickerButton.down) {
+                                    finishedLoading = true
+                                    idSecondaryColorClipboard.color = idColorPaintManualInput.text
+                                    Clipboard.text = idColorPaintManualInput.text
+                                    paintSecondaryColor = idColorPaintManualInput.text
+                                }
+                            }
+
+                            Icon {
+                                id: idSecondaryColorClipboard
+                            
+                                enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
+                                visible: idPaintColorPickerButton.down
+                                anchors.centerIn: parent
+                                scale: 1.1
+                                source: "image://theme/icon-s-clipboard"
+                            }
+
+                            Label {
+                                anchors {
+                                    top: parent.bottom
+                                    topMargin: -Theme.paddingSmall
+                                    horizontalCenter: parent.horizontalCenter
+                                }
+
+                                horizontalAlignment: Text.AlignHCenter
+                                text: idPaintColorPickerButton.down ?  qsTr("copy") : ""
+                                font.pixelSize: Theme.fontSizeExtraSmall
+                            }
+                        }
+                } // end submodul paint
+
+                TextField {
+                    id: idTextPaintInput
+                    
+                    anchors {
+                        left: parent.left
+                        right: parent.right
+                        leftMargin: Theme.paddingLarge
+                        rightMargin: Theme.paddingLarge
+                    }
+                    
+                    enabled: idImageLoadedFreecrop.status !== Image.Null && finishedLoading
+                    visible: buttonPaint.down && idPaintTextButton.down
+                    height: Theme.itemSizeSmall * 1.2
+                    color: Theme.highlightColor
+                    font.pixelSize: Theme.fontSizeSmall
+
+                    EnterKey.onClicked: idTextPaintInput.focus = false
+                }
+
+                Rectangle {
+                    // necessary for effects bottom
+                    width: parent.width
+                    height: Theme.itemSizeMedium
+                    color: "transparent"
+                }
+            } // end tab conteiner item
         } // end Column
     } // end SilicaFlickable
 
