@@ -117,7 +117,7 @@ Page {
 
                     onClicked: {
                         if (mouse.button === Qt.LeftButton) {
-                            Qt.openUrlExternally("https://github.com/smooth-e/aurora-imageworks")
+                            Qt.openUrlExternally("https://github.com/salty-smoothie/aurora-imageworks")
                         }
                     }
                 }

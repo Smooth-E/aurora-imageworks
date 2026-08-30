@@ -6,7 +6,7 @@ Imageworks основывается на одноименном приложен
 
 | Ссылки для скачивания |
 | --- |
-| 🛒 [Аврора Маркет](https://aurorarepos.ru/aurora-5/imageworks) <br> 😼 [Скачать RPM](https://github.com/Smooth-E/aurora-imageworks/releases/latest/) |
+| 🛒 [Аврора Маркет](https://aurorarepos.ru/aurora-5/imageworks) <br> 😼 [Скачать RPM](https://github.com/salty-smoothie/aurora-imageworks/releases/latest/) |
 
 ## Функционал
 
@@ -47,7 +47,7 @@ Imageworks основывается на одноименном приложен
 
 ## Поддержка и предложения
 
-Если у вас возникли проблемы или появились вопросы, создайте пост в [GitHub Issues](https://github.com/Smooth-E/aurora-imageworks/issues) этого репозитория.
+Если у вас возникли проблемы или появились вопросы, создайте пост в [GitHub Issues](https://github.com/salty-smoothie/aurora-imageworks/issues) этого репозитория.
 
 Вы также можете поддержать автора порта для ОС Аврора монетой на [Boosty](https://boosty.to/smooth-e/donate).
 
@@ -57,7 +57,7 @@ Imageworks основывается на одноименном приложен
 
 1. Клонируйте этот репозиторий и сабмодули:
    ```sh
-   git clone https://github.com/Smooth-E/aurora-imageworks --recurse-submodules && cd aurora-imageworks
+   git clone https://github.com/salty-smoothie/aurora-imageworks --recurse-submodules && cd aurora-imageworks
    ```
 2. Примените патчи для библиотек:
    ```sh

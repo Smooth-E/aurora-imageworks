@@ -46,7 +46,7 @@ Imageworks - наиболее продвинутый редактор фото �
 - Сохранение в форматах JPG, PNG, GIF, BMP, простой и многостраничный PDF
 
 Исходный код и поддержка:
-🔗 https://github.com/Smooth-E/aurora-imageworks
+🔗 https://github.com/salty-smoothie/aurora-imageworks
 
 # Что нового
 
